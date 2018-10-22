@@ -70,7 +70,17 @@ display ()
 
 printf '\e[2J\e[H'
 
-while :; do
-    update
-    display
-done
+if [[ $1 == "bench" ]]; then
+    step_counter=0
+    bench_steps=20
+    while [[ step_counter -lt bench_steps ]] ; do
+        ((step_counter++))
+        update
+        display
+    done
+else
+    while :; do
+        update
+        display
+    done
+fi

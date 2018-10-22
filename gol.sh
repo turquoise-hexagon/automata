@@ -28,13 +28,13 @@ check ()
 
     ((${gol[$1,$2]} == 1)) && ((c--))
 
-    for ((a = $1 - 1; a <= $1 + 1; a++)) do
-        for ((b = $2 - 1; b <= $2 + 1; b++)) do
+    for ((x = $1 - 1; x <= $1 + 1; x++)) do
+        for ((y = $2 - 1; y <= $2 + 1; y++)) do
             ((
-                a >= 0 && a < SIZE &&
-                b >= 0 && b < SIZE
+                x >= 0 && x < SIZE &&
+                y >= 0 && y < SIZE
             )) &&
-                ((${gol[$a,$b]} == 1)) && ((c++))
+                ((${gol[$x,$y]} == 1)) && ((c++))
         done
     done
 }
@@ -58,6 +58,8 @@ update ()
 
 display ()
 {
+    p=
+
     for ((i = 0; i < SIZE; i++)) do
         for ((j = 0; j < SIZE; j++)) do
             ((${gol[$i,$j]} == 1)) && p+='o' || p+=' '
@@ -65,9 +67,12 @@ display ()
         p+='\n'
     done
 
-    printf '\e[0;0H%b' "$p"; p=
+    printf '\e[0;0H%b' "$p"
 }
 
 printf '\e[2J\e[H'
 
-for ((;;)) { update; display; }
+while :; do
+    update
+    display
+done

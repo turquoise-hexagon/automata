@@ -13,18 +13,20 @@ for ((i = 0; i < SIZE; i++)) do
 done
 
 for ((i = 0; i < INIT; i++)) do
-    a=$((RANDOM % SIZE))
-    b=$((RANDOM % SIZE))
+    ((
+        a=RANDOM % SIZE,
+        b=RANDOM % SIZE,
 
-    gol[$a,$b]=1
-    tmp[$a,$b]=1
+        gol[$a,$b]=1,
+        tmp[$a,$b]=1
+    ))
 done
 
 check ()
 {
-    c=0
+    c=
 
-    ((${gol[$1,$2]} == 1)) && ((c--))
+    ((gol[$1,$2] == 1 ? c-- : c))
 
     for ((x = $1 - 1; x <= $1 + 1; x++)) do
         for ((y = $2 - 1; y <= $2 + 1; y++)) do
@@ -32,7 +34,7 @@ check ()
                 x >= 0 && x < SIZE &&
                 y >= 0 && y < SIZE
             )) &&
-                ((${gol[$x,$y]} == 1)) && ((c++))
+                ((gol[$x,$y] == 1 ? c++ : c))
         done
     done
 }
@@ -60,7 +62,7 @@ display ()
 
     for ((i = 0; i < SIZE; i++)) do
         for ((j = 0; j < SIZE; j++)) do
-            ((${gol[$i,$j]} == 1)) && p+='o' || p+=' '
+            ((gol[$i,$j] == 1)) && p+=o || p+=' '
         done
         p+='\n'
     done
@@ -68,7 +70,7 @@ display ()
     printf '\e[0;0H%b' "$p"
 }
 
-printf '\e[2J\e[H'
+printf '\e[2J'
 
 while :; do
     update

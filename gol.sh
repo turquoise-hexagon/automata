@@ -12,7 +12,7 @@ for ((i = 0; i < SIZE; i++)) do
     done
 done
 
-for ((i = 0; i < INIT; i++)) do
+for ((i = 0; i++ < INIT;)) do
     ((
         a=RANDOM % SIZE,
         b=RANDOM % SIZE,
@@ -72,7 +72,7 @@ display ()
 
 printf '\e[2J'
 
-while :; do
+for ((;;)) do
     update
     display
 done

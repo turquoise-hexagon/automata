@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-#
-# a game of life
 
 SIZE=30
 INIT=100

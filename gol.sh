@@ -26,15 +26,15 @@ check ()
 {
     c=
 
-    ((gol[$1,$2] == 1 ? c-- : c))
+    ((gol[$1,$2] == 1 && c--))
 
     for ((x = $1 - 1; x <= $1 + 1; x++)) do
         for ((y = $2 - 1; y <= $2 + 1; y++)) do
             ((
                 x >= 0 && x < SIZE &&
-                y >= 0 && y < SIZE
-            )) &&
-                ((gol[$x,$y] == 1 ? c++ : c))
+                y >= 0 && y < SIZE &&
+                gol[$x,$y] == 1 && c++
+            ))
         done
     done
 }

@@ -53,7 +53,9 @@ update ()
         done
     done
 
-    for i in "${!tmp[@]}"; { gol[$i]=${tmp[$i]}; }
+    for i in "${!tmp[@]}"; do
+        gol[$i]=${tmp[$i]}
+    done
 }
 
 display ()

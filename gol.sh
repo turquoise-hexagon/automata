@@ -71,10 +71,8 @@ display ()
 printf '\e[2J\e[H'
 
 if [[ $1 == "bench" ]]; then
-    step_counter=0
     bench_steps=20
-    while [[ step_counter -lt bench_steps ]] ; do
-        ((step_counter++))
+    for ((step = 0; step < bench_steps ; step++)) do
         update
         display
     done

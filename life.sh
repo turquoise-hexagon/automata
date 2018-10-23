@@ -5,13 +5,13 @@ INIT=100
 
 declare -A gol tmp
 
-for ((i = 0; i++ < INIT;)) do
+for ((; i++ < INIT;)) do
     ((
-        a=RANDOM % SIZE,
-        b=RANDOM % SIZE,
+        a = RANDOM % SIZE,
+        b = RANDOM % SIZE,
 
-        gol[$a,$b]=1,
-        tmp[$a,$b]=1
+        gol[$a,$b] = 1,
+        tmp[$a,$b] = 1
     ))
 done
 

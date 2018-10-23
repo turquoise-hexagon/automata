@@ -16,11 +16,11 @@ done
 
 check ()
 {
-    ((c = gol[$i $j] == 1 ? -1 : 0))
+    ((c = gol[$i $j] ? -1 : 0))
 
     for ((x = i - 1; x <= i + 1; x++)) do
         for ((y = j - 1; y <= j + 1; y++)) do
-            ((gol[$x $y] == 1 && c++))
+            ((gol[$x $y] && c++))
         done
     done
 }
@@ -47,7 +47,7 @@ display ()
 {
     for ((i = 0; i < X; i++)) do
         for ((j = 0; j < Y; j++)) do
-            ((gol[$i $j] == 1)) && p+=o || p+=' '
+            ((gol[$i $j])) && p+=o || p+=' '
         done
         p+='\n'
     done

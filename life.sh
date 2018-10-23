@@ -17,9 +17,7 @@ done
 
 check ()
 {
-    c=
-
-    ((gol[$i $j] == 1 && c--))
+    ((c = gol[$i $j] == 1 ? -1 : 0))
 
     for ((x = i - 1; x <= i + 1; x++)) do
         for ((y = j - 1; y <= j + 1; y++)) do

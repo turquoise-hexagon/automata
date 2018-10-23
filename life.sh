@@ -68,6 +68,6 @@ display ()
 printf '\e[2J'
 
 for ((;;)) do
-    update
     display
+    update
 done

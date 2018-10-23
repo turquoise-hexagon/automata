@@ -5,13 +5,6 @@ INIT=100
 
 declare -A gol tmp
 
-for ((i = 0; i < SIZE; i++)) do
-    for ((j = 0; j < SIZE; j++)) do
-        gol[$i,$j]=0
-        tmp[$i,$j]=0
-    done
-done
-
 for ((i = 0; i++ < INIT;)) do
     ((
         a=RANDOM % SIZE,

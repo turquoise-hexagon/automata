@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-SIZE=30
-INIT=100
+X=20
+Y=40
+INIT=150
 
 declare -A gol tmp
 
 for ((; i++ < INIT;)) do
     ((
-        x = RANDOM % SIZE,
-        y = RANDOM % SIZE,
+        x = RANDOM % X,
+        y = RANDOM % Y,
 
         gol[$x,$y] = 1,
         tmp[$x,$y] = 1
@@ -24,8 +25,8 @@ check ()
     for ((x = i - 1; x <= i + 1; x++)) do
         for ((y = j - 1; y <= j + 1; y++)) do
             ((
-                x >= 0 && x < SIZE &&
-                y >= 0 && y < SIZE &&
+                x >= 0 && x < X &&
+                y >= 0 && y < Y &&
                 gol[$x,$y] == 1 && c++
             ))
         done
@@ -34,8 +35,8 @@ check ()
 
 update ()
 {
-    for ((i = 0; i < SIZE; i++)) do
-        for ((j = 0; j < SIZE; j++)) do
+    for ((i = 0; i < X; i++)) do
+        for ((j = 0; j < Y; j++)) do
             check
 
             ((
@@ -54,8 +55,8 @@ display ()
 {
     p=
 
-    for ((i = 0; i < SIZE; i++)) do
-        for ((j = 0; j < SIZE; j++)) do
+    for ((i = 0; i < X; i++)) do
+        for ((j = 0; j < Y; j++)) do
             ((gol[$i,$j] == 1)) && p+=o || p+=' '
         done
         p+='\n'

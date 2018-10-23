@@ -10,7 +10,6 @@ for ((; i++ < INIT;)) do
     ((
         x = RANDOM % X,
         y = RANDOM % Y,
-
         gol[$x $y] = 1
     ))
 done

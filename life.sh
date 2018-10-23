@@ -19,10 +19,10 @@ check ()
 {
     c=
 
-    ((gol[$1,$2] == 1 && c--))
+    ((gol[$i,$j] == 1 && c--))
 
-    for ((x = $1 - 1; x <= $1 + 1; x++)) do
-        for ((y = $2 - 1; y <= $2 + 1; y++)) do
+    for ((x = i - 1; x <= i + 1; x++)) do
+        for ((y = j - 1; y <= j + 1; y++)) do
             ((
                 x >= 0 && x < SIZE &&
                 y >= 0 && y < SIZE &&
@@ -36,7 +36,7 @@ update ()
 {
     for ((i = 0; i < SIZE; i++)) do
         for ((j = 0; j < SIZE; j++)) do
-            check "$i" "$j"
+            check
 
             ((
                 tmp[$i,$j] = c == 2 ?

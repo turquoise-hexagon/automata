@@ -52,7 +52,7 @@ display ()
         p+='\n'
     done
 
-    printf '\e[0;0H%b' "$p"; p=
+    printf '\e[H%b' "$p"; p=
 }
 
 printf '\e[2J'

@@ -45,8 +45,6 @@ update ()
 
 display ()
 {
-    p=
-
     for ((i = 0; i < X; i++)) do
         for ((j = 0; j < Y; j++)) do
             ((gol[$i $j] == 1)) && p+=o || p+=' '
@@ -54,7 +52,7 @@ display ()
         p+='\n'
     done
 
-    printf '\e[0;0H%b' "$p"
+    printf '\e[0;0H%b' "$p"; p=
 }
 
 printf '\e[2J'

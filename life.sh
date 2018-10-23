@@ -7,11 +7,11 @@ declare -A gol tmp
 
 for ((; i++ < INIT;)) do
     ((
-        a = RANDOM % SIZE,
-        b = RANDOM % SIZE,
+        x = RANDOM % SIZE,
+        y = RANDOM % SIZE,
 
-        gol[$a,$b] = 1,
-        tmp[$a,$b] = 1
+        gol[$x,$y] = 1,
+        tmp[$x,$y] = 1
     ))
 done
 

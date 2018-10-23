@@ -20,11 +20,7 @@ check ()
 
     for ((x = i - 1; x <= i + 1; x++)) do
         for ((y = j - 1; y <= j + 1; y++)) do
-            ((
-                x >= 0 && x < X &&
-                y >= 0 && y < Y &&
-                gol[$x $y] == 1 && c++
-            ))
+            ((gol[$x $y] == 1 && c++))
         done
     done
 }

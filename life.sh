@@ -31,10 +31,11 @@ update ()
         for ((j = 0; j < Y; j++)) do
             check
 
-            ((
-                tmp[$i $j] = c == 2 ?
-                tmp[$i $j] : c == 3 ? 1 : 0
-            ))
+            case $c in
+                2) ;; # do nothing
+                3) tmp[$i $j]=1;;
+                *) tmp[$i $j]=0;;
+            esac
         done
     done
 

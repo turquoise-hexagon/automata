@@ -34,7 +34,7 @@ update ()
             case $c in
                 2) ;; # do nothing
                 3) tmp[$i $j]=1;;
-                *) tmp[$i $j]=0;;
+                *) tmp[$i $j]=0
             esac
         done
     done

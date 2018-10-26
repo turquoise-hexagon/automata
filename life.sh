@@ -16,13 +16,15 @@ done
 
 check ()
 {
-    ((c = gol[$i $j] ? -1 : 0))
+    c=
 
     for ((x = i - 1; x <= i + 1; x++)) do
-        for ((y = j - 1; y <= j + 1; y++)) do
-            ((gol[$x $y] && c++))
-        done
+        ((gol[$x $((j - 1))] && c++))
+        ((gol[$x $((j + 1))] && c++))
     done
+
+    ((gol[$((i - 1)) $j] && c++))
+    ((gol[$((i + 1)) $j] && c++))
 }
 
 update ()
@@ -46,6 +48,8 @@ update ()
 
 display ()
 {
+    p=
+
     for ((i = 0; i < X; i++)) do
         for ((j = 0; j < Y; j++)) do
             ((gol[$i $j])) && p+=o || p+=' '
@@ -53,7 +57,7 @@ display ()
         p+='\n'
     done
 
-    printf '\e[H%b' "$p"; p=
+    printf '\e[H%b' "$p"
 }
 
 printf '\e[2J'

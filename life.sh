@@ -2,14 +2,15 @@
 
 X=20
 Y=40
-INIT=150
+I=150
 
-declare -A gol tmp
+declare -A gol cpy
 
-for ((; i++ < INIT;)) do
+for ((; i++ < I;)) do
     ((
         x = RANDOM % X,
         y = RANDOM % Y,
+
         gol[$x $y] = 1
     ))
 done
@@ -33,40 +34,33 @@ check ()
 
 update ()
 {
+    p=
+
     for ((i = 0; i < X; i++)) do
         for ((j = 0; j < Y; j++)) do
             check
 
             case $c in
                 2) ;; # do nothing
-                3) tmp[$i $j]=1;;
-                *) tmp[$i $j]=0
+                3) cpy[$i $j]=1;;
+                *) cpy[$i $j]=0
             esac
+
+            ((cpy[$i $j])) && p+=o || p+=' '
         done
-    done
 
-    for i in "${!tmp[@]}"; do
-        gol[$i]=${tmp[$i]}
-    done
-}
-
-display ()
-{
-    p=
-
-    for ((i = 0; i < X; i++)) do
-        for ((j = 0; j < Y; j++)) do
-            ((gol[$i $j])) && p+=o || p+=' '
-        done
         p+='\n'
     done
 
     printf '\e[H%b' "$p"
+
+    for i in "${!cpy[@]}"; do
+        gol[$i]=${cpy[$i]}
+    done
 }
 
 printf '\e[2J'
 
 for ((;;)) do
-    display
     update
 done

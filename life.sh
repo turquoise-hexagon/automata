@@ -38,6 +38,8 @@ update ()
 
     for ((i = 0; i < X; i++)) do
         for ((j = 0; j < Y; j++)) do
+            ((gol[$i $j])) && p+=. || p+=' '
+
             check
 
             case $c in
@@ -46,7 +48,6 @@ update ()
                 *) cpy[$i $j]=0
             esac
 
-            ((cpy[$i $j])) && p+=o || p+=' '
         done
 
         p+='\n'

@@ -47,7 +47,6 @@ update ()
                 3) cpy[$i $j]=1;;
                 *) cpy[$i $j]=0
             esac
-
         done
 
         p+='\n'

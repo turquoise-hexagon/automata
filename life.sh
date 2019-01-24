@@ -15,7 +15,7 @@ for ((; i++ < I;)) do
     ))
 done
 
-check ()
+check()
 {
     c=
 
@@ -32,7 +32,7 @@ check ()
     ))
 }
 
-update ()
+update()
 {
     p=
 

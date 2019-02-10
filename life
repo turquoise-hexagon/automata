@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-X=20
-Y=40
-I=150
+X=20  # vertical grid size
+Y=40  # horizontal grid size
+I=200 # attempts at creating live cells
 
 declare -A gol cpy
 

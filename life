@@ -8,8 +8,8 @@ check() {
     c=
 
     for ((x = i - 1; x <= i + 1; x++)) {
-          ((gol[$x $((j - 1))] && c++,
-            gol[$x $((j + 1))] && c++))
+      ((gol[$x $((j - 1))] && c++,
+        gol[$x $((j + 1))] && c++))
     }
 
   ((gol[$((i - 1)) $j] && c++,
@@ -45,10 +45,10 @@ update() {
 declare -A gol cpy
 
 for ((; i < I; i++)) {
-      ((x = RANDOM % X,
-        y = RANDOM % Y,
+  ((x = RANDOM % X,
+    y = RANDOM % Y,
 
-        gol[$x $y] = 1))
+    gol[$x $y] = 1))
 }
 
 printf '\e[2J'

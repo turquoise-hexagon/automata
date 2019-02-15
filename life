@@ -1,41 +1,26 @@
 #!/usr/bin/env bash
 
-X=20  # grid height
 Y=40  # grid width
+X=20  # grid height
 I=200 # attempts at creating live cells
-
-declare -A gol cpy
-
-for ((; i++ < I;)) do
-    ((
-        x = RANDOM % X,
-        y = RANDOM % Y,
-
-        gol[$x $y] = 1
-    ))
-done
 
 check() {
     c=
 
-    for ((x = i - 1; x <= i + 1; x++)) do
-        ((
-            gol[$x $((j - 1))] && c++,
-            gol[$x $((j + 1))] && c++
-        ))
-    done
+    for ((x = i - 1; x <= i + 1; x++)) {
+          ((gol[$x $((j - 1))] && c++,
+            gol[$x $((j + 1))] && c++))
+    }
 
-    ((
-        gol[$((i - 1)) $j] && c++,
-        gol[$((i + 1)) $j] && c++
-    ))
+  ((gol[$((i - 1)) $j] && c++,
+    gol[$((i + 1)) $j] && c++))
 }
 
 update() {
     p=
 
-    for ((i = 0; i < X; i++)) do
-        for ((j = 0; j < Y; j++)) do
+    for ((i = 0; i < X; i++)) {
+        for ((j = 0; j < Y; j++)) {
             ((gol[$i $j])) && p+=. || p+=' '
 
             check
@@ -45,20 +30,27 @@ update() {
                 3) cpy[$i $j]=1;;
                 *) cpy[$i $j]=0
             esac
-        done
+        }
 
         p+='\n'
-    done
+    }
 
     printf '\e[H%b' "$p"
 
-    for i in "${!cpy[@]}"; do
+    for i in "${!cpy[@]}"; {
         gol[$i]=${cpy[$i]}
-    done
+    }
+}
+
+declare -A gol cpy
+
+for ((; i < I; i++)) {
+      ((x = RANDOM % X,
+        y = RANDOM % Y,
+
+        gol[$x $y] = 1))
 }
 
 printf '\e[2J'
 
-for ((;;)) do
-    update
-done
+for ((;;)) { update; }

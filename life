@@ -44,7 +44,7 @@ update() {
 
 declare -A gol cpy
 
-for ((; i < I; i++)) do
+for ((; i++ < I;)) do
   ((x = RANDOM % X,
     y = RANDOM % Y,
 

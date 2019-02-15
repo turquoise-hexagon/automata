@@ -15,8 +15,7 @@ for ((; i++ < I;)) do
     ))
 done
 
-check()
-{
+check() {
     c=
 
     for ((x = i - 1; x <= i + 1; x++)) do
@@ -32,8 +31,7 @@ check()
     ))
 }
 
-update()
-{
+update() {
     p=
 
     for ((i = 0; i < X; i++)) do

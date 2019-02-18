@@ -6,12 +6,16 @@ I=200 # attempts at creating live cells
 
 check() {
     for ((c = 0, x = i - 1; x <= i + 1; x++)) do
-      ((gol[$x $((j - 1))] && c++,
-        gol[$x $((j + 1))] && c++))
+        ((
+            gol[$x $((j - 1))] && c++,
+            gol[$x $((j + 1))] && c++
+        ))
     done
 
-  ((gol[$((i - 1)) $j] && c++,
-    gol[$((i + 1)) $j] && c++))
+    ((
+        gol[$((i - 1)) $j] && c++,
+        gol[$((i + 1)) $j] && c++
+    ))
 }
 
 update() {
@@ -43,10 +47,12 @@ update() {
 declare -A gol cpy
 
 for ((; i++ < I;)) do
-  ((x = RANDOM % X,
-    y = RANDOM % Y,
+    ((
+        x = RANDOM % X,
+        y = RANDOM % Y,
 
-    gol[$x $y] = 1))
+        gol[$x $y] = 1
+    ))
 done
 
 printf '\e[2J'

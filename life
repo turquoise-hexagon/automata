@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-Y=40  # grid width
-X=20  # grid height
-I=200 # attempts at creating live cells
+Y=30  # grid width
+X=30  # grid height
+I=300 # attempts at creating live cells
 
 check() {
     for ((c = 0, x = i - 1; x <= i + 1; x++)) do
@@ -23,7 +23,7 @@ update() {
 
     for ((i = 0; i < X; i++)) do
         for ((j = 0; j < Y; j++)) do
-            ((gol[$i $j])) && p+=. || p+=' '
+            ((gol[$i $j])) && p+='. ' || p+='  '
 
             check
 
@@ -46,6 +46,8 @@ update() {
 
 declare -A gol cpy
 
+trap 'printf \\e[?25h' EXIT
+
 for ((; i++ < I;)) do
     ((
         x = RANDOM % X,
@@ -55,6 +57,6 @@ for ((; i++ < I;)) do
     ))
 done
 
-printf '\e[2J'
+printf '\e[2J\e[?25l'
 
 for ((;;)) { update; }

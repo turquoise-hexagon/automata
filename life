@@ -46,7 +46,7 @@ update() {
 
 declare -A gol cpy
 
-trap 'printf \\e[?25h' EXIT
+trap $'printf \e[?25h' EXIT
 
 for ((; i++ < I;)) do
     ((

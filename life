@@ -2,7 +2,7 @@
 
 Y=20  # grid width
 X=20  # grid height
-I=300 # attempts at creating live cells
+I=200 # attempts at creating live cells
 
 check() {
     ((c = gol[$i $j] ? -1 : 0))
@@ -10,8 +10,8 @@ check() {
     for x in -1 0 1; do
         for y in -1 0 1; do
             ((
-                a = i + x < 0 ? X - 1 : (i + x) % X,
-                b = j + y < 0 ? Y - 1 : (j + y) % Y
+                a = i + x, a = a < 0 ? X - 1 : a % X,
+                b = j + y, b = b < 0 ? Y - 1 : b % Y
             ))
 
             ((gol[$a $b] && c++))

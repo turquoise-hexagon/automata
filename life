@@ -2,62 +2,57 @@
 
 Y=20  # grid width
 X=20  # grid height
-I=200 # attempts at creating live cells
-
-check() {
-    ((c = gol[$i $j] ? -1 : 0))
-
-    for x in -1 0 1; do
-        for y in -1 0 1; do
-            ((
-                a = i + x, a = a < 0 ? X - 1 : a % X,
-                b = j + y, b = b < 0 ? Y - 1 : b % Y
-            ))
-
-            ((gol[$a $b] && c++))
-        done
-    done
-}
-
-update() {
-    p=
-
-    for ((i = 0; i < X; i++)) do
-        for ((j = 0; j < Y; j++)) do
-            ((gol[$i $j])) && p+='. ' || p+='  '
-
-            check
-
-            case $c in
-                2) ;; # do nothing
-                3) cpy[$i $j]=1;;
-                *) cpy[$i $j]=0
-            esac
-        done
-
-        p+='\n'
-    done
-
-    printf '\e[H%b' "$p"
-
-    for i in "${!cpy[@]}"; do
-        gol[$i]=${cpy[$i]}
-    done
-}
+I=150 # attempts at creating live cells
 
 declare -A gol cpy
 
-trap $'printf \e[?25h' EXIT
+printf '\e[2J\e[?25l'
 
-for ((; i++ < I;)) do
+for ((; i++ < I;)) {
     ((
         x = RANDOM % X,
         y = RANDOM % Y,
 
         gol[$x $y] = 1
     ))
-done
+}
 
-printf '\e[2J\e[?25l'
+trap $'printf \e[?25h' EXIT
 
-for ((;;)) { update; }
+for ((;;)) {
+    out=
+
+    for ((i = 0; i < X; i++)) {
+        for ((j = 0; j < Y; j++)) {
+            ((gol[$i $j])) && out+='. ' || out+='  '
+
+            # count neighbors
+            ((cpt = gol[$i $j] ? -1 : 0))
+
+            for x in -1 0 1; {
+                for y in -1 0 1; {
+                    ((
+                        a = i + x, a = a < 0 ? X - 1 : a % X,
+                        b = j + y, b = b < 0 ? Y - 1 : b % Y
+                    ))
+
+                    ((gol[$a $b] && cpt++))
+                }
+            }
+
+            case $cpt in
+                2) ;; # do nothing
+                3) cpy[$i $j]=1;;
+                *) cpy[$i $j]=0
+            esac
+        }
+
+        out+='\n'
+    }
+
+    printf '\e[H%b' "$out"
+
+    for i in "${!cpy[@]}"; {
+        gol[$i]=${cpy[$i]}
+    }
+}

@@ -50,8 +50,8 @@ declare -A world
     ant[2] = RANDOM % 4
 ))
 
-echo -e '\e[2J\e[?25l'
-trap $'echo -e \e[?25h' EXIT
+printf '\e[2J\e[?25l'
+trap $'printf \e[?25h' EXIT
 
 for ((;;)) {
     display

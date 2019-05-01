@@ -4,14 +4,15 @@
 
 set -e
 
-if (($# != 3)); then
+(($# != 3)) && {
     printf 'usage : gen.sh [rule] [width] [height]'
     exit 1
-fi
+}
 
-if [[ ! -x automaton ]]; then
+test -x automaton ||
     ./make.sh &> /dev/null
-fi
+
+mkdir -p etc
 
 {
     mapfile -t input

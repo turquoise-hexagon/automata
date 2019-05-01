@@ -5,7 +5,7 @@
 set -e
 
 (($# != 3)) && {
-    printf 'usage : gen.sh [rule] [width] [height]'
+    printf 'usage : gen [rule] [width] [height]'
     exit 1
 }
 
@@ -25,7 +25,7 @@ mkdir -p etc
         for ((j = 0; j < $2; j += 8)) {
             tmp=${input[i]:j:8}
 
-            eval printf -v tmp '%s' \${tmp:{7..0}:1}
+            eval printf -v tmp \'%s\' \"\${tmp:{7..0}:1}\"
 
             printf -v tmp '0x%02x' $((2#$tmp))
 

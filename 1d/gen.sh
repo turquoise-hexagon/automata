@@ -24,13 +24,10 @@ mkdir -p etc
     for ((; i < $3; i++)) {
         for ((j = 0; j < $2; j += 8)) {
             tmp=${input[i]:j:8}
-            rev=
 
-            for ((k = ${#tmp} - 1; k >= 0; k--)) {
-                rev+=${tmp:k:1}
-            }
+            eval printf -v tmp '%s' \${tmp:{7..0}:1}
 
-            printf -v tmp '0x%02x' $((2#$rev))
+            printf -v tmp '0x%02x' $((2#$tmp))
 
             ((i + 1 < $3 || j + 8 < $2)) &&
                 printf '%s, '   "$tmp" ||

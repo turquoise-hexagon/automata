@@ -29,11 +29,11 @@ fi
                 rev+=${tmp:k:1}
             }
 
-            printf -v tmp '0x%2x' $((2#$rev))
+            printf -v tmp '0x%02x' $((2#$rev))
 
             ((i + 1 < $3 || j + 8 < $2)) &&
-                printf '%s, '   "${tmp// /0}" ||
-                printf '%s\n};' "${tmp// /0}"
+                printf '%s, '   "$tmp" ||
+                printf '%s\n};' "$tmp"
         }
     }
 

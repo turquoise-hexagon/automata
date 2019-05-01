@@ -16,7 +16,7 @@ mkdir -p etc
 
 {
     mapfile -t input
-     
+
     printf '#define _width %04s\n' "$2"
     printf '#define _height%04s\n' "$3"
     printf '\nstatic unsigned char _bits[] = {\n'
@@ -37,8 +37,6 @@ mkdir -p etc
                 printf '%s\n};' "$tmp"
         }
     }
-
-    printf '%b' "$out"
 } < <(
     while read -r line; do
         printf '%s\n' "${line:${#line} - $2 - 2:$2}"

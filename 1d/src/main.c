@@ -44,7 +44,7 @@ main(int argc, char** argv)
     /* run automaton */
     for (unsigned int n = 0; n < N; n++) {
         for (unsigned int t = 0, i = 1; i <= l; i++, t = 0) {
-            printf("%i", o [i]);
+            putchar(o [i] ? '1' : '0');
 
             for (int j = -1; j < 2; j++)
                 t = t << 1 | o [i + j];
@@ -52,7 +52,7 @@ main(int argc, char** argv)
             b [i] = 1 & r >> t;
         }
 
-        printf("\n");
+        putchar('\n');
 
         for (unsigned int i = 1; i <= l; i++)
             o [i] = b [i];

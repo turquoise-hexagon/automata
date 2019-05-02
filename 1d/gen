@@ -19,13 +19,13 @@ mkdir -p etc
 
     printf '#define _width %04s\n' "$2"
     printf '#define _height%04s\n' "$3"
-    printf '\nstatic unsigned char _bits[] = {\n'
-    
+    printf 'static unsigned char _bits[] = {\n'
+
     for ((; i < $3; i++)) {
         for ((j = 0; j < $2; j += 8)) {
             tmp=${input[i]:j:8}
 
-            eval printf -v tmp \'%s\' \"\${tmp:{7..0}:1}\"
+            eval printf -v tmp %s \${tmp:{7..0}:1}
 
             printf -v tmp '0x%02x' $((2#$tmp))
 

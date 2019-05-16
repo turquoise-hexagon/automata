@@ -38,7 +38,7 @@ main(int argc, char** argv)
     backup [0] = backup [length] = 0;
 
     for (unsigned int i = 1; i <= length; i++)
-        switch(argv [2] [i - 1]) {
+        switch (argv [2] [i - 1]) {
             case '0' : origin [i] = 0; break;
             case '1' : origin [i] = 1; break;
             default  : errx(1, "invalid strip");

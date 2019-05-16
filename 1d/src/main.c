@@ -1,6 +1,6 @@
 #include <err.h>
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -21,46 +21,49 @@ main(int argc, char** argv)
         if (! isdigit(argv [1] [i]))
             errx(1, "invalid rule");
 
-    unsigned int r =   atoi(argv [1]);
-    unsigned int l = strlen(argv [2]);
+    int rule = atoi(argv [1]);
 
-    bool* o = malloc((l + 2) * sizeof(bool));
-    bool* b = malloc((l + 2) * sizeof(bool));
+    if (rule < 0 || rule > 255)
+        errx(1, "invalid rule");
 
-    if (! o || ! b)
+    unsigned int length = strlen(argv [2]);
+
+    bool* origin = malloc((length + 2) * sizeof(bool));
+    bool* backup = malloc((length + 2) * sizeof(bool));
+
+    if (! origin || ! backup)
         errx(1, "failed to malloc");
 
-    o [0] = o [l] = 0;
-    b [0] = b [l] = 0;
+    origin [0] = origin [length] = 0;
+    backup [0] = backup [length] = 0;
 
-    for (unsigned int i = 1; i <= l; i++) {
-        switch (argv [2] [i - 1]) {
-            case '0' : o [i] = 0; break;
-            case '1' : o [i] = 1; break;
-            default : errx(1, "invalid strip");
+    for (unsigned int i = 1; i <= length; i++)
+        switch(argv [2] [i - 1]) {
+            case '0' : origin [i] = 0; break;
+            case '1' : origin [i] = 1; break;
+            default  : errx(1, "invalid strip");
         }
-    }
 
     /* run automaton */
     for (unsigned int n = 0; n < N; n++) {
-        for (unsigned int t = 0, i = 1; i <= l; i++, t = 0) {
-            putchar(o [i] ? '1' : '0');
+        for (unsigned int tmp = 0, i = 1; i <= length; tmp = 0, i++) {
+            putchar(origin [i] ? '1' : '0');
 
             for (int j = -1; j < 2; j++)
-                t = t << 1 | o [i + j];
+                tmp = tmp << 1 | origin [i + j];
 
-            b [i] = 1 & r >> t;
+            backup [i] = 1 & rule >> tmp;
         }
 
         putchar('\n');
 
-        for (unsigned int i = 1; i <= l; i++)
-            o [i] = b [i];
+        for (unsigned int i = 1; i <= length; i++)
+            origin [i] = backup [i];
     }
 
     /* cleanup */
-    free(o);
-    free(b);
+    free(origin);
+    free(backup);
 
     return 0;
 }

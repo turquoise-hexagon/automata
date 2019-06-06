@@ -5,7 +5,7 @@
 set -e
 
 (($# != 3)) && {
-    printf 'usage : gen [rule] [width] [height]'
+    printf 'usage : gen [rule] [width] [height]\n' >&2
     exit 1
 }
 

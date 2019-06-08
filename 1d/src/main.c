@@ -1,5 +1,5 @@
 #include <err.h>
-#include <ctype.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,14 +16,14 @@ main(int argc, char** argv)
         return 1;
     }
 
+    errno = 0;
+
     /* initialize */
-    for (unsigned int i = 0; argv [1] [i]; i++)
-        if (! isdigit(argv [1] [i]))
-            errx(1, "invalid rule");
+    char* ptr = NULL;
 
-    int rule = atoi(argv [1]);
+    long int rule = strtol(argv [1], & ptr, 10);
 
-    if (rule < 0 || rule > 255)
+    if (errno || * ptr || rule < 0 || rule > 255)
         errx(1, "invalid rule");
 
     unsigned int length = strlen(argv [2]);

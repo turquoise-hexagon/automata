@@ -5,8 +5,13 @@
 set -xe
 
 cc() {
-    gcc -pedantic -Wall -Wextra \
-        -march=native -O3 "$@"
+    gcc               \
+        -pedantic     \
+        -Wall         \
+        -Wextra       \
+        -static       \
+        -march=native \
+        -Ofast "$@"
 }
 
 cd src

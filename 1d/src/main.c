@@ -41,7 +41,11 @@ main(int argc, char** argv)
         switch (argv [2] [i - 1]) {
             case '0' : origin [i] = 0; break;
             case '1' : origin [i] = 1; break;
-            default  : errx(1, "invalid strip");
+            default  :
+                free(origin);
+                free(backup);
+
+                errx(1, "invalid strip");
         }
 
     /* run automaton */

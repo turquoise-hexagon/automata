@@ -10,11 +10,8 @@
 int
 main(int argc, char** argv)
 {
-    if (argc != 3) {
-        fprintf(stderr, "usage : %s [rule] [bits]\n", argv [0]);
-
-        return 1;
-    }
+    if (argc != 3)
+        errx(1, "usage : %s [rule] [bits]", argv [0]);
 
     errno = 0;
 

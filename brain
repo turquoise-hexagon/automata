@@ -42,7 +42,7 @@ for ((;;)) {
                 0) out+='\e[30m# \e[m'; ((cpt == 2)) && cpy[$i $j]=2
             esac
         }
-        
+
         out+='\n'
     }
 

@@ -11,19 +11,19 @@ int
 main(int argc, char** argv)
 {
     if (argc != 3)
-        errx(1, "usage : %s [rule] [bits]", argv [0]);
+        errx(1, "usage : %s[rule][bits]", argv[0]);
 
     errno = 0;
 
     /* initialize */
     char* ptr = NULL;
 
-    long int rule = strtol(argv [1], & ptr, 10);
+    long int rule = strtol(argv[1], & ptr, 10);
 
     if (errno || * ptr || rule < 0 || rule > 255)
         errx(1, "invalid rule");
 
-    unsigned int length = strlen(argv [2]);
+    unsigned int length = strlen(argv[2]);
 
     bool* origin = malloc((length + 2) * sizeof(bool));
     bool* backup = malloc((length + 2) * sizeof(bool));
@@ -31,13 +31,13 @@ main(int argc, char** argv)
     if (! origin || ! backup)
         errx(1, "failed to malloc");
 
-    origin [0] = origin [length] = 0;
-    backup [0] = backup [length] = 0;
+    origin[0] = origin[length] = 0;
+    backup[0] = backup[length] = 0;
 
     for (unsigned int i = 1; i <= length; i++)
-        switch (argv [2] [i - 1]) {
-            case '0' : origin [i] = 0; break;
-            case '1' : origin [i] = 1; break;
+        switch (argv[2][i - 1]) {
+            case '0' : origin[i] = 0; break;
+            case '1' : origin[i] = 1; break;
             default  :
                 free(origin);
                 free(backup);
@@ -48,18 +48,18 @@ main(int argc, char** argv)
     /* run automaton */
     for (unsigned int n = 0; n < N; n++) {
         for (unsigned int tmp = 0, i = 1; i <= length; tmp = 0, i++) {
-            putchar(origin [i] ? '1' : '0');
+            putchar(origin[i] ? '1' : '0');
 
             for (int j = -1; j < 2; j++)
-                tmp = tmp << 1 | origin [i + j];
+                tmp = tmp << 1 | origin[i + j];
 
-            backup [i] = 1 & rule >> tmp;
+            backup[i] = 1 & rule >> tmp;
         }
 
         putchar('\n');
 
         for (unsigned int i = 1; i <= length; i++)
-            origin [i] = backup [i];
+            origin[i] = backup[i];
     }
 
     /* cleanup */

@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define N 3000
+const unsigned int N = 3000;
 
 int
 main(int argc, char** argv)
@@ -28,7 +28,7 @@ main(int argc, char** argv)
     bool* origin = malloc((length + 2) * sizeof(bool));
     bool* backup = malloc((length + 2) * sizeof(bool));
 
-    if (! origin || ! backup)
+    if (!origin || !backup)
         errx(1, "failed to malloc");
 
     origin[0] = origin[length] = 0;

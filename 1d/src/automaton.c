@@ -55,8 +55,6 @@ main(int argc, char** argv)
             backup[i] = 1 & rule >> tmp;
         }
 
-        putchar('\n');
-
         for (unsigned int i = 1; i <= length; i++)
             origin[i] = backup[i];
     }

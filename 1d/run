@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# outputs to mpv
 
 if ! command -v mpv > /dev/null; then
     echo 'error : install mpv first' >&2

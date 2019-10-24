@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if ! command -v mpv > /dev/null; then
+    echo 'error : install mpv first' >&2
+    exit 1
+fi
+
+./make.sh
+
+./automaton $((RANDOM % 256)) \
+    "$(
+        for _ in {1..500}; {
+            echo -n $((RANDOM % 2))
+        }
+    )" |
+        mpv - -fs -scale=nearest

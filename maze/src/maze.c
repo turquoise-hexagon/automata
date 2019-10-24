@@ -1,0 +1,85 @@
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define X 99
+#define Y X
+#define S 2
+
+const int DIRS[4][2] = {
+    {-1,  0},
+    {0 , -1},
+    {1 ,  0},
+    {0 ,  1}
+};
+
+struct item {
+    int x;
+    int y;
+};
+
+int
+main(void)
+{
+    static bool world[X][Y];
+
+    world[X / 2][Y / 2] = true;
+
+    unsigned int index = 0;
+    static struct item list[X * Y / S / S];
+
+    list[index].x = X / 2;
+    list[index].y = Y / 2;
+    index++;
+
+    srand(time(NULL));
+
+    int x, y, nx, ny, dx, dy;
+    unsigned int tmp, tmp_rand;
+
+    while (index != 0) {
+        printf("P1\n%d %d\n", X, Y);
+
+        for (unsigned int i = 0; i < X; i++)
+            for (unsigned int j = 0; j < Y; j++)
+                putchar(world[i][j] ? '1' : '0');
+
+        putchar('\n');
+
+        tmp = rand() % index;
+        x = list[tmp].x;
+        y = list[tmp].y;
+
+        tmp_rand = rand();
+
+        for (unsigned int i = 0; i < 4; i++) {
+            dx = DIRS[(tmp_rand + i) % 4][0];
+            dy = DIRS[(tmp_rand + i) % 4][1];
+
+            nx = x + S * dx;
+            ny = y + S * dy;
+
+            if (
+                    nx >= 0 && nx < X &&
+                    ny >= 0 && ny < Y &&
+                    world[nx][ny] == false
+               )
+                goto jump;
+        }
+
+        index--;
+        list[tmp] = list[index];
+        continue;
+
+        jump:
+        list[index].x = nx;
+        list[index].y = ny;
+        index++;
+
+        for (unsigned int i = 1; i <= S; i++)
+            world[x + i * dx][y + i * dy] = true;
+    }
+
+    return 0;
+}

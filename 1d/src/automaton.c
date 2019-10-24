@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-const unsigned int N = 3000;
+// const unsigned int N = 3000;
 
 int
 main(int argc, char** argv)
@@ -45,8 +45,9 @@ main(int argc, char** argv)
                 errx(1, "invalid strip");
         }
 
-    /* run automaton */
-    for (unsigned int n = 0; n < N; n++) {
+    printf("P1\n%d %d\n", length, length);
+
+    for (unsigned int n = 0; n < length; n++) {
         for (unsigned int tmp = 0, i = 1; i <= length; tmp = 0, i++) {
             putchar(origin[i] ? '1' : '0');
 

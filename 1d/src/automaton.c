@@ -12,8 +12,6 @@ main(int argc, char** argv)
         errx(1, "usage : %s[rule][bits]", argv[0]);
 
     errno = 0;
-
-    /* initialize */
     char* ptr = NULL;
 
     long int rule = strtol(argv[1], & ptr, 10);
@@ -59,7 +57,6 @@ main(int argc, char** argv)
             origin[i] = backup[i];
     }
 
-    /* cleanup */
     free(origin);
     free(backup);
 

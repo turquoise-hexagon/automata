@@ -5,8 +5,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-// const unsigned int N = 3000;
-
 int
 main(int argc, char** argv)
 {

@@ -15,8 +15,8 @@ const int DIRS[4][2] = {
 };
 
 struct item {
-    int x;
-    int y;
+    unsigned x;
+    unsigned y;
 };
 
 int

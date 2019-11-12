@@ -14,12 +14,12 @@ main(int argc, char** argv)
     errno = 0;
     char* ptr = NULL;
 
-    long int rule = strtol(argv[1], & ptr, 10);
+    long rule = strtol(argv[1], & ptr, 10);
 
     if (errno || * ptr || rule < 0 || rule > 255)
         errx(1, "invalid rule");
 
-    unsigned int length = strlen(argv[2]);
+    unsigned length = strlen(argv[2]);
 
     bool* origin = malloc((length + 2) * sizeof(bool));
     bool* backup = malloc((length + 2) * sizeof(bool));
@@ -30,7 +30,7 @@ main(int argc, char** argv)
     origin[0] = origin[length] = 0;
     backup[0] = backup[length] = 0;
 
-    for (unsigned int i = 1; i <= length; i++)
+    for (unsigned i = 1; i <= length; i++)
         switch (argv[2][i - 1]) {
             case '0' : origin[i] = 0; break;
             case '1' : origin[i] = 1; break;
@@ -43,8 +43,8 @@ main(int argc, char** argv)
 
     printf("P1\n%d %d\n", length, length);
 
-    for (unsigned int n = 0; n < length; n++) {
-        for (unsigned int tmp = 0, i = 1; i <= length; tmp = 0, i++) {
+    for (unsigned n = 0; n < length; n++) {
+        for (unsigned tmp = 0, i = 1; i <= length; tmp = 0, i++) {
             putchar(origin[i] ? '1' : '0');
 
             for (int j = -1; j < 2; j++)
@@ -53,7 +53,7 @@ main(int argc, char** argv)
             backup[i] = 1 & rule >> tmp;
         }
 
-        for (unsigned int i = 1; i <= length; i++)
+        for (unsigned i = 1; i <= length; i++)
             origin[i] = backup[i];
     }
 

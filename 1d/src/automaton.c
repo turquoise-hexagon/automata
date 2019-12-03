@@ -9,7 +9,7 @@ int
 main(int argc, char** argv)
 {
     if (argc != 3)
-        errx(1, "usage : %s[rule][bits]", argv[0]);
+        errx(1, "usage : %s [rule][bits]", argv[0]);
 
     errno = 0;
     char* ptr = NULL;

@@ -5,7 +5,7 @@
 wattr hw "$(lsw -r)" | {
     read -r h w
 
-    ./pinwheels \
+    ./pinwheels    \
         $((h / 2)) \
         $((w / 2)) \
         $((h * w / 4))

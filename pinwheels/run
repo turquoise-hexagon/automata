@@ -1,0 +1,14 @@
+#!/bin/sh
+
+./make.sh
+
+wattr hw "$(lsw -r)" | {
+    read -r h w
+
+    ./pinwheels \
+        $((h / 2)) \
+        $((w / 2)) \
+        $((h * w / 4))
+} |
+    mpv - -fs -scale=nearest
+

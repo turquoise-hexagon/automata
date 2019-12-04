@@ -2,17 +2,6 @@
 
 set -e
 
-cc() {
-    gcc               \
-        -pedantic     \
-        -Wall         \
-        -Wextra       \
-        -static       \
-        -march=native \
-        -Ofast        \
-        "$@"
-}
-
 cd src
 
 for file in *.c; {
@@ -34,7 +23,7 @@ for file in *.c; {
     set -x
 
     for file in "${array[@]}"; {
-        cc "$file" -o "../${file%.c}"
+        gcc $CFLAGS "$file" -o "../${file%.c}"
     }
 } |&
     while IFS= read -r line; do

@@ -2,18 +2,18 @@ _() {
     declare -A array
 
     for src in src/*; {
-        exec=${src##*/}
-        exec=${exec%.c}
+        bin=${src##*/}
+        bin=${bin%.c}
 
-        if [[ -e $exec ]]; then
+        if [[ -e $bin ]]; then
             {
                 read -r a
                 read -r b
-            } < <(stat -c '%Y' -- "$src" "$exec")
+            } < <(stat -c '%Y' -- "$src" "$bin")
 
-            ((a > b)) && array[$src]=$exec
+            ((a > b)) && array[$src]=$bin
         else
-            array[$src]=$exec
+            array[$src]=$bin
         fi
     }
 

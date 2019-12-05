@@ -53,11 +53,14 @@ main(int argc, char** argv)
     srand(time(NULL));
 
     for (unsigned i = 0; i < arg[2]; i++) {
+        jump:
         x = rand() % arg[0];
         y = rand() % arg[1];
 
-        if (uni[x][y] == 0)
-            uni[x][y] = rand() % 2 == 0 ? -1 : 1;
+        if (uni[x][y] != 0)
+            goto jump;
+        
+        uni[x][y] = rand() % 2 == 0 ? -1 : 1;
     }
 
     int cpt;

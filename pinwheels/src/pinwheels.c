@@ -61,7 +61,7 @@ main(int argc, char** argv)
 
         if (uni[x][y] != 0)
             goto jump;
-        
+
         uni[x][y] = rand() % 2 == 0 ? -1 : 1;
     }
 

@@ -9,7 +9,7 @@ fi
 
 ./make.sh
 
-./automaton $((RANDOM % 256)) \
+./1d $((RANDOM % 256)) \
     "$(
         for _ in {1..500}; {
             echo -n $((RANDOM % 2))

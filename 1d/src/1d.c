@@ -45,7 +45,7 @@ main(int argc, char** argv)
 
     for (unsigned n = 0; n < length; n++) {
         for (unsigned tmp = 0, i = 1; i <= length; tmp = 0, i++) {
-            putchar(origin[i] ? '1' : '0');
+            putchar(origin[i] == 0 ? '0' : '1');
 
             for (int j = -1; j < 2; j++)
                 tmp = tmp << 1 | origin[i + j];

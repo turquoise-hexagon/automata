@@ -9,7 +9,8 @@ _() {
             {
                 read -r a
                 read -r b
-            } < <(stat -c '%Y' -- "$src" "$bin")
+            } < \
+                <(stat -c '%Y' -- "$src" "$bin")
 
             ((a > b)) && array[$src]=$bin
         else

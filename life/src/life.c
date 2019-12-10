@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define WRAP(v, i, o, d) v = i + o, v = v < 0 ? d - 1 : v % d
+
 const unsigned N = 500;
 
 int
@@ -62,8 +64,8 @@ main(int argc, char** argv)
                 for (int a = -1; a <= 1; a++)
                     for (int b = -1; b <= 1; b++)
                         if (a != 0 || b != 0) {
-                            x = i + a, x = x < 0 ? arg[0] - 1 : x % arg[0];
-                            y = j + b, y = y < 0 ? arg[1] - 1 : y % arg[1];
+                            WRAP(x, i, a, arg[0]);
+                            WRAP(y, j, b, arg[1]);
 
                             if (uni[x][y] == 1)
                                 cpt++;

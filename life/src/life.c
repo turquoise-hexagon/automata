@@ -72,9 +72,9 @@ main(int argc, char** argv)
                         }
 
                 switch (cpt) {
-                    case 2  :                break;
-                    case 3  : cpy[i][j] = 1; break;
-                    default : cpy[i][j] = 0;
+                    case 2  : /* do nothing */ break;
+                    case 3  :   cpy[i][j] = 1; break;
+                    default :   cpy[i][j] = 0;
                 }
             }
 

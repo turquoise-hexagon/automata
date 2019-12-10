@@ -5,17 +5,17 @@ _() {
         bin=${src##*/}
         bin=${bin%.c}
 
-        if [[ -e $bin ]]; then
+        [[ -e $bin ]] && {
             {
                 read -r a
                 read -r b
             } < \
                 <(stat -c '%Y' -- "$src" "$bin")
 
-            ((a > b)) && array[$src]=$bin
-        else
-            array[$src]=$bin
-        fi
+            ((a > b)) || continue
+        }
+
+        array[$src]=$bin
     }
 
     {

@@ -39,15 +39,15 @@ main(int argc, char** argv)
             errx(1, "invalid parameter");
     }
 
-    int** uni = malloc(arg[0] * sizeof(int*));
-    int** cpy = malloc(arg[0] * sizeof(int*));
+    short** uni = malloc(arg[0] * sizeof(short*));
+    short** cpy = malloc(arg[0] * sizeof(short*));
 
     if (!uni || !cpy)
         errx(1, "failed to allocate memory");
 
     for (unsigned i = 0; i < arg[0]; i++) {
-        uni[i] = calloc(arg[1], sizeof(int));
-        cpy[i] = calloc(arg[1], sizeof(int));
+        uni[i] = calloc(arg[1], sizeof(short));
+        cpy[i] = calloc(arg[1], sizeof(short));
 
         if (!uni[i] || !cpy[i])
             errx(1, "failed to allocate memory");

@@ -12,7 +12,7 @@ main(int argc, char** argv)
         errx(1, "usage : %s [rule] [bits]", argv[0]);
 
     errno = 0;
-    char* ptr = NULL;
+    char* ptr;
 
     long rule = strtol(argv[1], &ptr, 10);
 

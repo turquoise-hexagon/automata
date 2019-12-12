@@ -30,8 +30,8 @@ main(int argc, char** argv)
         errx(1, "usage : %s [height] [width] [init]", argv[0]);
 
     errno = 0;
+    char* ptr;
     long arg[3];
-    char* ptr = NULL;
 
     for (unsigned i = 0; i < 3; i++) {
         arg[i] = strtol(argv[i + 1], &ptr, 10);

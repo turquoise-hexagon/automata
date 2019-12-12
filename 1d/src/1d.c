@@ -1,9 +1,9 @@
 #include <err.h>
 #include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
 int
 main(int argc, char** argv)
@@ -27,13 +27,13 @@ main(int argc, char** argv)
     if (!origin || !backup)
         errx(1, "failed to malloc");
 
-    origin[0] = origin[length] = 0;
-    backup[0] = backup[length] = 0;
+    origin[0] = origin[length] = false;
+    backup[0] = backup[length] = false;
 
     for (unsigned i = 1; i <= length; i++)
         switch (argv[2][i - 1]) {
-            case '0' : origin[i] = 0; break;
-            case '1' : origin[i] = 1; break;
+            case '0' : origin[i] = false; break;
+            case '1' : origin[i] = true;  break;
             default  :
                 free(origin);
                 free(backup);
@@ -45,7 +45,7 @@ main(int argc, char** argv)
 
     for (unsigned n = 0; n < length; n++) {
         for (unsigned tmp = 0, i = 1; i <= length; tmp = 0, i++) {
-            putchar(origin[i] == 0 ? '0' : '1');
+            putchar(origin[i] == false ? '0' : '1');
 
             for (int j = -1; j < 2; j++)
                 tmp = tmp << 1 | origin[i + j];

@@ -1,10 +1,12 @@
 #include <err.h>
-#include <time.h>
 #include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-#define WRAP(v, i, o, d) v = i + o, v = v < 0 ? d - 1 : v % d
+#define WRAP(v, i, o, d) \
+    v = i + o, v = v < 0 ? d - 1 : v % d
 
 const unsigned N = 500;
 
@@ -25,15 +27,15 @@ main(int argc, char** argv)
             errx(1, "invalid parameter");
     }
 
-    short unsigned** uni = malloc(arg[0] * sizeof(short unsigned*));
-    short unsigned** cpy = malloc(arg[0] * sizeof(short unsigned*));
+    bool** uni = malloc(arg[0] * sizeof(bool*));
+    bool** cpy = malloc(arg[0] * sizeof(bool*));
 
     if (!uni || !cpy)
         errx(1, "failed to allocate memory");
 
     for (unsigned i = 0; i < arg[0]; i++) {
-        uni[i] = calloc(arg[1], sizeof(short unsigned));
-        cpy[i] = calloc(arg[1], sizeof(short unsigned));
+        uni[i] = calloc(arg[1], sizeof(bool));
+        cpy[i] = calloc(arg[1], sizeof(bool));
 
         if (!uni[i] || !cpy[i])
             errx(1, "failed to allocate memory");
@@ -45,10 +47,10 @@ main(int argc, char** argv)
         x = rand() % arg[0];
         y = rand() % arg[1];
 
-        if (uni[x][y] != 0)
+        if (uni[x][y] == true)
             goto jump;
 
-        uni[x][y] = 1;
+        uni[x][y] = true;
     }
 
     unsigned cpt;
@@ -57,7 +59,7 @@ main(int argc, char** argv)
 
         for (unsigned i = 0; i < arg[0]; i++)
             for (unsigned j = 0; j < arg[1]; j++) {
-                putchar(uni[i][j] == 0 ? '0' : '1');
+                putchar(uni[i][j] == false ? '0' : '1');
 
                 cpt = 0;
 
@@ -67,14 +69,14 @@ main(int argc, char** argv)
                             WRAP(x, i, a, arg[0]);
                             WRAP(y, j, b, arg[1]);
 
-                            if (uni[x][y] == 1)
+                            if (uni[x][y] == true)
                                 cpt++;
                         }
 
                 switch (cpt) {
-                    case 2  : /* do nothing */ break;
-                    case 3  :   cpy[i][j] = 1; break;
-                    default :   cpy[i][j] = 0;
+                    case 2  : /* do nothing */  break;
+                    case 3  : cpy[i][j] = true; break;
+                    default : cpy[i][j] = false;
                 }
             }
 

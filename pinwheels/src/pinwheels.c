@@ -1,12 +1,13 @@
 #include <err.h>
-#include <time.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define M -1
 
-#define WRAP(v, i, o, d) v = i + o, v = v < 0 ? d - 1 : v % d 
+#define WRAP(v, i, o, d) \
+    v = i + o, v = v < 0 ? d - 1 : v % d
 
 const unsigned N = 500;
 

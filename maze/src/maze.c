@@ -1,7 +1,7 @@
-#include <time.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include <time.h>
 
 #define X 99
 #define Y X

@@ -14,9 +14,9 @@ main(int argc, char** argv)
     errno = 0;
     char* ptr = NULL;
 
-    long rule = strtol(argv[1], & ptr, 10);
+    long rule = strtol(argv[1], &ptr, 10);
 
-    if (errno != 0 || * ptr != 0 || rule < 0 || rule > 255)
+    if (errno != 0 || *ptr != 0 || rule < 0 || rule > 255)
         errx(1, "invalid rule");
 
     unsigned length = strlen(argv[2]);

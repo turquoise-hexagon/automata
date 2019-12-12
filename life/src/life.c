@@ -19,9 +19,9 @@ main(int argc, char** argv)
     char* ptr = NULL;
 
     for (unsigned i = 0; i < 3; i++) {
-        arg[i] = strtol(argv[i + 1], & ptr, 10);
+        arg[i] = strtol(argv[i + 1], &ptr, 10);
 
-        if (errno != 0 || * ptr != 0 || arg[i] < 0)
+        if (errno != 0 || *ptr != 0 || arg[i] < 0)
             errx(1, "invalid parameter");
     }
 

@@ -30,14 +30,14 @@ main(int argc, char** argv)
     bool** uni = malloc(arg[0] * sizeof(bool*));
     bool** cpy = malloc(arg[0] * sizeof(bool*));
 
-    if (!uni || !cpy)
+    if (uni == NULL || cpy == NULL)
         errx(1, "failed to allocate memory");
 
     for (unsigned i = 0; i < arg[0]; i++) {
         uni[i] = calloc(arg[1], sizeof(bool));
         cpy[i] = calloc(arg[1], sizeof(bool));
 
-        if (!uni[i] || !cpy[i])
+        if (uni[i] == NULL || cpy[i] == NULL)
             errx(1, "failed to allocate memory");
     }
 

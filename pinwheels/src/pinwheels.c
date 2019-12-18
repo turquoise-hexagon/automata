@@ -43,14 +43,14 @@ main(int argc, char** argv)
     short** uni = malloc(arg[0] * sizeof(short*));
     short** cpy = malloc(arg[0] * sizeof(short*));
 
-    if (!uni || !cpy)
+    if (uni == NULL || cpy == NULL)
         errx(1, "failed to allocate memory");
 
     for (unsigned i = 0; i < arg[0]; i++) {
         uni[i] = calloc(arg[1], sizeof(short));
         cpy[i] = calloc(arg[1], sizeof(short));
 
-        if (!uni[i] || !cpy[i])
+        if (uni[i] == NULL || cpy[i] == NULL)
             errx(1, "failed to allocate memory");
     }
 

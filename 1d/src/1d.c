@@ -24,7 +24,7 @@ main(int argc, char** argv)
     bool* origin = malloc((length + 2) * sizeof(bool));
     bool* backup = malloc((length + 2) * sizeof(bool));
 
-    if (!origin || !backup)
+    if (origin == NULL || backup == NULL)
         errx(1, "failed to malloc");
 
     origin[0] = origin[length] = false;

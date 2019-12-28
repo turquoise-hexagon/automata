@@ -7,7 +7,7 @@
 #define M -1
 
 #define WRAP(v, i, o, d) \
-    v = i + o, v = v < 0 ? d - 1 : v % d
+    v = (long) i + o, v = v < 0 ? d - 1 : v % d
 
 const unsigned N = 500;
 

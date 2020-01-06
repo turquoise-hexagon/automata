@@ -1,3 +1,5 @@
+CFLAGS+=' -pedantic -Wall -Wextra -static -Ofast -march=native'
+
 _() {
     declare -A array
 

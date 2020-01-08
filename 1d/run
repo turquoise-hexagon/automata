@@ -2,6 +2,11 @@
 #
 # outputs to mpv
 
+if ! command -v mpv > /dev/null; then
+    echo 'error : install mpv first' >&2
+    exit 1
+if
+
 ./make.sh
 
 ./1d $((RANDOM % 256)) \

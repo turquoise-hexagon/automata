@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if ! command -v mpv > /dev/null; then
+    echo 'error : install mpv first' >&2
+    exit 1
+if
+
 ./make.sh
 
 wattr hw "$(lsw -r)" | {

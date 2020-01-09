@@ -26,6 +26,7 @@ const char* COLORS[] = {
 int
 main(int argc, char** argv)
 {
+    /* argument parsing */
     if (argc != 4)
         errx(1, "usage : %s [height] [width] [init]", argv[0]);
 
@@ -40,6 +41,7 @@ main(int argc, char** argv)
             errx(1, "invalid parameter");
     }
 
+    /* init arrays */
     short** uni = malloc(arg[0] * sizeof(short*));
     short** cpy = malloc(arg[0] * sizeof(short*));
 
@@ -68,6 +70,7 @@ main(int argc, char** argv)
         uni[x][y] = rand() % 2 == 0 ? -1 : 1;
     }
 
+    /* run pinwheels */
     int cpt;
 
     for (unsigned n = 0; n < N; n++) {
@@ -96,6 +99,7 @@ main(int argc, char** argv)
                 uni[i][j] = cpy[i][j];
     }
 
+    /* cleanup */
     for (unsigned i = 0; i < arg[0]; i++) {
         free(uni[i]);
         free(cpy[i]);

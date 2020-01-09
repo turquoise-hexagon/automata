@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-#
-# outputs to mpv
 
+# check for mpv
 if ! command -v mpv > /dev/null; then
     echo 'error : install mpv first' >&2
     exit 1
@@ -9,6 +8,7 @@ if
 
 ./make.sh
 
+# set a random rule and a random init
 ./1d $((RANDOM % 256)) \
     "$(
         for _ in {1..500}; {

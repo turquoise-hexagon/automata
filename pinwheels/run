@@ -1,12 +1,17 @@
 #!/bin/sh
 
-if ! command -v mpv > /dev/null; then
-    echo 'error : install mpv first' >&2
-    exit 1
-if
+_()
+    if ! command "$1" > /dev/null; then
+        echo "error : install $1 first" >&2
+        exit 1
+    fi
+
+_ mpv
+_ wattr
 
 ./make.sh
 
+# run based on screen resolution
 wattr hw "$(lsw -r)" | {
     read -r h w
 

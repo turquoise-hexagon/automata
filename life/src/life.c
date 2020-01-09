@@ -13,6 +13,7 @@ const unsigned N = 500;
 int
 main(int argc, char** argv)
 {
+    /* argument parsing */
     if (argc != 4)
         errx(1, "usage : %s [height] [width] [init]", argv[0]);
 
@@ -27,6 +28,7 @@ main(int argc, char** argv)
             errx(1, "invalid parameter");
     }
 
+    /* init arrays */
     bool** uni = malloc(arg[0] * sizeof(bool*));
     bool** cpy = malloc(arg[0] * sizeof(bool*));
 
@@ -42,6 +44,7 @@ main(int argc, char** argv)
     }
 
     long x, y;
+
     for (unsigned i = 0; i < arg[2]; i++) {
         jump:
         x = rand() % arg[0];
@@ -53,7 +56,9 @@ main(int argc, char** argv)
         uni[x][y] = true;
     }
 
+    /* run the game of life */
     unsigned cpt;
+
     for (unsigned n = 0; n < N; n++) {
         printf("P1\n%ld %ld\n", arg[1], arg[0]);
 
@@ -87,6 +92,7 @@ main(int argc, char** argv)
                 uni[i][j] = cpy[i][j];
     }
 
+    /* cleanup */
     for (unsigned i = 0; i < arg[0]; i++) {
         free(uni[i]);
         free(cpy[i]);

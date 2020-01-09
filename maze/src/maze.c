@@ -22,6 +22,7 @@ struct item {
 int
 main(void)
 {
+    /* init arrays */
     static bool world[X][Y];
 
     world[X / 2][Y / 2] = true;
@@ -35,6 +36,7 @@ main(void)
 
     srand(time(NULL));
 
+    /* run maze */
     int x, y, nx, ny, dx, dy;
     unsigned tmp, tmp_rand;
 

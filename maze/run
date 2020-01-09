@@ -1,7 +1,6 @@
 #!/bin/sh
-#
-# outputs to mpv
 
+# check for mpv
 if ! command -v mpv > /dev/null; then
     echo 'error : install mpv first' >&2
     exit 1

@@ -8,6 +8,7 @@
 int
 main(int argc, char** argv)
 {
+    /* argument parsing */
     if (argc != 3)
         errx(1, "usage : %s [rule] [bits]", argv[0]);
 
@@ -21,6 +22,7 @@ main(int argc, char** argv)
 
     unsigned length = strlen(argv[2]);
 
+    /* init arrays */
     bool* origin = malloc((length + 2) * sizeof(bool));
     bool* backup = malloc((length + 2) * sizeof(bool));
 
@@ -41,6 +43,7 @@ main(int argc, char** argv)
                 errx(1, "invalid strip");
         }
 
+    /* run cellular automaton */
     printf("P1\n%d %d\n", length, length);
 
     for (unsigned n = 0; n < length; n++) {
@@ -57,6 +60,7 @@ main(int argc, char** argv)
             origin[i] = backup[i];
     }
 
+    /* cleanup */
     free(origin);
     free(backup);
 

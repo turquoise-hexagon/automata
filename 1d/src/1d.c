@@ -27,7 +27,7 @@ main(int argc, char** argv)
     bool* backup = malloc((length + 2) * sizeof(bool));
 
     if (origin == NULL || backup == NULL)
-        errx(1, "failed to malloc");
+        errx(1, "failed to allocate memory");
 
     origin[0] = origin[length] = false;
     backup[0] = backup[length] = false;

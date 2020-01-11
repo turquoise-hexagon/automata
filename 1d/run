@@ -4,7 +4,7 @@
 if ! command -v mpv > /dev/null; then
     echo 'error : install mpv first' >&2
     exit 1
-if
+fi
 
 ./make.sh
 

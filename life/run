@@ -21,4 +21,3 @@ wattr hw "$(lsw -r)" | {
         $((h * w / 8))
 } |
     mpv - -fs -scale=nearest
-

@@ -33,8 +33,8 @@ for ((;;)) {
                 for b in -1 0 1; {
                     ((a || b)) && {
                         ((
-                            x = i + a, x = x < 0 ? X - 1 : x % X,
-                            y = j + b, y = y < 0 ? Y - 1 : y % Y
+                            x = (X + i + a) % X,
+                            y = (Y + j + b) % Y
                         ))
 
                         ((gol[$x $y] && cpt++))

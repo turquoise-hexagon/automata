@@ -7,7 +7,7 @@
 #define M -1
 
 #define WRAP(v, i, o, d) \
-    v = (long) i + o, v = v < 0 ? d - 1 : v % d
+    v = ((long) i + o + d) % d
 
 const unsigned N = 500;
 
@@ -67,7 +67,7 @@ main(int argc, char** argv)
         if (uni[x][y] != 0)
             goto jump;
 
-        uni[x][y] = rand() % 2 == 0 ? -1 : 1;
+        uni[x][y] = cpy[x][y] = rand() % 2 == 0 ? -1 : 1;
     }
 
     /* run pinwheels */

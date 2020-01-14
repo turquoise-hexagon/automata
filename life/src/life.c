@@ -6,7 +6,7 @@
 #include <time.h>
 
 #define WRAP(v, i, o, d) \
-    v = (long) i + o, v = v < 0 ? d - 1 : v % d
+    v = ((long) i + o + d) % d
 
 const unsigned N = 500;
 
@@ -55,6 +55,7 @@ main(int argc, char** argv)
             goto jump;
 
         uni[x][y] = true;
+        cpy[x][y] = true;
     }
 
     /* run the game of life */

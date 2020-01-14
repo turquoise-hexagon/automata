@@ -44,6 +44,7 @@ main(int argc, char** argv)
     }
 
     long x, y;
+    srand(time(NULL));
 
     for (unsigned i = 0; i < arg[2]; i++) {
         jump:

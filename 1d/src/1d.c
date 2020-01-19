@@ -50,7 +50,7 @@ main(int argc, char** argv)
         for (unsigned tmp = 0, i = 1; i <= length; tmp = 0, i++) {
             putchar(origin[i] == false ? '0' : '1');
 
-            for (int j = -1; j < 2; j++)
+            for (short j = -1; j < 2; j++)
                 tmp = tmp << 1 | origin[i + j];
 
             backup[i] = 1 & rule >> tmp;

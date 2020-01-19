@@ -7,7 +7,7 @@
 #define Y X
 #define S 2
 
-const int DIRS[4][2] = {
+const short DIRS[4][2] = {
     {-1,  0},
     {0 , -1},
     {1 ,  0},
@@ -37,8 +37,9 @@ main(void)
     srand(time(NULL));
 
     /* run maze */
-    int x, y, nx, ny, dx, dy;
-    unsigned tmp, tmp_rand;
+    long nx, ny;
+    short dx, dy;
+    unsigned x, y, tmp, tmp_rand;
 
     while (index != 0) {
         printf("P1\n%d %d\n", X, Y);
@@ -55,7 +56,7 @@ main(void)
 
         tmp_rand = rand();
 
-        for (unsigned i = 0; i < 4; i++) {
+        for (unsigned short i = 0; i < 4; i++) {
             dx = DIRS[(tmp_rand + i) % 4][0];
             dy = DIRS[(tmp_rand + i) % 4][1];
 

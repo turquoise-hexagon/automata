@@ -21,7 +21,7 @@ main(int argc, char** argv)
     char* ptr;
     long arg[3];
 
-    for (unsigned i = 0; i < 3; i++) {
+    for (unsigned i = 0; i < sizeof(arg) / sizeof(long); i++) {
         arg[i] = strtol(argv[i + 1], &ptr, 10);
 
         if (errno != 0 || *ptr != 0 || arg[i] < 0)
@@ -59,7 +59,7 @@ main(int argc, char** argv)
     }
 
     /* run the game of life */
-    unsigned cpt;
+    unsigned short cpt;
 
     for (unsigned n = 0; n < N; n++) {
         printf("P1\n%ld %ld\n", arg[1], arg[0]);
@@ -70,8 +70,8 @@ main(int argc, char** argv)
 
                 cpt = 0;
 
-                for (int a = -1; a <= 1; a++)
-                    for (int b = -1; b <= 1; b++)
+                for (short a = -1; a <= 1; a++)
+                    for (short b = -1; b <= 1; b++)
                         if (a != 0 || b != 0) {
                             WRAP(x, i, a, arg[0]);
                             WRAP(y, j, b, arg[1]);

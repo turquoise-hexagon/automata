@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # check for mpv
-if ! type mpv > /dev/null; then
+if ! type mpv 2> /dev/null; then
     echo 'error : install mpv first' >&2
     exit 1
 fi

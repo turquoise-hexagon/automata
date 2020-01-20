@@ -1,7 +1,7 @@
 #!/bin/sh
 
 _()
-    if ! type "$1" 2> /dev/null; then
+    if ! type "$1" &> /dev/null; then
         echo "error : install $1 first" >&2
         exit 1
     fi

@@ -26,7 +26,7 @@ display() {
 update() {
     ((
         ant[2] = world[${ant[0]} ${ant[1]}] ? (ant[2] + 1) % 4 : (ant[2] < 1 ? 4 : ant[2]) - 1,
-        world[${ant[0]} ${ant[1]}] ^=1
+        world[${ant[0]} ${ant[1]}] ^= 1
     ))
 
     case ${ant[2]} in

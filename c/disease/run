@@ -11,6 +11,7 @@ _ wattr
 
 ./make.sh
 
+# run based on screen resolution
 wattr hw "$(lsw -r)" | {
     read -r h w
 

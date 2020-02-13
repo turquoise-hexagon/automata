@@ -3,6 +3,7 @@
         (chicken format))
 
 (define (gol X Y I N)
+  "init arrays"
   (let ((uni (make-array (shape 0 X 0 Y) #t))
         (cpy (make-array (shape 0 X 0 Y) #t)))
     (do ((i 0 (let ((x (pseudo-random-integer X))
@@ -14,11 +15,13 @@
                       (add1 i))
                     i))))
       ((= i I)))
+    "run the game of life"
     (do ((n 0 (add1 n))) ((= n N))
       (printf "P1\n~a ~a\n" Y X)
       (do ((x 0 (add1 x))) ((= x X))
         (do ((y 0 (add1 y))) ((= y Y))
           (printf "~a" (if (array-ref uni x y) 0 1))
+          "count neighbors"
           (set! cpt 0)
           (do ((x_o -1 (add1 x_o))) ((= x_o 2))
             (do ((y_o -1 (add1 y_o))) ((= y_o 2))

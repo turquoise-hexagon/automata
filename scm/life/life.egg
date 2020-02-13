@@ -1,0 +1,9 @@
+((synopsis "game of life")
+ (author "camille, camille at lzr dot pw")
+ (license "0BSD")
+ (category misc)
+ (dependencies srfi-25)
+ (component-options (csc-options "-O5"))
+ (components (program life)))
+
+; vim: ft=scheme

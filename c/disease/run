@@ -1,0 +1,19 @@
+#!/bin/sh
+
+_()
+    if ! type "$1" > /dev/null 2>&1; then
+        echo "error : install $1 first" >&2
+        exit 1
+    fi
+
+_ mpv
+_ wattr
+
+./make.sh
+
+wattr hw "$(lsw -r)" | {
+    read -r h w
+
+    ./disease "$h" "$w" |
+        mpv - -fs -scale=nearest
+}

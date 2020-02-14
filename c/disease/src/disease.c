@@ -88,7 +88,7 @@ main(int argc, char** argv)
                                 if (uni[x][y] == 0)
                                     uni[x][y] = 1;
                             }
-                        else if (tmp / 2  %  10 == 0) uni[i][j] = 2;
+                        else if (tmp /  2 %  10 == 0) uni[i][j] = 2;
                         else if (tmp / 20 % 500 == 0) uni[i][j] = 0;
 
                         break;

@@ -2,10 +2,11 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 
 #define WRAP(v, i, o, d) \
-    v = ((long) i + o + d) % d
+    v = ((long) i + o + d) %d
 
 const unsigned N = 500;
 
@@ -28,83 +29,92 @@ main(int argc, char** argv)
     if (argc != 4)
         errx(1, "usage : %s [height] [width] [init]", argv[0]);
 
+    unsigned i, j;
+
     errno = 0;
     char* ptr;
-    long arg[3];
+    long a[3];
 
-    for (unsigned i = 0; i < sizeof(arg) / sizeof(long); i++) {
-        arg[i] = strtol(argv[i + 1], &ptr, 10);
+    for (i = 0; i < sizeof(a) / sizeof(long); i++) {
+        a[i] = strtol(argv[i + 1], &ptr, 10);
 
-        if (errno != 0 || *ptr != 0 || arg[i] < 0)
-            errx(1, "invalid parameter");
+        if (errno != 0 || *ptr != 0 || a[i] < 0)
+            errx(1, "error : '%s' invalid parameter", argv[i + 1]);
     }
 
-    /* init arrays */
-    short** uni = malloc(arg[0] * sizeof(short*));
-    short** cpy = malloc(arg[0] * sizeof(short*));
+    /* init array */
+    short*** uni = malloc(a[0] * sizeof(short**));
 
-    if (uni == NULL || cpy == NULL)
-        errx(1, "failed to allocate memory");
+    if (uni == NULL)
+        errx(1, "error : failed to allocate memory");
 
-    for (unsigned i = 0; i < arg[0]; i++) {
-        uni[i] = calloc(arg[1], sizeof(short));
-        cpy[i] = calloc(arg[1], sizeof(short));
+    for (i = 0; i < a[0]; i++) {
+        uni[i] = malloc(a[1] * sizeof(short*));
 
-        if (uni[i] == NULL || cpy[i] == NULL)
-            errx(1, "failed to allocate memory");
+        if (uni[i] == NULL)
+            errx(1, "error : failed to allocate memory");
+    
+        for (j = 0; j < a[1]; j++) {
+            uni[i][j] = calloc(2, sizeof(short));
+
+            if (uni[i][j] == NULL)
+                errx(1, "error : failed to allocate memory");
+        }
     }
 
-    long x, y;
+    unsigned x, y;
     srand(time(NULL));
 
-    for (unsigned i = 0; i < arg[2]; i++) {
+    for (i = 0; i < a[2]; i++) {
         jump:
-        x = rand() % arg[0];
-        y = rand() % arg[1];
+        x = rand() % a[0];
+        y = rand() % a[1];
 
-        if (uni[x][y] != 0)
+        if (uni[x][y][0] != 0)
             goto jump;
 
-        uni[x][y] = cpy[x][y] = rand() % 2 == 0 ? -1 : 1;
+        uni[x][y][0] = rand() % 2 == 0
+            ? -1
+            :  1;
     }
 
     /* run pinwheels */
     short cpt;
+    bool flag = false;
 
     for (unsigned n = 0; n < N; n++) {
-        printf("P3\n%ld %ld\n255\n", arg[1], arg[0]);
+        printf("P3\n%ld %ld\n255\n", a[1], a[0]);
 
-        for (unsigned i = 0; i < arg[0]; i++)
-            for (unsigned j = 0; j < arg[1]; j++) {
-                printf("%s\n", COLORS[uni[i][j] + 1]);
+        for (i = 0; i < a[0]; i++)
+            for (j = 0; j < a[1]; j++) {
+                printf("%s\n", COLORS[uni[i][j][flag] + 1]);
 
                 cpt = 0;
 
-                for (short a = -1; a <= 1; a++)
-                    for (short b = -1; b <= 1; b++)
-                        if (a != 0 || b != 0) {
-                            WRAP(x, i, a, arg[0]);
-                            WRAP(y, j, b, arg[1]);
+                for (short u = -1; u <= 1; u++)
+                    for (short v = -1; v <= 1; v++)
+                        if (u != 0 || v != 0) {
+                            WRAP(x, i, u, a[0]);
+                            WRAP(y, j, v, a[1]);
 
-                            cpt += uni[x][y];
+                            cpt += uni[x][y][flag];
                         }
 
-                cpy[i][j] = RULES[uni[i][j] + 1][cpt + 8];
+                uni[i][j][!flag] = RULES[uni[i][j][flag] + 1][cpt + 8];
             }
 
-        for (unsigned i = 0; i < arg[0]; i++)
-            for (unsigned j = 0; j < arg[1]; j++)
-                uni[i][j] = cpy[i][j];
+        flag ^= true;
     }
 
     /* cleanup */
-    for (unsigned i = 0; i < arg[0]; i++) {
+    for (i = 0; i < a[0]; i++) {
+        for (j = 0; j < 2; j++)
+            free(uni[i][j]);
+
         free(uni[i]);
-        free(cpy[i]);
     }
 
     free(uni);
-    free(cpy);
 
     return 0;
 }

@@ -17,91 +17,97 @@ main(int argc, char** argv)
     if (argc != 4)
         errx(1, "usage : %s [height] [width] [init]", argv[0]);
 
+    unsigned i, j;
+
     errno = 0;
     char* ptr;
-    long arg[3];
+    long a[3];
 
-    for (unsigned i = 0; i < sizeof(arg) / sizeof(long); i++) {
-        arg[i] = strtol(argv[i + 1], &ptr, 10);
+    for (i = 0; i < sizeof(a) / sizeof(long); i++) {
+        a[i] = strtol(argv[i + 1], &ptr, 10);
 
-        if (errno != 0 || *ptr != 0 || arg[i] < 0)
-            errx(1, "invalid parameter");
+        if (errno != 0 || *ptr != 0 || a[i] < 0)
+            errx(1, "error : '%s' invalid parameter", argv[i + 1]);
     }
 
-    /* init arrays */
-    bool** uni = malloc(arg[0] * sizeof(bool*));
-    bool** cpy = malloc(arg[0] * sizeof(bool*));
+    /* init array */
+    bool*** gol = malloc(a[0] * sizeof(bool**));
 
-    if (uni == NULL || cpy == NULL)
-        errx(1, "failed to allocate memory");
+    if (gol == NULL)
+        errx(1, "error : failed to allocate memory");
 
-    for (unsigned i = 0; i < arg[0]; i++) {
-        uni[i] = calloc(arg[1], sizeof(bool));
-        cpy[i] = calloc(arg[1], sizeof(bool));
+    for (i = 0; i < a[0]; i++) {
+        gol[i] = malloc(a[1] * sizeof(bool*));
 
-        if (uni[i] == NULL || cpy[i] == NULL)
-            errx(1, "failed to allocate memory");
+        if (gol[i] == NULL)
+            errx(1, "error : failed to allocate memory");
+    
+        for (j = 0; j < a[1]; j++) {
+            gol[i][j] = calloc(2, sizeof(bool));
+
+            if (gol[i][j] == NULL)
+                errx(1, "error : failed to allocate memory");
+        }
     }
 
-    long x, y;
+    unsigned x, y;
     srand(time(NULL));
 
-    for (unsigned i = 0; i < arg[2]; i++) {
+    for (i = 0; i < a[2]; i++) {
         jump:
-        x = rand() % arg[0];
-        y = rand() % arg[1];
+        x = rand() % a[0];
+        y = rand() % a[1];
 
-        if (uni[x][y] == true)
+        if (gol[x][y][0] == true)
             goto jump;
 
-        uni[x][y] = true;
-        cpy[x][y] = true;
+        gol[x][y][0] = true;
     }
 
     /* run the game of life */
     unsigned short cpt;
+    bool flag = false, tmp;
 
     for (unsigned n = 0; n < N; n++) {
-        printf("P1\n%ld %ld\n", arg[1], arg[0]);
+        printf("P1\n%ld %ld\n", a[1], a[0]);
 
-        for (unsigned i = 0; i < arg[0]; i++)
-            for (unsigned j = 0; j < arg[1]; j++) {
-                putchar(uni[i][j] == false ? '0' : '1');
+        for (i = 0; i < a[0]; i++)
+            for (j = 0; j < a[1]; j++) {
+                putchar(gol[i][j][flag] == true ? '1' : '0');
 
                 cpt = 0;
 
-                for (short a = -1; a <= 1; a++)
-                    for (short b = -1; b <= 1; b++)
-                        if (a != 0 || b != 0) {
-                            WRAP(x, i, a, arg[0]);
-                            WRAP(y, j, b, arg[1]);
+                for (short u = -1; u <= 1; u++)
+                    for (short v = -1; v <= 1; v++)
+                        if (u != 0 || v != 0) {
+                            WRAP(x, i, u, a[0]);
+                            WRAP(y, j, v, a[1]);
 
-                            if (uni[x][y] == true)
+                            if (gol[x][y][flag] == true)
                                 cpt++;
                         }
 
                 switch (cpt) {
-                    case 2  : /* do nothing */  break;
-                    case 3  : cpy[i][j] = true; break;
-                    default : cpy[i][j] = false;
+                    case 2  : tmp = gol[i][j][flag]; break;
+                    case 3  : tmp = true; break;
+                    default : tmp = false;
                 }
+
+                gol[i][j][!flag] = tmp;
             }
 
-        putchar('\n');
-
-        for (unsigned i = 0; i < arg[0]; i++)
-            for (unsigned j = 0; j < arg[1]; j++)
-                uni[i][j] = cpy[i][j];
+        flag ^= true;
     }
 
     /* cleanup */
-    for (unsigned i = 0; i < arg[0]; i++) {
-        free(uni[i]);
-        free(cpy[i]);
+    for (i = 0; i < a[0]; i++) {
+        for (j = 0; j < 2; j++)
+            free(gol[i][j]);
+
+        free(gol[i]);
     }
 
-    free(uni);
-    free(cpy);
+    free(gol);
 
     return 0;
 }

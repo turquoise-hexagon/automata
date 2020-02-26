@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# check for mpv
-if ! type mpv > /dev/null 2>&1; then
-    echo 'error : install mpv first' >&2
-    exit 1
-fi
-
-./make.sh; ./maze | mpv - -fs -scale=nearest

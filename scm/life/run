@@ -1,9 +1,10 @@
 #!/bin/sh
 
-if ! type mpv > /dev/null 2>&1; then
+# check for mpv
+type mpv > /dev/null 2>&1 || {
     echo 'error : install mpv first' >&2
     exit 1
-fi
+}
 
 chicken-install -n
 

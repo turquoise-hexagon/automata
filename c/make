@@ -1,6 +1,19 @@
-CFLAGS+=' -pedantic -Wall -Wextra -static -Ofast -march=native'
-
 _() {
+    # check for gcc
+    type gcc &> /dev/null || {
+        echo 'error : install gcc first' >&2
+        exit 1
+    }
+
+    CFLAGS=(
+        -pedantic
+        -Wall
+        -Wextra
+        -static
+        -Ofast
+        -march=native
+    )
+
     declare -A array
 
     # build list of files to compile
@@ -26,7 +39,7 @@ _() {
 
         # compile
         for src in "${!array[@]}"; {
-            gcc $CFLAGS "$src" -o "${array[$src]}"
+            gcc "${CFLAGS[@]}" "$src" -o "${array[$src]}"
         }
     } |&
         # pretty printing

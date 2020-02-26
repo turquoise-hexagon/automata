@@ -1,0 +1,8 @@
+usage :
+$ cd $automata
+$ ./run
+
+depends on :
+* chicken
+* srfi-25
+* mpv

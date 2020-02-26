@@ -1,0 +1,9 @@
+usage :
+$ cd $automata
+$ ./run
+
+depends on :
+* bash
+* gcc
+* mpv
+* wmutils-core

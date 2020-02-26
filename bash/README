@@ -1,5 +1,6 @@
 usage :
-./$automata
+$ cd src
+$ ./$automata
 
 depends on :
 * bash

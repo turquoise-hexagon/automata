@@ -1,6 +1,8 @@
-usage :
-$ cd src
-$ ./$automata
+usage
+-----
+    $ cd src
+    $ ./$automata
 
-depends on :
-* bash
+depends on
+----------
+    * bash

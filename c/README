@@ -1,9 +1,11 @@
-usage :
-$ cd $automata
-$ ./run
+usage
+-----
+    $ cd $automata
+    $ ./run
 
-depends on :
-* bash
-* gcc
-* mpv
-* wmutils-core
+depends on
+----------
+    * bash
+    * gcc
+    * mpv
+    * wmutils-core

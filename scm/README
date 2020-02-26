@@ -1,8 +1,10 @@
-usage :
-$ cd $automata
-$ ./run
+usage
+-----
+    $ cd $automata
+    $ ./run
 
-depends on :
-* chicken
-* srfi-25
-* mpv
+depends on
+----------
+    * chicken
+    * srfi-25
+    * mpv

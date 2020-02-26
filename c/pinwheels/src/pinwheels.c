@@ -87,7 +87,7 @@ main(int argc, char** argv)
 
         for (i = 0; i < a[0]; i++)
             for (j = 0; j < a[1]; j++) {
-                printf("%s\n", COLORS[uni[i][j][flag] + 1]);
+                puts(COLORS[uni[i][j][flag] + 1]);
 
                 cpt = 0;
 

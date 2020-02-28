@@ -18,7 +18,7 @@ main(int argc, char** argv)
     long rule = strtol(argv[1], &ptr, 10);
 
     if (errno != 0 || *ptr != 0 || rule < 0 || rule > 255)
-        errx(1, "invalid rule");
+        errx(1, "error : invalid rule");
 
     unsigned length = strlen(argv[2]);
 
@@ -27,7 +27,7 @@ main(int argc, char** argv)
     bool* backup = malloc((length + 2) * sizeof(bool));
 
     if (origin == NULL || backup == NULL)
-        errx(1, "failed to allocate memory");
+        errx(1, "error : failed to allocate memory");
 
     origin[0] = origin[length] = false;
     backup[0] = backup[length] = false;
@@ -40,7 +40,7 @@ main(int argc, char** argv)
                 free(origin);
                 free(backup);
 
-                errx(1, "invalid strip");
+                errx(1, "error : invalid strip");
         }
 
     /* run cellular automaton */

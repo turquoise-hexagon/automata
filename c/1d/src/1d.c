@@ -16,7 +16,7 @@ main(int argc, char** argv)
         return 1;
     }
 
-    unsigned i, j;
+    size_t i, j;
 
     errno = 0;
     char* ptr;
@@ -26,7 +26,7 @@ main(int argc, char** argv)
     if (errno != 0 || *ptr != 0 || rule < 0 || rule > 255)
         errx(1, "'%s' isn't a valid rule", argv[1]);
 
-    unsigned length = strlen(argv[2]);
+    size_t length = strlen(argv[2]);
 
     /* init arrays */
     bool** strip = malloc(length * sizeof(bool*));
@@ -56,7 +56,7 @@ main(int argc, char** argv)
                 errx(1, "'%s' isn't a valid strip", argv[2]);
         }
 
-    printf("P1\n%d %d\n", length, length);
+    printf("P1\n%ld %ld\n", length, length);
 
     /* run cellular automaton */
     unsigned short tmp;

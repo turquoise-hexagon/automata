@@ -16,6 +16,8 @@ main(int argc, char** argv)
         return 1;
     }
 
+    unsigned i, j;
+
     errno = 0;
     char* ptr;
 
@@ -27,46 +29,57 @@ main(int argc, char** argv)
     unsigned length = strlen(argv[2]);
 
     /* init arrays */
-    bool* origin = malloc((length + 2) * sizeof(bool));
-    bool* backup = malloc((length + 2) * sizeof(bool));
+    bool** strip = malloc(length * sizeof(bool*));
 
-    if (origin == NULL || backup == NULL)
+    if (strip == NULL)
         errx(1, "program failed to allocate memory");
 
-    origin[0] = origin[length] = false;
-    backup[0] = backup[length] = false;
+    for (i = 0; i < length; i++) {
+        strip[i] = malloc(2 * sizeof(bool));
+        
+        if (strip[i] == NULL)
+            errx(1, "program failed to allocate memory");
+    }
 
-    for (unsigned i = 1; i <= length; i++)
-        switch (argv[2][i - 1]) {
-            case '0' : origin[i] = false; break;
-            case '1' : origin[i] = true;  break;
+    bool flag = false;
+
+    for (i = 0; i < length; i++)
+        switch (argv[2][i]) {
+            case '0' : strip[i][flag] = false; break;
+            case '1' : strip[i][flag] = true;  break;
             default  :
-                free(origin);
-                free(backup);
+                for (i = 0; i < length; i++)
+                    free(strip[i]);
+
+                free(strip);
 
                 errx(1, "'%s' isn't a valid strip", argv[2]);
         }
 
-    /* run cellular automaton */
     printf("P1\n%d %d\n", length, length);
 
-    for (unsigned n = 0; n < length; n++) {
-        for (unsigned tmp = 0, i = 1; i <= length; tmp = 0, i++) {
-            putchar(origin[i] == false ? '0' : '1');
+    short tmp;
 
-            for (short j = -1; j < 2; j++)
-                tmp = tmp << 1 | origin[i + j];
+    for (i = 0; i < length; i++) {
+        for (j = 0; j < length; j++) {
+            tmp = 0;
 
-            backup[i] = 1 & rule >> tmp;
+            putchar(strip[j][flag] == true ? '1' : '0');
+
+            for (short k = -1; k <= 1; k++)
+                tmp = tmp << 1 | strip[(j + k + length) % length][flag];
+
+            strip[j][!flag] = 1 & rule >> tmp;
         }
 
-        for (unsigned i = 1; i <= length; i++)
-            origin[i] = backup[i];
+        flag ^= true;
     }
 
     /* cleanup */
-    free(origin);
-    free(backup);
+    for (i = 0; i < length; i++)
+        free(strip[i]);
+
+    free(strip);
 
     return 0;
 }

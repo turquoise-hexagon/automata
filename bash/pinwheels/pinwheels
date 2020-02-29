@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# @laserbat's cellular automaton
+# pinwheel - pinwheel implementation
 
 X=30
 Y=30

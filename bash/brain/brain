@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# brian's brain
+# brain - brian's brain implementation
 
 X=30
 Y=30

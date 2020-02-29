@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# game of life
+# life - game of life implementation
 
 X=20
 Y=20

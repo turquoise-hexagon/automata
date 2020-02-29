@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# langton's ant
+# ant - langton's ant implementation
 
 X=40
 Y=40

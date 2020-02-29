@@ -1,6 +1,6 @@
 usage
 -----
-    $ cd src
+    $ cd $automata
     $ ./$automata
 
 depends on

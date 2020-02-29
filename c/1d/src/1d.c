@@ -9,8 +9,11 @@ int
 main(int argc, char** argv)
 {
     /* argument parsing */
-    if (argc != 3)
-        errx(1, "usage : %s [rule] [bits]", argv[0]);
+    if (argc != 3) {
+        fprintf(stderr, "usage: %s [rule] [strip]\n", argv[0]);
+
+        return 1;
+    }
 
     errno = 0;
     char* ptr;
@@ -18,7 +21,7 @@ main(int argc, char** argv)
     long rule = strtol(argv[1], &ptr, 10);
 
     if (errno != 0 || *ptr != 0 || rule < 0 || rule > 255)
-        errx(1, "error : invalid rule");
+        errx(1, "'%s' isn't a valid rule", argv[1]);
 
     unsigned length = strlen(argv[2]);
 
@@ -27,7 +30,7 @@ main(int argc, char** argv)
     bool* backup = malloc((length + 2) * sizeof(bool));
 
     if (origin == NULL || backup == NULL)
-        errx(1, "error : failed to allocate memory");
+        errx(1, "program failed to allocate memory");
 
     origin[0] = origin[length] = false;
     backup[0] = backup[length] = false;
@@ -40,7 +43,7 @@ main(int argc, char** argv)
                 free(origin);
                 free(backup);
 
-                errx(1, "error : invalid strip");
+                errx(1, "'%s' isn't a valid strip", argv[2]);
         }
 
     /* run cellular automaton */

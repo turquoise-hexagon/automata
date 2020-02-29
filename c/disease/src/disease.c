@@ -20,8 +20,11 @@ int
 main(int argc, char** argv)
 {
     /* argument parsing */
-    if (argc != 3)
-        errx(1, "usage : %s [height] [width]", argv[0]);
+    if (argc != 3) {
+        fprintf(stderr, "usage: %s [height] [width]\n", argv[0]);
+
+        return 1;
+    }
 
     unsigned i, j;
 
@@ -33,20 +36,20 @@ main(int argc, char** argv)
         a[i] = strtol(argv[i + 1], &ptr, 10);
 
         if (errno != 0 || *ptr != 0 || a[i] < 0)
-            errx(1, "error : '%s' invalid parameter", argv[i + 1]);
+            errx(1, "'%s' isn't a valid parameter", argv[i + 1]);
     }
 
     /* init array */
     unsigned short** uni = malloc(a[0] * sizeof(unsigned short*));
 
     if (uni == NULL)
-        errx(1, "error : failed to allocate memory");
+        errx(1, "program failed to allocate memory");
 
     for (i = 0; i < a[0]; i++) {
         uni[i] = calloc(a[1], sizeof(unsigned short));
 
         if (uni[i] == NULL)
-            errx(1, "error : failed to allocate memory");
+            errx(1, "program failed to allocate memory");
     }
 
     uni[a[0] / 2][a[1] / 2] = 1;

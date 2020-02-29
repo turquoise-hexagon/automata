@@ -14,8 +14,11 @@ int
 main(int argc, char** argv)
 {
     /* argument parsing */
-    if (argc != 4)
-        errx(1, "usage : %s [height] [width] [init]", argv[0]);
+    if (argc != 4) {
+        fprintf(stderr, "usage: %s [height] [width] [init]\n", argv[0]);
+
+        return 1;
+    }
 
     unsigned i, j;
 
@@ -27,26 +30,26 @@ main(int argc, char** argv)
         a[i] = strtol(argv[i + 1], &ptr, 10);
 
         if (errno != 0 || *ptr != 0 || a[i] < 0)
-            errx(1, "error : '%s' invalid parameter", argv[i + 1]);
+            errx(1, "'%s' isn't a valid parameter", argv[i + 1]);
     }
 
     /* init array */
     bool*** gol = malloc(a[0] * sizeof(bool**));
 
     if (gol == NULL)
-        errx(1, "error : failed to allocate memory");
+        errx(1, "program failed to allocate memory");
 
     for (i = 0; i < a[0]; i++) {
         gol[i] = malloc(a[1] * sizeof(bool*));
 
         if (gol[i] == NULL)
-            errx(1, "error : failed to allocate memory");
+            errx(1, "program failed to allocate memory");
     
         for (j = 0; j < a[1]; j++) {
             gol[i][j] = calloc(2, sizeof(bool));
 
             if (gol[i][j] == NULL)
-                errx(1, "error : failed to allocate memory");
+                errx(1, "program failed to allocate memory");
         }
     }
 

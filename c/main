@@ -5,6 +5,7 @@ _() {
         exit 1
     }
 
+    # gcc flags
     CFLAGS=(
         -pedantic
         -Wall

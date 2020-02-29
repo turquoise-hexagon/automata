@@ -59,7 +59,7 @@ main(int argc, char** argv)
     printf("P1\n%d %d\n", length, length);
 
     /* run cellular automaton */
-    short tmp;
+    unsigned short tmp;
 
     for (i = 0; i < length; i++) {
         for (j = 0; j < length; j++) {

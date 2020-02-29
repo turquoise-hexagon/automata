@@ -6,5 +6,5 @@ usage
 depends on
 ----------
     * chicken
-    * srfi-25
     * mpv
+    * srfi-25

@@ -1,5 +1,6 @@
 #include <err.h>
 #include <errno.h>
+#include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -21,7 +22,7 @@ main(int argc, char** argv)
 {
     /* argument parsing */
     if (argc != 3) {
-        fprintf(stderr, "usage: %s [height] [width]\n", argv[0]);
+        fprintf(stderr, "usage: %s [height] [width]\n", basename(argv[0]));
 
         return 1;
     }

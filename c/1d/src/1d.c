@@ -1,5 +1,6 @@
 #include <err.h>
 #include <errno.h>
+#include <libgen.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +11,7 @@ main(int argc, char** argv)
 {
     /* argument parsing */
     if (argc != 3) {
-        fprintf(stderr, "usage: %s [rule] [strip]\n", argv[0]);
+        fprintf(stderr, "usage: %s [rule] [strip]\n", basename(argv[0]));
 
         return 1;
     }

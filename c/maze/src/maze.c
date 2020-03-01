@@ -42,7 +42,7 @@ main(void)
     unsigned x, y, tmp, tmp_rand;
 
     while (index != 0) {
-        printf("P1\n%d %d\n", X, Y);
+        printf("P1\n%u %u\n", X, Y);
 
         for (unsigned i = 0; i < X; i++)
             for (unsigned j = 0; j < Y; j++)

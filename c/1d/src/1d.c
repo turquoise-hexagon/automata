@@ -56,7 +56,7 @@ main(int argc, char** argv)
                 errx(1, "'%s' isn't a valid strip", argv[2]);
         }
 
-    printf("P1\n%ld %ld\n", length, length);
+    printf("P1\n%lu %lu\n", length, length);
 
     /* run cellular automaton */
     unsigned short tmp;

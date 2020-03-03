@@ -112,7 +112,7 @@ main(int argc, char** argv)
 
     /* cleanup */
     for (i = 0; i < a[0]; i++) {
-        for (j = 0; j < 2; j++)
+        for (j = 0; j < a[1]; j++)
             free(uni[i][j]);
 
         free(uni[i]);

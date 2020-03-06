@@ -57,7 +57,7 @@ main(int argc, char** argv)
 
         if (uni[i] == NULL)
             errx(1, "program failed to allocate memory");
-    
+
         for (j = 0; j < a[1]; j++) {
             uni[i][j] = calloc(2, sizeof(short));
 

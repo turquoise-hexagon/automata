@@ -45,7 +45,7 @@ main(int argc, char** argv)
 
         if (gol[i] == NULL)
             errx(1, "program failed to allocate memory");
-    
+
         for (j = 0; j < a[1]; j++) {
             gol[i][j] = calloc(2, sizeof(bool));
 

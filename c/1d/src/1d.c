@@ -36,7 +36,7 @@ main(int argc, char** argv)
 
     for (i = 0; i < length; i++) {
         strip[i] = malloc(2 * sizeof(bool));
-        
+
         if (strip[i] == NULL)
             errx(1, "program failed to allocate memory");
     }

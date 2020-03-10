@@ -11,7 +11,7 @@
 
 static const unsigned N = 500;
 
-static const char* COLORS[] = {
+static const char *COLORS[] = {
     "016 032 041",
     "113 170 197",
     "237 238 240",

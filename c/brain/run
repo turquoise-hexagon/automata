@@ -1,0 +1,23 @@
+#!/bin/sh
+
+_()
+    if ! type "$1" > /dev/null 2>&1; then
+        echo "error : install $1 first" >&2
+        exit 1
+    fi
+
+_ mpv
+_ wattr
+
+./make.sh
+
+# run based on screen resolution
+wattr hw "$(lsw -r)" | {
+    read -r h w
+
+    ./brain        \
+        $((h / 2)) \
+        $((w / 2)) \
+        $((h * w / 8))
+} |
+    mpv - -fs -scale=nearest

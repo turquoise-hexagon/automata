@@ -17,14 +17,14 @@ static const short RULES[][17] = {
     {-1, -1,  1,  1,  1, -1, 0, 0, 0, 0, 0, 1,  1,  1, -1, 1, 1}
 };
 
-static const char* COLORS[] = {
+static const char *COLORS[] = {
     "201 100 126",
     "016 032 041",
     "113 170 197"
 };
 
 int
-main(int argc, char** argv)
+main(int argc, char **argv)
 {
     /* argument parsing */
     if (argc != 4) {
@@ -36,7 +36,7 @@ main(int argc, char** argv)
     unsigned i, j;
 
     errno = 0;
-    char* ptr;
+    char *ptr;
     long a[3];
 
     for (i = 0; i < sizeof(a) / sizeof(long); i++) {
@@ -47,13 +47,13 @@ main(int argc, char** argv)
     }
 
     /* init array */
-    short*** uni = malloc(a[0] * sizeof(short**));
+    short ***uni = malloc(a[0] * sizeof(short **));
 
     if (uni == NULL)
         errx(1, "program failed to allocate memory");
 
     for (i = 0; i < a[0]; i++) {
-        uni[i] = malloc(a[1] * sizeof(short*));
+        uni[i] = malloc(a[1] * sizeof(short *));
 
         if (uni[i] == NULL)
             errx(1, "program failed to allocate memory");

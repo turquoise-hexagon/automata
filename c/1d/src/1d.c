@@ -7,7 +7,7 @@
 #include <string.h>
 
 int
-main(int argc, char** argv)
+main(int argc, char **argv)
 {
     /* argument parsing */
     if (argc != 3) {
@@ -19,7 +19,7 @@ main(int argc, char** argv)
     size_t i, j;
 
     errno = 0;
-    char* ptr;
+    char *ptr;
 
     long rule = strtol(argv[1], &ptr, 10);
 
@@ -29,7 +29,7 @@ main(int argc, char** argv)
     size_t length = strlen(argv[2]);
 
     /* init arrays */
-    bool** strip = malloc(length * sizeof(bool*));
+    bool **strip = malloc(length * sizeof(bool *));
 
     if (strip == NULL)
         errx(1, "program failed to allocate memory");

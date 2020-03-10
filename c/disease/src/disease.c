@@ -18,7 +18,7 @@ static const short DIRS[][2] = {
 };
 
 int
-main(int argc, char** argv)
+main(int argc, char **argv)
 {
     /* argument parsing */
     if (argc != 3) {
@@ -30,7 +30,7 @@ main(int argc, char** argv)
     unsigned i, j;
 
     errno = 0;
-    char* ptr;
+    char *ptr;
     long a[2];
 
     for (i = 0; i < sizeof(a) / sizeof(long); i++) {
@@ -41,7 +41,7 @@ main(int argc, char** argv)
     }
 
     /* init array */
-    unsigned short** uni = malloc(a[0] * sizeof(unsigned short*));
+    unsigned short **uni = malloc(a[0] * sizeof(unsigned short *));
 
     if (uni == NULL)
         errx(1, "program failed to allocate memory");

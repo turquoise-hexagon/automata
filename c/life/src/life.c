@@ -12,7 +12,7 @@
 static const unsigned N = 500;
 
 int
-main(int argc, char** argv)
+main(int argc, char **argv)
 {
     /* argument parsing */
     if (argc != 4) {
@@ -24,7 +24,7 @@ main(int argc, char** argv)
     unsigned i, j;
 
     errno = 0;
-    char* ptr;
+    char *ptr;
     long a[3];
 
     for (i = 0; i < sizeof(a) / sizeof(long); i++) {
@@ -35,13 +35,13 @@ main(int argc, char** argv)
     }
 
     /* init array */
-    bool*** gol = malloc(a[0] * sizeof(bool**));
+    bool ***gol = malloc(a[0] * sizeof(bool **));
 
     if (gol == NULL)
         errx(1, "program failed to allocate memory");
 
     for (i = 0; i < a[0]; i++) {
-        gol[i] = malloc(a[1] * sizeof(bool*));
+        gol[i] = malloc(a[1] * sizeof(bool *));
 
         if (gol[i] == NULL)
             errx(1, "program failed to allocate memory");

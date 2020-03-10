@@ -9,7 +9,7 @@
 #define WRAP(v, i, o, d) \
     v = ((long) i + o + d) % d
 
-const unsigned N = 500;
+static const unsigned N = 500;
 
 int
 main(int argc, char** argv)

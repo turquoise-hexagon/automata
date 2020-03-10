@@ -9,15 +9,15 @@
 #define WRAP(v, i, o, d) \
     v = ((long) i + o + d) %d
 
-const unsigned N = 500;
+static const unsigned N = 500;
 
-const short RULES[][17] = {
+static const short RULES[][17] = {
     {-1, -1,  1, -1, -1, -1, 0, 0, 0, 0, 0, 1, -1, -1, -1, 1, 1},
     {-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 1,  1,  1,  1, 1, 1},
     {-1, -1,  1,  1,  1, -1, 0, 0, 0, 0, 0, 1,  1,  1, -1, 1, 1}
 };
 
-const char* COLORS[] = {
+static const char* COLORS[] = {
     "201 100 126",
     "016 032 041",
     "113 170 197"

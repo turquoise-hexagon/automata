@@ -8,9 +8,9 @@
 #define WRAP(v, i, o, d) \
     v = ((long) i + o + d) % d
 
-const unsigned N = 500;
+static const unsigned N = 500;
 
-const short DIRS[][2] = {
+static const short DIRS[][2] = {
     {-1,  0},
     { 0, -1},
     { 1,  0},

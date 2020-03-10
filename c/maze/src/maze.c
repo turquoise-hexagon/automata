@@ -7,7 +7,7 @@
 #define Y X
 #define S 2
 
-const short DIRS[4][2] = {
+static const short DIRS[4][2] = {
     {-1,  0},
     { 0, -1},
     { 1,  0},

@@ -7,7 +7,7 @@
 #include <time.h>
 
 #define WRAP(v, i, o, d) \
-    v = ((long) i + o + d) %d
+    v = ((long)i + o + d) %d
 
 static const unsigned N = 500;
 

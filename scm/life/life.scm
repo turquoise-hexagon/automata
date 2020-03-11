@@ -22,7 +22,7 @@
         (do ((y 0 (add1 y))) ((= y Y))
           (printf "~a" (if (array-ref uni x y) 0 1))
           "count neighbors"
-          (set! cpt 0)
+          (set! cnt 0)
           (do ((x_o -1 (add1 x_o))) ((= x_o 2))
             (do ((y_o -1 (add1 y_o))) ((= y_o 2))
               (unless (and (zero? x_o)
@@ -30,8 +30,8 @@
                 (unless (array-ref uni
                                    (remainder (+ x x_o X) X)
                                    (remainder (+ y y_o Y) Y))
-                  (set! cpt (add1 cpt))))))
-          (case cpt
+                  (set! cnt (add1 cnt))))))
+          (case cnt
             ((2))
             ((3)  (array-set! cpy x y #f))
             (else (array-set! cpy x y #t)))))

@@ -76,7 +76,7 @@ main(int argc, char **argv)
 
     /* run brian's brain */
     bool flag = false;
-    unsigned short tmp = 0, cpt;
+    unsigned short tmp = 0, cnt;
 
     for (unsigned n = 0; n < N; n++) {
         printf("P3\n%ld %ld\n255\n", a[1], a[0]);
@@ -87,7 +87,7 @@ main(int argc, char **argv)
 
                 switch (uni[i][j][flag]) {
                     case 0  :
-                        cpt = 0;
+                        cnt = 0;
 
                         for (short u = -1; u <= 1; u++)
                             for (short v = -1; v <= 1; v++)
@@ -96,10 +96,10 @@ main(int argc, char **argv)
                                     WRAP(y, j, v, a[1]);
 
                                     if (uni[x][y][flag] == 2)
-                                        cpt++;
+                                        cnt++;
                                 }
 
-                        tmp = cpt == 2 ? 2 : 0;
+                        tmp = cnt == 2 ? 2 : 0;
 
                         break;
                     case 1  :

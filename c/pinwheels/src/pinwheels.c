@@ -83,7 +83,7 @@ main(int argc, char **argv)
     }
 
     /* run pinwheels */
-    short cpt;
+    short cnt;
     bool flag = false;
 
     for (unsigned n = 0; n < N; n++) {
@@ -93,7 +93,7 @@ main(int argc, char **argv)
             for (j = 0; j < a[1]; j++) {
                 puts(COLORS[uni[i][j][flag] + 1]);
 
-                cpt = 0;
+                cnt = 0;
 
                 for (short u = -1; u <= 1; u++)
                     for (short v = -1; v <= 1; v++)
@@ -101,10 +101,10 @@ main(int argc, char **argv)
                             WRAP(x, i, u, a[0]);
                             WRAP(y, j, v, a[1]);
 
-                            cpt += uni[x][y][flag];
+                            cnt += uni[x][y][flag];
                         }
 
-                uni[i][j][!flag] = RULES[uni[i][j][flag] + 1][cpt + 8];
+                uni[i][j][!flag] = RULES[uni[i][j][flag] + 1][cnt + 8];
             }
 
         flag ^= true;

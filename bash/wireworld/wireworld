@@ -25,7 +25,7 @@ for ((;;)) {
 
     for ((i = 0; i < X; i++)) {
         for ((j = 0; j < Y; j++)) {
-            cpt=0
+            cnt=0
 
             case ${uni[$i $j]} in
                 1) out+='\e[44m \e[m'; cpy[$i $j]=2;;
@@ -40,12 +40,12 @@ for ((;;)) {
                                     y = (Y + j + b) % Y
                                 ))
 
-                                ((uni[$x $y] == 1 && cpt++))
+                                ((uni[$x $y] == 1 && cnt++))
                             }
                         }
                     }
 
-                    ((cpt && cpt < 3)) && cpy[$i $j]=1
+                    ((cnt && cnt < 3)) && cpy[$i $j]=1
                     ;;
                 0) out+='\e[40m \e[m'
             esac

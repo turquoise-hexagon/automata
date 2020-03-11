@@ -27,7 +27,7 @@ for ((;;)) {
         for ((j = 0; j < Y; j++)) {
             ((gol[$i $j])) && out+='# ' || out+='  '
 
-            cpt=0
+            cnt=0
 
             for a in -1 0 1; {
                 for b in -1 0 1; {
@@ -37,12 +37,12 @@ for ((;;)) {
                             y = (Y + j + b) % Y
                         ))
 
-                        ((gol[$x $y] && cpt++))
+                        ((gol[$x $y] && cnt++))
                     }
                 }
             }
 
-            case $cpt in
+            case $cnt in
                 2) ;; # do nothing
                 3) cpy[$i $j]=1;;
                 *) cpy[$i $j]=0

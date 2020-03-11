@@ -36,7 +36,7 @@ for ((;;)) {
                 *) out+='\e[30m  \e[m'
             esac
 
-            cpt=0
+            cnt=0
 
             for a in -1 0 1; {
                 for b in -1 0 1; {
@@ -47,17 +47,17 @@ for ((;;)) {
                         ))
 
                         case ${uni[$x $y]} in
-                            1) ((cpt--));;
-                            2) ((cpt++))
+                            1) ((cnt--));;
+                            2) ((cnt++))
                         esac
                     }
                 }
             }
 
             case ${uni[$i $j]} in
-                1) : ${rule_m:cpt + 8:1};;
-                2) : ${rule_p:cpt + 8:1};;
-                *) : ${rule_d:cpt + 8:1}
+                1) : ${rule_m:cnt + 8:1};;
+                2) : ${rule_p:cnt + 8:1};;
+                *) : ${rule_d:cnt + 8:1}
             esac
 
             case $_ in

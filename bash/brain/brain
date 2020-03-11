@@ -27,7 +27,7 @@ for ((;;)) {
                 0)
                     out+='\e[30m# \e[m'
 
-                    cpt=0
+                    cnt=0
 
                     for a in -1 0 1; {
                         for b in -1 0 1; {
@@ -37,12 +37,12 @@ for ((;;)) {
                                     y = (Y + j + b) % Y
                                 ))
 
-                                ((uni[$x $y] == 2 && cpt++))
+                                ((uni[$x $y] == 2 && cnt++))
                             }
                         }
                     }
 
-                ((cpt == 2)) && cpy[$i $j]=2
+                ((cnt == 2)) && cpy[$i $j]=2
             esac
         }
 

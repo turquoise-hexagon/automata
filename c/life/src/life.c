@@ -69,7 +69,7 @@ main(int argc, char **argv)
     }
 
     /* run the game of life */
-    unsigned short cpt;
+    unsigned short cnt;
     bool flag = false, tmp;
 
     for (unsigned n = 0; n < N; n++) {
@@ -79,7 +79,7 @@ main(int argc, char **argv)
             for (j = 0; j < a[1]; j++) {
                 putchar(gol[i][j][flag] == true ? '1' : '0');
 
-                cpt = 0;
+                cnt = 0;
 
                 for (short u = -1; u <= 1; u++)
                     for (short v = -1; v <= 1; v++)
@@ -88,10 +88,10 @@ main(int argc, char **argv)
                             WRAP(y, j, v, a[1]);
 
                             if (gol[x][y][flag] == true)
-                                cpt++;
+                                cnt++;
                         }
 
-                switch (cpt) {
+                switch (cnt) {
                     case 2  : tmp = gol[i][j][flag]; break;
                     case 3  : tmp = true; break;
                     default : tmp = false;

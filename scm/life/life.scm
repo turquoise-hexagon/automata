@@ -1,5 +1,6 @@
-(import (chicken random)
-        (chicken format))
+(import (chicken bitwise)
+        (chicken format)
+        (chicken random))
 
 (define (gol X Y I N)
   "init vector"
@@ -20,7 +21,7 @@
     (set! flag 0)
     (do ((n 0 (add1 n))) ((= n N))
       (printf "P1\n~a ~a\n" Y X)
-      (set! neg (remainder (add1 flag) 2))
+      (set! neg (bitwise-xor flag 1))
       (do ((x 0 (add1 x))) ((= x X))
         (do ((y 0 (add1 y))) ((= y Y))
           (printf "~a" (if (vector-ref (vector-ref (vector-ref uni x) y) flag)
@@ -43,4 +44,4 @@
           (vector-set! (vector-ref (vector-ref uni x) y) neg tmp)))
       (set! flag neg))))
 
-(gol 200 200 10000 500)
+(gol 150 150 5625 500)

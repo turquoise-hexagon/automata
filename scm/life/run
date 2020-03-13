@@ -6,6 +6,6 @@ type mpv > /dev/null 2>&1 || {
     exit 1
 }
 
-csc -O5 life.scm -o life
+./make.sh
 
 ./life | mpv - -fs -scale=nearest

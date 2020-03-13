@@ -17,7 +17,6 @@ bin=${src%.scm}
     } < \
         <(stat -c '%Y' -- "$src" "$bin")
 
-
     ((a > b)) || exit
 }
 

@@ -2,7 +2,7 @@
         (chicken format))
 
 (define (gol X Y I N)
-  "init arrays"
+  "init vector"
   (let ((uni (make-vector X)))
     (do ((x 0 (add1 x))) ((= x X))
       (vector-set! uni x (make-vector Y))

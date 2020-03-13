@@ -77,7 +77,7 @@ main(int argc, char **argv)
 
         for (i = 0; i < a[0]; i++)
             for (j = 0; j < a[1]; j++) {
-                putchar(gol[i][j][flag] == true ? '1' : '0');
+                putchar(gol[i][j][flag] + '0');
 
                 cnt = 0;
 
@@ -87,8 +87,7 @@ main(int argc, char **argv)
                             WRAP(x, i, u, a[0]);
                             WRAP(y, j, v, a[1]);
 
-                            if (gol[x][y][flag] == true)
-                                cnt++;
+                            cnt += gol[x][y][flag];
                         }
 
                 switch (cnt) {

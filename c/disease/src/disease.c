@@ -107,5 +107,6 @@ main(int argc, char **argv)
         free(uni[i]);
 
     free(uni);
+
     return 0;
 }

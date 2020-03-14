@@ -62,4 +62,5 @@
       (begin
         (format (current-error-port)
                 "usage : ~a [height] [width] [init] [iter]\n"
-                (pathname-file (program-name))))))
+                (pathname-file (program-name)))
+        (exit 1))))

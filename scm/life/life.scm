@@ -1,5 +1,7 @@
 (import (chicken bitwise)
         (chicken format)
+        (chicken pathname)
+        (chicken process-context)
         (chicken random))
 
 (define (gol X Y I N)
@@ -41,4 +43,22 @@
           (vector-set! (vector-ref (vector-ref uni x) y) neg tmp)))
       (set! flag neg))))
 
-(gol 150 150 5625 500)
+(let ((lst (command-line-arguments)))
+  (if (= (length lst) 4)
+      (do ((lst (reverse lst) (cdr lst))
+           (acc (list) (let* ((cur (car lst))
+                              (num (string->number cur)))
+                         (if (or (not num)
+                                 (< num 0))
+                             (begin
+                               (format (current-error-port)
+                                       "error : '~a' isn't a valid parameter\n"
+                                       cur)
+                               (exit 1))
+                             (cons num acc)))))
+        ((null? lst) (apply gol acc)))
+      (begin
+        (format (current-error-port)
+                "usage : ~a [height] [width] [init] [iter]\n"
+                (pathname-file (program-name)))
+        (exit 1))))

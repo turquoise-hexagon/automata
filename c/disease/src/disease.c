@@ -8,8 +8,6 @@
 #define WRAP(v, i, o, d) \
     v = ((long)i + o + d) % d
 
-static const unsigned N = 500;
-
 static const short DIRS[][2] = {
     {-1,  0},
     { 0, -1},
@@ -17,12 +15,18 @@ static const short DIRS[][2] = {
     { 0,  1}
 };
 
+static const char *COLORS[] = {
+    "237 238 240",
+    "113 170 197",
+    "016 032 041"
+};
+
 int
 main(int argc, char **argv)
 {
     /* argument parsing */
-    if (argc != 3) {
-        fprintf(stderr, "usage: %s [height] [width]\n", basename(argv[0]));
+    if (argc != 4) {
+        fprintf(stderr, "usage: %s [height] [width] [iter]\n", basename(argv[0]));
 
         return 1;
     }
@@ -31,7 +35,7 @@ main(int argc, char **argv)
 
     errno = 0;
     char *ptr;
-    long a[2];
+    long a[3];
 
     for (i = 0; i < sizeof(a) / sizeof(long); i++) {
         a[i] = strtol(argv[i + 1], &ptr, 10);
@@ -60,17 +64,17 @@ main(int argc, char **argv)
     unsigned x, y, tmp;
     srand(time(NULL));
 
-    for (unsigned n = 0; n < N; n++) {
-        printf("P1\n%ld %ld\n", a[1], a[0]);
+    for (unsigned n = 0; n < a[2]; n++) {
+        printf("P3\n%ld %ld\n255\n", a[1], a[0]);
 
         for (i = 0; i < a[0]; i++)
             for (j = 0; j < a[1]; j++) {
                 tmp = rand();
 
+                puts(COLORS[uni[i][j]]);
+
                 switch (uni[i][j]) {
                     case 0 :
-                        putchar('0');
-
                         if (tmp % 10 == 0)
                             for (k = 0; k < 4; k++) {
                                 WRAP(x, i, DIRS[k][0], a[0]);
@@ -82,8 +86,6 @@ main(int argc, char **argv)
 
                         break;
                     case 1 :
-                        putchar('0');
-
                         if (tmp % 2  == 0)
                             for (k = 0; k < 4; k++) {
                                 WRAP(x, i, DIRS[k][0], a[0]);
@@ -96,8 +98,6 @@ main(int argc, char **argv)
                         else if (tmp / 20 % 500 == 0) uni[i][j] = 0;
 
                         break;
-                    default :
-                        putchar('1');
                 }
             }
     }

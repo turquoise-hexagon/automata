@@ -15,9 +15,10 @@ _ wattr
 wattr hw "$(lsw -r)" | {
     read -r h w
 
-    ./life         \
-        $((h / 2)) \
-        $((w / 2)) \
-        $((h * w / 8))
+    ./life             \
+        $((h / 2))     \
+        $((w / 2))     \
+        $((h * w / 8)) \
+        500
 } |
     mpv - -fs -scale=nearest

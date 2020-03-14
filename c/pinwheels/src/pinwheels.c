@@ -9,8 +9,6 @@
 #define WRAP(v, i, o, d) \
     v = ((long)i + o + d) %d
 
-static const unsigned N = 500;
-
 static const short RULES[][17] = {
     {-1, -1,  1, -1, -1, -1, 0, 0, 0, 0, 0, 1, -1, -1, -1, 1, 1},
     {-1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 1,  1,  1,  1, 1, 1},
@@ -27,8 +25,8 @@ int
 main(int argc, char **argv)
 {
     /* argument parsing */
-    if (argc != 4) {
-        fprintf(stderr, "usage: %s [height] [width] [init]\n", basename(argv[0]));
+    if (argc != 5) {
+        fprintf(stderr, "usage: %s [height] [width] [init] [iter]\n", basename(argv[0]));
 
         return 1;
     }
@@ -37,7 +35,7 @@ main(int argc, char **argv)
 
     errno = 0;
     char *ptr;
-    long a[3];
+    long a[4];
 
     for (i = 0; i < sizeof(a) / sizeof(long); i++) {
         a[i] = strtol(argv[i + 1], &ptr, 10);
@@ -86,7 +84,7 @@ main(int argc, char **argv)
     short cnt;
     bool flag = false;
 
-    for (unsigned n = 0; n < N; n++) {
+    for (unsigned n = 0; n < a[3]; n++) {
         printf("P3\n%ld %ld\n255\n", a[1], a[0]);
 
         for (i = 0; i < a[0]; i++)

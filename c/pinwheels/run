@@ -15,9 +15,10 @@ _ wattr
 wattr hw "$(lsw -r)" | {
     read -r h w
 
-    ./pinwheels    \
-        $((h / 2)) \
-        $((w / 2)) \
-        $((h * w / 4))
+    ./pinwheels        \
+        $((h / 2))     \
+        $((w / 2))     \
+        $((h * w / 4)) \
+        500
 } |
     mpv - -fs -scale=nearest

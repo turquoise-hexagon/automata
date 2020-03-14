@@ -43,6 +43,7 @@
           (vector-set! (vector-ref (vector-ref uni x) y) neg tmp)))
       (set! flag neg))))
 
+"argument parsing"
 (let ((lst (command-line-arguments)))
   (if (= (length lst) 4)
       (do ((lst (reverse lst) (cdr lst))

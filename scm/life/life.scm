@@ -53,7 +53,7 @@
                                  (< num 0))
                              (begin
                                (format (current-error-port)
-                                       "error : '~a' isn't a valid parameter\n"
+                                       "error : '~a' isn't a valid positive integer\n"
                                        cur)
                                (exit 1))
                              (cons num acc)))))

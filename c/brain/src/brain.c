@@ -35,7 +35,7 @@ main(int argc, char **argv)
         a[i] = strtol(argv[i + 1], &ptr, 10);
 
         if (errno != 0 || *ptr != 0 || a[i] < 0)
-            errx(1, "'%s' isn't a valid parameter", argv[i + 1]);
+            errx(1, "'%s' isn't a valid positive integer", argv[i + 1]);
     }
 
     /* init array */

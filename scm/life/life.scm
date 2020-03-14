@@ -46,20 +46,20 @@
 "argument parsing"
 (let ((lst (command-line-arguments)))
   (if (= (length lst) 4)
-      (do ((lst (reverse lst) (cdr lst))
-           (acc (list) (let* ((cur (car lst))
-                              (num (string->number cur)))
-                         (if (or (not num)
-                                 (< num 0))
-                             (begin
-                               (format (current-error-port)
-                                       "error : '~a' isn't a valid positive integer\n"
-                                       cur)
-                               (exit 1))
-                             (cons num acc)))))
-        ((null? lst) (apply gol acc)))
+      (apply gol
+             (map
+               (lambda (x)
+                 (let ((tmp (string->number x)))
+                   (if (or (not tmp)
+                           (< tmp 0))
+                       (begin
+                         (format (current-error-port)
+                                 "error : '~a' isn't a valid positive integer\n"
+                                 x)
+                         (exit 1))
+                       tmp)))
+               lst))
       (begin
         (format (current-error-port)
                 "usage : ~a [height] [width] [init] [iter]\n"
-                (pathname-file (program-name)))
-        (exit 1))))
+                (pathname-file (program-name))))))

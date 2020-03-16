@@ -34,7 +34,7 @@ for ((n = 0; n < N; ++n)) {
 
     ((uni[$ANT_X $ANT_Y] ^= 1))
 
-    if ((uni[$ANT_X $ANT_Y])); then
+    if ((uni[$ANT_X $ANT_Y] == 0)); then
         ((DIR = (++DIR + 4) % 4))
     else
         ((DIR = (--DIR + 4) % 4))

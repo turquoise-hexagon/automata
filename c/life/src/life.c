@@ -33,21 +33,21 @@ main(int argc, char **argv)
     }
 
     /* init array */
-    bool ***gol = malloc(a[0] * sizeof(bool **));
+    bool ***uni = malloc(a[0] * sizeof(bool **));
 
-    if (gol == NULL)
+    if (uni == NULL)
         errx(1, "program failed to allocate memory");
 
     for (i = 0; i < a[0]; i++) {
-        gol[i] = malloc(a[1] * sizeof(bool *));
+        uni[i] = malloc(a[1] * sizeof(bool *));
 
-        if (gol[i] == NULL)
+        if (uni[i] == NULL)
             errx(1, "program failed to allocate memory");
 
         for (j = 0; j < a[1]; j++) {
-            gol[i][j] = calloc(2, sizeof(bool));
+            uni[i][j] = calloc(2, sizeof(bool));
 
-            if (gol[i][j] == NULL)
+            if (uni[i][j] == NULL)
                 errx(1, "program failed to allocate memory");
         }
     }
@@ -60,10 +60,10 @@ main(int argc, char **argv)
         x = rand() % a[0];
         y = rand() % a[1];
 
-        if (gol[x][y][0] == true)
+        if (uni[x][y][0] == true)
             goto jump;
 
-        gol[x][y][0] = true;
+        uni[x][y][0] = true;
     }
 
     /* run the game of life */
@@ -75,7 +75,7 @@ main(int argc, char **argv)
 
         for (i = 0; i < a[0]; i++)
             for (j = 0; j < a[1]; j++) {
-                putchar(gol[i][j][flag] + '0');
+                putchar(uni[i][j][flag] + '0');
 
                 cnt = 0;
 
@@ -85,16 +85,16 @@ main(int argc, char **argv)
                             WRAP(x, i, u, a[0]);
                             WRAP(y, j, v, a[1]);
 
-                            cnt += gol[x][y][flag];
+                            cnt += uni[x][y][flag];
                         }
 
                 switch (cnt) {
-                    case 2  : tmp = gol[i][j][flag]; break;
+                    case 2  : tmp = uni[i][j][flag]; break;
                     case 3  : tmp = true; break;
                     default : tmp = false;
                 }
 
-                gol[i][j][!flag] = tmp;
+                uni[i][j][!flag] = tmp;
             }
 
         flag ^= true;
@@ -103,12 +103,12 @@ main(int argc, char **argv)
     /* cleanup */
     for (i = 0; i < a[0]; i++) {
         for (j = 0; j < a[1]; j++)
-            free(gol[i][j]);
+            free(uni[i][j]);
 
-        free(gol[i]);
+        free(uni[i]);
     }
 
-    free(gol);
+    free(uni);
 
     return 0;
 }

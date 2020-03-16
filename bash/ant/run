@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# check for mpv
+type mpv > /dev/null 2>&1 || {
+    echo 'error : install mpv first' >&2
+    exit 1
+}
+
+./ant 20 20 500 |
+    mpv - -fs -scale=nearest

@@ -1,8 +1,9 @@
 usage
 -----
     $ cd $automata
-    $ ./$automata
+    $ ./run
 
 depends on
 ----------
     * bash
+    * mpv

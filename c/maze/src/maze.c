@@ -32,7 +32,7 @@ main(void)
 
     list[index].x = X / 2;
     list[index].y = Y / 2;
-    index++;
+    ++index;
 
     srand(time(NULL));
 
@@ -44,8 +44,8 @@ main(void)
     while (index != 0) {
         printf("P1\n%u %u\n", X, Y);
 
-        for (unsigned i = 0; i < X; i++)
-            for (unsigned j = 0; j < Y; j++)
+        for (unsigned i = 0; i < X; ++i)
+            for (unsigned j = 0; j < Y; ++j)
                 putchar(world[i][j] ? '1' : '0');
 
         putchar('\n');
@@ -56,7 +56,7 @@ main(void)
 
         tmp_rand = rand();
 
-        for (unsigned short i = 0; i < 4; i++) {
+        for (unsigned short i = 0; i < 4; ++i) {
             dx = DIRS[(tmp_rand + i) % 4][0];
             dy = DIRS[(tmp_rand + i) % 4][1];
 
@@ -71,16 +71,16 @@ main(void)
                 goto jump;
         }
 
-        index--;
+        --index;
         list[tmp] = list[index];
         continue;
 
         jump:
         list[index].x = nx;
         list[index].y = ny;
-        index++;
+        ++index;
 
-        for (unsigned i = 1; i <= S; i++)
+        for (unsigned i = 1; i <= S; ++i)
             world[x + i * dx][y + i * dy] = true;
     }
 

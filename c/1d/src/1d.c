@@ -34,7 +34,7 @@ main(int argc, char **argv)
     if (strip == NULL)
         errx(1, "program failed to allocate memory");
 
-    for (i = 0; i < length; i++) {
+    for (i = 0; i < length; ++i) {
         strip[i] = malloc(2 * sizeof(bool));
 
         if (strip[i] == NULL)
@@ -43,12 +43,12 @@ main(int argc, char **argv)
 
     bool flag = false;
 
-    for (i = 0; i < length; i++)
+    for (i = 0; i < length; ++i)
         switch (argv[2][i]) {
             case '0' : strip[i][flag] = false; break;
             case '1' : strip[i][flag] = true;  break;
             default  :
-                for (i = 0; i < length; i++)
+                for (i = 0; i < length; ++i)
                     free(strip[i]);
 
                 free(strip);
@@ -61,13 +61,13 @@ main(int argc, char **argv)
     /* run cellular automaton */
     unsigned short tmp;
 
-    for (i = 0; i < length; i++) {
-        for (j = 0; j < length; j++) {
+    for (i = 0; i < length; ++i) {
+        for (j = 0; j < length; ++j) {
             tmp = 0;
 
             putchar(strip[j][flag] == true ? '1' : '0');
 
-            for (short k = -1; k <= 1; k++)
+            for (short k = -1; k <= 1; ++k)
                 tmp = tmp << 1 | strip[(j + k + length) % length][flag];
 
             strip[j][!flag] = 1 & rule >> tmp;
@@ -77,7 +77,7 @@ main(int argc, char **argv)
     }
 
     /* cleanup */
-    for (i = 0; i < length; i++)
+    for (i = 0; i < length; ++i)
         free(strip[i]);
 
     free(strip);

@@ -31,7 +31,7 @@ main(int argc, char **argv)
     char *ptr;
     long a[4];
 
-    for (i = 0; i < sizeof(a) / sizeof(long); i++) {
+    for (i = 0; i < sizeof(a) / sizeof(long); ++i) {
         a[i] = strtol(argv[i + 1], &ptr, 10);
 
         if (errno != 0 || *ptr != 0 || a[i] < 0)
@@ -44,13 +44,13 @@ main(int argc, char **argv)
     if (uni == NULL)
         errx(1, "program failed to allocate memory");
 
-    for (i = 0; i < a[0]; i++) {
+    for (i = 0; i < a[0]; ++i) {
         uni[i] = malloc(a[1] * sizeof(unsigned short *));
 
         if (uni[i] == NULL)
             errx(1, "program failed to allocate memory");
 
-        for (j = 0; j < a[1]; j++) {
+        for (j = 0; j < a[1]; ++j) {
             uni[i][j] = calloc(2, sizeof(unsigned short));
 
             if (uni[i][j] == NULL)
@@ -61,7 +61,7 @@ main(int argc, char **argv)
     unsigned x, y;
     srand(time(NULL));
 
-    for (i = 0; i < a[2]; i++) {
+    for (i = 0; i < a[2]; ++i) {
         jump:
         x = rand() % a[0];
         y = rand() % a[1];
@@ -76,25 +76,25 @@ main(int argc, char **argv)
     bool flag = false;
     unsigned short tmp = 0, cnt;
 
-    for (unsigned n = 0; n < a[3]; n++) {
+    for (unsigned n = 0; n < a[3]; ++n) {
         printf("P3\n%ld %ld\n255\n", a[1], a[0]);
 
-        for (i = 0; i < a[0]; i++)
-            for (j = 0; j < a[1]; j++) {
+        for (i = 0; i < a[0]; ++i)
+            for (j = 0; j < a[1]; ++j) {
                 puts(COLORS[uni[i][j][flag]]);
 
                 switch (uni[i][j][flag]) {
                     case 0  :
                         cnt = 0;
 
-                        for (short u = -1; u <= 1; u++)
-                            for (short v = -1; v <= 1; v++)
+                        for (short u = -1; u <= 1; ++u)
+                            for (short v = -1; v <= 1; ++v)
                                 if (u != 0 || v != 0) {
                                     WRAP(x, i, u, a[0]);
                                     WRAP(y, j, v, a[1]);
 
                                     if (uni[x][y][flag] == 2)
-                                        cnt++;
+                                        ++cnt;
                                 }
 
                         tmp = cnt == 2 ? 2 : 0;
@@ -115,8 +115,8 @@ main(int argc, char **argv)
     }
 
     /* cleanup */
-    for (i = 0; i < a[0]; i++) {
-        for (j = 0; j < a[1]; j++)
+    for (i = 0; i < a[0]; ++i) {
+        for (j = 0; j < a[1]; ++j)
             free(uni[i][j]);
 
         free(uni[i]);

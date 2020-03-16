@@ -37,7 +37,7 @@ main(int argc, char **argv)
     char *ptr;
     long a[3];
 
-    for (i = 0; i < sizeof(a) / sizeof(long); i++) {
+    for (i = 0; i < sizeof(a) / sizeof(long); ++i) {
         a[i] = strtol(argv[i + 1], &ptr, 10);
 
         if (errno != 0 || *ptr != 0 || a[i] < 0)
@@ -50,7 +50,7 @@ main(int argc, char **argv)
     if (uni == NULL)
         errx(1, "program failed to allocate memory");
 
-    for (i = 0; i < a[0]; i++) {
+    for (i = 0; i < a[0]; ++i) {
         uni[i] = calloc(a[1], sizeof(unsigned short));
 
         if (uni[i] == NULL)
@@ -64,11 +64,11 @@ main(int argc, char **argv)
     unsigned x, y, tmp;
     srand(time(NULL));
 
-    for (unsigned n = 0; n < a[2]; n++) {
+    for (unsigned n = 0; n < a[2]; ++n) {
         printf("P3\n%ld %ld\n255\n", a[1], a[0]);
 
-        for (i = 0; i < a[0]; i++)
-            for (j = 0; j < a[1]; j++) {
+        for (i = 0; i < a[0]; ++i)
+            for (j = 0; j < a[1]; ++j) {
                 tmp = rand();
 
                 puts(COLORS[uni[i][j]]);
@@ -76,7 +76,7 @@ main(int argc, char **argv)
                 switch (uni[i][j]) {
                     case 0 :
                         if (tmp % 10 == 0)
-                            for (k = 0; k < 4; k++) {
+                            for (k = 0; k < 4; ++k) {
                                 WRAP(x, i, DIRS[k][0], a[0]);
                                 WRAP(y, j, DIRS[k][1], a[1]);
 
@@ -87,7 +87,7 @@ main(int argc, char **argv)
                         break;
                     case 1 :
                         if (tmp % 2  == 0)
-                            for (k = 0; k < 4; k++) {
+                            for (k = 0; k < 4; ++k) {
                                 WRAP(x, i, DIRS[k][0], a[0]);
                                 WRAP(y, j, DIRS[k][1], a[1]);
 
@@ -103,7 +103,7 @@ main(int argc, char **argv)
     }
 
     /* cleanup */
-    for (i = 0; i < a[0]; i++)
+    for (i = 0; i < a[0]; ++i)
         free(uni[i]);
 
     free(uni);

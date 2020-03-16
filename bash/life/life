@@ -2,59 +2,66 @@
 #
 # life - game of life implementation
 
-X=20
-Y=20
-I=150
+helper() {
+    declare -n var="$1"
 
-declare -A gol cpy
-
-for ((; i++ < I;)) {
-    ((
-        x = RANDOM % X,
-        y = RANDOM % Y,
-
-        gol[$x $y] = 1
-    ))
+    ((var = $2)) &> /dev/null && ((var > 0)) || {
+        echo "usage : ${0##*/} [height] [width] [init] [iter]\n" >&2
+        exit 1
+    }
 }
 
-printf '\e[2J\e[?25l'
-trap $'printf \e[?25h' EXIT
+helper X "$1"
+helper Y "$2"
+helper I "$3"
+helper N "$4"
 
-for ((;;)) {
-    out='\e[H'
+declare -A uni
 
-    for ((i = 0; i < X; i++)) {
-        for ((j = 0; j < Y; j++)) {
-            ((gol[$i $j])) && out+='# ' || out+='  '
+((t = 0))
 
-            cnt=0
+for ((i = 0; i < I; ++i)) {
+    ((
+        x = RANDOM % X,
+        y = RANDOM % Y
+    ))
 
-            for a in -1 0 1; {
-                for b in -1 0 1; {
-                    ((a || b)) && {
+    ((uni[$x $y $t] = 1))
+}
+
+for ((n = 0; n < N; ++n)) {
+    out="P1\n$X $Y\n"
+
+    for ((i = 0; i < X; ++i)) {
+        for ((j = 0; j < Y; ++j)) {
+            out+=$((uni[$i $j $t]))
+
+            ((cnt = 0))
+
+            for u in -1 0 1; {
+                for v in -1 0 1; {
+                    ((u != 0 || v != 0)) && {
                         ((
-                            x = (X + i + a) % X,
-                            y = (Y + j + b) % Y
+                            x = (i + u + X) % X,
+                            y = (j + v + Y) % Y
                         ))
 
-                        ((gol[$x $y] && cnt++))
+                        ((uni[$x $y $t] == 1 && ++cnt))
                     }
                 }
             }
 
             case $cnt in
-                2) ;; # do nothing
-                3) cpy[$i $j]=1;;
-                *) cpy[$i $j]=0
+                2) ((tmp = uni[$i $j $t]));;
+                3) ((tmp = 1));;
+                *) ((tmp = 0));;
             esac
-        }
 
-        out+='\n'
+            ((uni[$i $j $((!t))] = tmp))
+        }
     }
 
-    printf '%b' "$out"
+    printf '%b\n' "$out"
 
-    for i in "${!cpy[@]}"; do
-        gol[$i]=${cpy[$i]}
-    done
+    ((t ^= 1))
 }

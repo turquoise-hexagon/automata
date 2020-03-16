@@ -2,58 +2,50 @@
 #
 # ant - langton's ant implementation
 
-X=40
-Y=40
+helper() {
+    declare -n var="$1"
 
-display() {
-    out='\e[H'
-
-    for ((i = 0; i < X; i++)) {
-        for ((j = 0; j < Y; j++)) {
-            if ((i == ant[0] && j == ant[1])); then
-                out+='\e[31m# \e[m'
-            else
-                ((world[$i $j])) && out+='. ' || out+='  '
-            fi
-        }
-
-        out+='\n'
+    ((var = $2)) &> /dev/null && ((var > 0)) || {
+        echo "usage : ${0##*/} [height] [width] [iter]\n" >&2
+        exit 1
     }
-
-    printf '%b' "$out"
 }
 
-update() {
-    ((
-        ant[2] = world[${ant[0]} ${ant[1]}] ? (ant[2] + 1) % 4 : (ant[2] < 1 ? 4 : ant[2]) - 1,
-        world[${ant[0]} ${ant[1]}] ^= 1
-    ))
-
-    case ${ant[2]} in
-        0) ((ant[0]--));;
-        1) ((ant[1]++));;
-        2) ((ant[0]++));;
-        3) ((ant[1]--))
-    esac
-
-    ((
-        ant[0] = ant[0] < 0 ? X - 1 : ant[0] % X,
-        ant[1] = ant[1] < 0 ? Y - 1 : ant[1] % Y
-    ))
-}
-
-declare -A world
+helper X "$1"
+helper Y "$2"
+helper N "$3"
 
 ((
-    ant[0] = RANDOM % X,
-    ant[1] = RANDOM % Y,
-    ant[2] = RANDOM % 4
+    ANT_X = X / 2,
+    ANT_Y = Y / 2,
+    DIR = 0
 ))
 
-printf '\e[2J\e[?25l'
-trap $'printf \e[?25h' EXIT
+declare -A uni
 
-for ((;;)) {
-    display
-    update
+for ((n = 0; n < N; ++n)) {
+    out="P1\n$Y $X\n"
+
+    for ((i = 0; i < X; ++i)) {
+        for ((j = 0; j < Y; ++j)) {
+            out+=$((uni[$i $j]))
+        }
+    }
+
+    ((uni[$ANT_X $ANT_Y] ^= 1))
+
+    if ((uni[$ANT_X $ANT_Y])); then
+        ((DIR = (++DIR + 4) % 4))
+    else
+        ((DIR = (--DIR + 4) % 4))
+    fi
+
+    case $DIR in
+        0) ((ANT_X = (--ANT_X + X) % X));;
+        1) ((ANT_Y = (++ANT_Y + Y) % Y));;
+        2) ((ANT_X = (++ANT_X + X) % X));;
+        3) ((ANT_Y = (--ANT_Y + Y) % Y))
+    esac
+
+    printf '%b\n' "$out"
 }

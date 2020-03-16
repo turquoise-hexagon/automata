@@ -2,77 +2,84 @@
 #
 # pinwheel - pinwheel implementation
 
-X=30
-Y=30
-I=300
+helper() {
+    declare -n var="$1"
 
-# rules
-rule_m='--+---00000+---++'
-rule_d='------00000++++++'
-rule_p='--+++-00000+++-++'
-
-declare -A uni cpy
-
-for((; i < I; i++)) {
-    ((
-        x = RANDOM % X,
-        y = RANDOM % Y,
-
-        uni[$x $y] = (RANDOM % 2) + 1
-    ))
+    ((var = $2)) &> /dev/null && ((var > 0)) || {
+        echo "usage : ${0##*/} [height] [width] [init] [iter]\n" >&2
+        exit 1
+    }
 }
 
-printf '\e[2J\e[?25l'
-trap $'printf \e[?25h' EXIT
+RULES=(
+    '--+---00000+---++'
+    '------00000++++++'
+    '--+++-00000+++-++'
+)
 
-for ((;;)) {
-    out='\e[H'
+COLORS=(
+    '016 032 041'
+    '113 170 197'
+    '237 238 240'
+)
 
-    for ((i = 0; i < X; i++)) {
-        for ((j = 0; j < Y; j++)) {
-            case ${uni[$i $j]} in
-                1) out+='\e[31m- \e[m';;
-                2) out+='\e[32m+ \e[m';;
-                *) out+='\e[30m  \e[m'
-            esac
+helper X "$1"
+helper Y "$2"
+helper I "$3"
+helper N "$4"
 
-            cnt=0
+declare -A uni
 
-            for a in -1 0 1; {
-                for b in -1 0 1; {
-                    ((a || b)) && {
+((t = 0))
+
+for ((i = 0; i < I; ++i)) {
+    ((
+        x = RANDOM % X,
+        y = RANDOM % Y
+    ))
+
+    ((uni[$x $y $t] = RANDOM % 2 == 0 ? -1 : 1))
+}
+
+declare -A rules
+
+for i in "${!RULES[@]}"; {
+    for ((j = 0; j < ${#RULES[i]}; ++j)) {
+        case ${RULES[i]:j:1} in
+            +) ((rules[$i $j] =  1));;
+            -) ((rules[$i $j] = -1));;
+            0) ((rules[$i $j] =  0));;
+        esac
+    }
+}
+
+for ((n = 0; n < N; ++n)) {
+    out="P3\n$Y $X\n255\n"
+
+    for ((i = 0; i < X; ++i)) {
+        for ((j = 0; j < Y; ++j)) {
+            out+="${COLORS[uni[$i $j $t]]}\n"
+
+            ((cnt = 0))
+
+            for u in -1 0 1; {
+                for v in -1 0 1; {
+                    ((u != 0 || v != 0)) && {
                         ((
-                            x = (X + i + a) % X,
-                            y = (Y + j + b) % Y
+                            x = (i + u + X) % X,
+                            y = (j + v + Y) % Y
                         ))
 
-                        case ${uni[$x $y]} in
-                            1) ((cnt--));;
-                            2) ((cnt++))
-                        esac
+                        ((cnt += uni[$x $y $t]))
                     }
                 }
             }
 
-            case ${uni[$i $j]} in
-                1) : ${rule_m:cnt + 8:1};;
-                2) : ${rule_p:cnt + 8:1};;
-                *) : ${rule_d:cnt + 8:1}
-            esac
-
-            case $_ in
-                -) cpy[$i $j]=1;;
-                +) cpy[$i $j]=2;;
-                0) cpy[$i $j]=0
-            esac
+            ((uni[$i $j $((!t))] = rules[$((uni[$i $j $t] + 1)) $((cnt + 8))]))
         }
-
-        out+='\n'
     }
 
-    printf '%b' "$out"
+    ((t ^= 1))
 
-    for i in "${!cpy[@]}"; {
-        uni[$i]=${cpy[$i]}
-    }
+    printf '%b\n' "$out"
 }

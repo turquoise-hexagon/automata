@@ -2,63 +2,72 @@
 #
 # wireworld - wireworld implementation
 
-mapfile -t input
+die() {
+    echo "usage : ${0##*/} [file] [iter]" >&2
+    exit 1
+}
 
-declare -A uni cpy
+((N = $2)) &> /dev/null && ((N > 0)) || die
 
-X=${#input[@]}
-Y=${#input[0]}
+{ mapfile -t input < "$1"; } 2> /dev/null || die
 
-for ((i = 0; i < X; i++)) {
-    for ((j = 0; j < Y; j++)) {
-        uni[$i $j]=${input[i]:j:1}
+COLORS=(
+    '016 032 041'
+    '113 170 197'
+    '201 100 126'
+    '237 238 240'
+)
+
+declare -A uni
+
+((
+    X = ${#input[@]},
+    Y = ${#input[0]}
+))
+
+((t = 0))
+
+for ((i = 0; i < X; ++i)) {
+    for ((j = 0; j < Y; ++j)) {
+        ((uni[$i $j $t] = ${input[i]:j:1}))
     }
 }
 
-enable -f /usr/lib/bash/sleep sleep
+for ((n = 0; n < N; ++n)) {
+    out="P3\n$Y $X\n255\n"
 
-printf '\e[2J\e[?25l'
-trap $'printf \e[?25h' EXIT
+    for ((i = 0; i < X; ++i)) {
+        for ((j = 0; j < Y; ++j)) {
+            out+="${COLORS[uni[$i $j $t]]}\n"
 
-for ((;;)) {
-    out='\e[H'
+            case $((uni[$i $j $t])) in
+                0) ((tmp = 0));;
+                1) ((tmp = 2));;
+                2) ((tmp = 3));;
+                3)
+                    ((cnt = 0))
 
-    for ((i = 0; i < X; i++)) {
-        for ((j = 0; j < Y; j++)) {
-            cnt=0
-
-            case ${uni[$i $j]} in
-                1) out+='\e[44m \e[m'; cpy[$i $j]=2;;
-                2) out+='\e[41m \e[m'; cpy[$i $j]=3;;
-                3) out+='\e[43m \e[m'
-
-                    for a in -1 0 1; {
-                        for b in -1 0 1; {
-                            ((a || b)) && {
+                    for u in -1 0 1; {
+                        for v in -1 0 1; {
+                            ((u != 0 || v != 0)) && {
                                 ((
-                                    x = (X + i + a) % X,
-                                    y = (Y + j + b) % Y
+                                    x = (i + u + X) % X,
+                                    y = (j + v + Y) % Y
                                 ))
 
-                                ((uni[$x $y] == 1 && cnt++))
+                                ((uni[$x $y $t] == 1 && ++cnt))
                             }
                         }
-                    }
+                }
 
-                    ((cnt && cnt < 3)) && cpy[$i $j]=1
-                    ;;
-                0) out+='\e[40m \e[m'
+                ((tmp = (cnt == 1 || cnt == 2) ? 1 : 3))
             esac
+
+            ((uni[$i $j $((!t))] = tmp))
         }
-
-        out+='\n'
     }
 
-    printf '%b' "$out"
+    ((t ^= 1))
 
-    for i in "${!cpy[@]}"; {
-        uni[$i]=${cpy[$i]}
-    }
-
-    sleep .2
+    printf '%b\n' "$out"
 }

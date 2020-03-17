@@ -60,7 +60,7 @@ main(int argc, char **argv)
     uni[a[0] / 2][a[1] / 2] = 1;
 
     /* run disease */
-    short k;
+    unsigned short k;
     unsigned x, y, tmp;
     srand(time(NULL));
 

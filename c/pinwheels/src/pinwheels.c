@@ -45,19 +45,19 @@ main(int argc, char **argv)
     }
 
     /* init array */
-    short ***uni = malloc(a[0] * sizeof(short **));
+    short ***uni = malloc(a[0] * sizeof *uni);
 
     if (uni == NULL)
         errx(1, "program failed to allocate memory");
 
     for (i = 0; i < a[0]; ++i) {
-        uni[i] = malloc(a[1] * sizeof(short *));
+        uni[i] = malloc(a[1] * sizeof *uni[i]);
 
         if (uni[i] == NULL)
             errx(1, "program failed to allocate memory");
 
         for (j = 0; j < a[1]; ++j) {
-            uni[i][j] = calloc(2, sizeof(short));
+            uni[i][j] = calloc(2, sizeof *uni[i][j]);
 
             if (uni[i][j] == NULL)
                 errx(1, "program failed to allocate memory");

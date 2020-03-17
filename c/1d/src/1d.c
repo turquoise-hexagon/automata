@@ -29,13 +29,13 @@ main(int argc, char **argv)
     size_t length = strlen(argv[2]);
 
     /* init arrays */
-    bool **strip = malloc(length * sizeof(bool *));
+    bool **strip = malloc(length * sizeof *strip);
 
     if (strip == NULL)
         errx(1, "program failed to allocate memory");
 
     for (i = 0; i < length; ++i) {
-        strip[i] = malloc(2 * sizeof(bool));
+        strip[i] = malloc(2 * sizeof *strip[i]);
 
         if (strip[i] == NULL)
             errx(1, "program failed to allocate memory");

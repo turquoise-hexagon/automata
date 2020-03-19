@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 int
 main(int argc, char **argv)
@@ -26,7 +27,7 @@ main(int argc, char **argv)
     if (errno != 0 || *ptr != 0 || rule < 0 || rule > 255)
         errx(1, "'%s' isn't a valid rule", argv[1]);
 
-    const size_t length = strlen(argv[2]);
+    const size_t length = strnlen(argv[2], LINE_MAX);
 
     /* init arrays */
     bool **strip = malloc(length * sizeof *strip);

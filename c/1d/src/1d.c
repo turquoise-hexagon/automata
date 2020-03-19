@@ -21,12 +21,12 @@ main(int argc, char **argv)
     errno = 0;
     char *ptr;
 
-    long rule = strtol(argv[1], &ptr, 10);
+    const long rule = strtol(argv[1], &ptr, 10);
 
     if (errno != 0 || *ptr != 0 || rule < 0 || rule > 255)
         errx(1, "'%s' isn't a valid rule", argv[1]);
 
-    size_t length = strlen(argv[2]);
+    const size_t length = strlen(argv[2]);
 
     /* init arrays */
     bool **strip = malloc(length * sizeof *strip);

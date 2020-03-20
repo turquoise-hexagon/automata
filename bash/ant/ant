@@ -32,11 +32,7 @@ for ((n = 0; n < N; ++n)) {
         }
     }
 
-    if (((uni[$ANT_X $ANT_Y] ^= 1) == 0)); then
-        ((DIR = (++DIR + 4) % 4))
-    else
-        ((DIR = (--DIR + 4) % 4))
-    fi
+    ((DIR = (DIR + ((uni[$ANT_X $ANT_Y] ^=1 ) == 0 ? 1 : -1) + 4) % 4))
 
     case $DIR in
         0) ((ANT_X = (--ANT_X + X) % X));;

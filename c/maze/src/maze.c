@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-static const short DIRS[4][2] = {
+static const short DIRS[][2] = {
     {-1,  0},
     { 0, -1},
     { 1,  0},

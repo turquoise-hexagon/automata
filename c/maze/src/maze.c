@@ -1,11 +1,10 @@
+#include <err.h>
+#include <errno.h>
+#include <libgen.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-#define X 99
-#define Y X
-#define S 2
 
 static const short DIRS[4][2] = {
     {-1,  0},
@@ -20,69 +19,107 @@ struct item {
 };
 
 int
-main(void)
+main(int argc, char **argv)
 {
-    /* init arrays */
-    static bool world[X][Y];
+    /* argument parsing */
+    if (argc != 4) {
+        fprintf(stderr, "usage : %s [height] [width] [spacing]\n", basename(argv[0]));
 
-    world[X / 2][Y / 2] = true;
+        return 1;
+    }
+
+    unsigned i, j;
+
+    errno = 0;
+    char *ptr;
+    long a[3];
+
+    for (i = 0; i < sizeof(a) / sizeof(long); ++i) {
+        a[i] = strtol(argv[i + 1], &ptr, 10);
+
+        if (errno != 0 || *ptr != 0 || a[i] < 0)
+            errx(1, "'%s' isn't a valid positive integer", argv[i + 1]);
+    }
+
+    /* init arrays */
+    bool **uni = malloc(a[0] * sizeof *uni);
+
+    if (uni == NULL)
+        errx(1, "program failed to allocate memory");
+
+    for (i = 0; i < a[0]; ++i) {
+        uni[i] = calloc(a[1], sizeof *uni[i]);
+
+        if (uni[i] == NULL)
+            errx(1, "program failed to allocate memory");
+    }
+
+    uni[a[0] / 2][a[1] / 2] = true;
+
+    struct item *list = malloc(a[0] * a[1] / a[2] / a[2] * sizeof *list);
+
+    if (list == NULL)
+        errx(1, "program failed to allocate memory");
 
     unsigned index = 0;
-    static struct item list[X * Y / S / S];
 
-    list[index].x = X / 2;
-    list[index].y = Y / 2;
+    list[index].x = a[0] / 2;
+    list[index].y = a[1] / 2;
     ++index;
 
+    /* run maze */
+    unsigned x, y;
+    long new_x, new_y;
+    short dir_x, dir_y;
+    unsigned rand_index, tmp;
     srand(time(NULL));
 
-    /* run maze */
-    long nx, ny;
-    short dx, dy;
-    unsigned x, y, tmp, tmp_rand;
-
     while (index != 0) {
-        printf("P1\n%u %u\n", X, Y);
+        printf("P1\n%ld %ld\n", a[1], a[0]);
 
-        for (unsigned i = 0; i < X; ++i)
-            for (unsigned j = 0; j < Y; ++j)
-                putchar(world[i][j] ? '1' : '0');
+        for (i = 0; i < a[0]; ++i)
+            for (j = 0; j < a[1]; ++j)
+                putchar(uni[i][j] + '0');
 
-        putchar('\n');
+        tmp = rand();
 
-        tmp = rand() % index;
-        x = list[tmp].x;
-        y = list[tmp].y;
+        rand_index = tmp % index;
+        x = list[rand_index].x;
+        y = list[rand_index].y;
 
-        tmp_rand = rand();
+        for (i = 0; i < 4; ++i) {
+            dir_x = DIRS[(tmp + i) % 4][0];
+            dir_y = DIRS[(tmp + i) % 4][1];
 
-        for (unsigned short i = 0; i < 4; ++i) {
-            dx = DIRS[(tmp_rand + i) % 4][0];
-            dy = DIRS[(tmp_rand + i) % 4][1];
-
-            nx = x + S * dx;
-            ny = y + S * dy;
+            new_x = x + a[2] * dir_x;
+            new_y = y + a[2] * dir_y;
 
             if (
-                    nx >= 0 && nx < X &&
-                    ny >= 0 && ny < Y &&
-                    world[nx][ny] == false
+                    new_x >= 0 && new_x < a[0] &&
+                    new_y >= 0 && new_y < a[1] &&
+                    uni[new_x][new_y] == false
                )
                 goto jump;
         }
 
-        --index;
-        list[tmp] = list[index];
+        list[rand_index] = list[--index];
         continue;
 
         jump:
-        list[index].x = nx;
-        list[index].y = ny;
+        list[index].x = new_x;
+        list[index].y = new_y;
         ++index;
 
-        for (unsigned i = 1; i <= S; ++i)
-            world[x + i * dx][y + i * dy] = true;
+        for (i = 1; i <= a[2]; ++i)
+            uni[x + i * dir_x][y + i * dir_y] = true;
     }
+
+    /* cleanup */
+    for (i = 0; i < a[0]; ++i)
+        free(uni[i]);
+
+    free(list);
+    free(uni);
 
     return 0;
 }

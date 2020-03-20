@@ -60,7 +60,7 @@ main(int argc, char **argv)
             for (j = 0; j < a[1]; ++j)
                 putchar(uni[i][j] + '0');
 
-        dir = (uni[ant_x][ant_y] ^= 1)
+        dir = (uni[ant_x][ant_y] ^= 1) == 1
             ? ((short)dir - 1 + 4) % 4
             : ((short)dir + 1 + 4) % 4;
 

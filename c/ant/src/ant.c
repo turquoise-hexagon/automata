@@ -60,11 +60,9 @@ main(int argc, char **argv)
             for (j = 0; j < a[1]; ++j)
                 putchar(uni[i][j] + '0');
 
-        uni[ant_x][ant_y] ^= 1;
-
-        dir = uni[ant_x][ant_y] == 0
-            ? ((short)dir + 1 + 4) % 4
-            : ((short)dir - 1 + 4) % 4;
+        dir = (uni[ant_x][ant_y] ^= 1)
+            ? ((short)dir - 1 + 4) % 4
+            : ((short)dir + 1 + 4) % 4;
 
         ant_x = ((long)ant_x + DIRS[dir][0] + a[0]) % a[0];
         ant_y = ((long)ant_y + DIRS[dir][1] + a[1]) % a[1];

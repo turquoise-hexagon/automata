@@ -8,4 +8,4 @@ type mpv > /dev/null 2>&1 || {
 
 ./make.sh
 
-./ant 500 500 15000 | mpv - -fs -scale=nearest --speed 10
+./ant 500 500 15000 | mpv - -fs -scale=nearest --speed=10

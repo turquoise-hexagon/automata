@@ -37,4 +37,3 @@ argstous(int argc, char **argv)
 
     return array;
 }
-

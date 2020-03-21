@@ -29,7 +29,7 @@ main(int argc, char **argv)
 
     /* init array */
     short ***uni = malloc(args[0] * sizeof *uni);
-    
+
     if (uni == NULL)
         errx(1, "program failed to allocate memory");
 

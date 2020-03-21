@@ -72,7 +72,7 @@ main(int argc, char **argv)
     /* cleanup */
     for (size_t i = 0; i < length; ++i)
         free(uni[i]);
-    
+
     free(uni);
 
     return 0;

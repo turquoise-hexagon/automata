@@ -1,87 +1,79 @@
 #include <err.h>
 #include <errno.h>
-#include <libgen.h>
+#include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
+
+#include "utils.h"
 
 int
 main(int argc, char **argv)
 {
     /* argument parsing */
-    if (argc != 3) {
-        fprintf(stderr, "usage: %s [rule] [strip]\n", basename(argv[0]));
-
-        return 1;
-    }
-
-    size_t i, j;
+    if (argc != 3)
+        usage("[rule] [init]", argv[0]);
 
     errno = 0;
-    char *ptr;
+    long tmp;
+    char* ptr;
 
-    const long rule = strtol(argv[1], &ptr, 10);
+    tmp = strtol(argv[1], &ptr, 10);
 
-    if (errno != 0 || *ptr != 0 || rule < 0 || rule > 255)
+    if (errno != 0 || *ptr != 0 || tmp < 0 || tmp > 255)
         errx(1, "'%s' isn't a valid rule", argv[1]);
+
+    const unsigned rule = (unsigned)tmp;
 
     const size_t length = strnlen(argv[2], LINE_MAX);
 
-    /* init arrays */
-    bool **strip = malloc(length * sizeof *strip);
+    /* init array */
+    bool **uni = malloc(length * sizeof *uni);
 
-    if (strip == NULL)
+    if (uni == NULL)
         errx(1, "program failed to allocate memory");
 
-    for (i = 0; i < length; ++i) {
-        strip[i] = malloc(2 * sizeof *strip[i]);
+    bool flag = 0;
 
-        if (strip[i] == NULL)
+    for (size_t i = 0; i < length; ++i) {
+        uni[i] = malloc(2 * sizeof *uni[i]);
+
+        if (uni[i] == NULL)
             errx(1, "program failed to allocate memory");
+
+        switch (argv[2][i]) {
+            case '0' : uni[i][flag] = 0; break;
+            case '1' : uni[i][flag] = 1; break;
+            default  : errx(1, "'%c' invalid value found in strip", argv[2][i]);
+        }
     }
 
-    bool flag = false;
-
-    for (i = 0; i < length; ++i)
-        switch (argv[2][i]) {
-            case '0' : strip[i][flag] = false; break;
-            case '1' : strip[i][flag] = true;  break;
-            default  :
-                for (i = 0; i < length; ++i)
-                    free(strip[i]);
-
-                free(strip);
-
-                errx(1, "'%s' isn't a valid strip", argv[2]);
-        }
-
+    /* run cellular automaton */
     printf("P1\n%lu %lu\n", length, length);
 
-    /* run cellular automaton */
-    unsigned short tmp;
+    unsigned short cnt;
 
-    for (i = 0; i < length; ++i) {
-        for (j = 0; j < length; ++j) {
-            tmp = 0;
+    for (size_t i = 0; i < length; ++i) {
+        for (size_t j = 0; j < length; ++j) {
+            putchar(uni[j][flag] + '0');
 
-            putchar(strip[j][flag] == true ? '1' : '0');
+            cnt = 0;
 
-            for (short k = -1; k <= 1; ++k)
-                tmp = tmp << 1 | strip[(j + k + length) % length][flag];
+            for (short k = -1; k < 2; ++k)
+                cnt = cnt << 1 | uni[((long)j + k + length) % length][flag];
 
-            strip[j][!flag] = 1 & rule >> tmp;
+            uni[j][!flag] = 1 & rule >> cnt;
         }
 
-        flag ^= true;
+        flag ^= 1;
     }
 
     /* cleanup */
-    for (i = 0; i < length; ++i)
-        free(strip[i]);
-
-    free(strip);
+    for (size_t i = 0; i < length; ++i)
+        free(uni[i]);
+    
+    free(uni);
 
     return 0;
 }

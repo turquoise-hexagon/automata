@@ -1,10 +1,10 @@
 #include <err.h>
-#include <errno.h>
-#include <libgen.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+#include "utils.h"
 
 static const short DIRS[][2] = {
     {-1,  0},
@@ -22,49 +22,40 @@ int
 main(int argc, char **argv)
 {
     /* argument parsing */
-    if (argc != 4) {
-        fprintf(stderr, "usage : %s [height] [width] [spacing]\n", basename(argv[0]));
+    if (argc != 4)
+        usage("[height] [width] [spacing]", argv[0]);
 
-        return 1;
-    }
+    unsigned *args = argstous(argc, argv);
 
-    unsigned i, j;
-
-    errno = 0;
-    char *ptr;
-    long a[3];
-
-    for (i = 0; i < sizeof(a) / sizeof(long); ++i) {
-        a[i] = strtol(argv[i + 1], &ptr, 10);
-
-        if (errno != 0 || *ptr != 0 || a[i] < 0)
-            errx(1, "'%s' isn't a valid positive integer", argv[i + 1]);
-    }
-
-    /* init arrays */
-    bool **uni = malloc(a[0] * sizeof *uni);
+    /* init array */
+    bool **uni = malloc(args[0] * sizeof *uni);
 
     if (uni == NULL)
         errx(1, "program failed to allocate memory");
 
-    for (i = 0; i < a[0]; ++i) {
-        uni[i] = calloc(a[1], sizeof *uni[i]);
+    for (unsigned i = 0; i < args[0]; ++i) {
+        uni[i] = calloc(args[1], sizeof *uni[i]);
 
         if (uni[i] == NULL)
             errx(1, "program failed to allocate memory");
     }
 
-    uni[a[0] / 2][a[1] / 2] = true;
+    uni[args[0] / 2][args[1] / 2] = 1;
 
-    struct item *list = malloc(a[0] * a[1] / a[2] / a[2] * sizeof *list);
+    struct item *list = malloc(
+        args[0] *
+        args[1] /
+        args[2] /
+        args[2] *
+        sizeof *list
+    );
 
     if (list == NULL)
         errx(1, "program failed to allocate memory");
 
     unsigned index = 0;
-
-    list[index].x = a[0] / 2;
-    list[index].y = a[1] / 2;
+    list[index].x = args[0] / 2;
+    list[index].y = args[1] / 2;
     ++index;
 
     /* run maze */
@@ -74,11 +65,11 @@ main(int argc, char **argv)
     unsigned rand_index, tmp;
     srand(time(NULL));
 
-    while (index != 0) {
-        printf("P1\n%ld %ld\n", a[1], a[0]);
+    for (; index != 0;) {
+        printf("P1\n%u %u\n", args[1], args[0]);
 
-        for (i = 0; i < a[0]; ++i)
-            for (j = 0; j < a[1]; ++j)
+        for (unsigned i = 0; i < args[0]; ++i)
+            for (unsigned j = 0; j < args[1]; ++j)
                 putchar(uni[i][j] + '0');
 
         tmp = rand();
@@ -87,17 +78,17 @@ main(int argc, char **argv)
         x = list[rand_index].x;
         y = list[rand_index].y;
 
-        for (i = 0; i < 4; ++i) {
+        for (unsigned short i = 0; i < 4; ++i) {
             dir_x = DIRS[(tmp + i) % 4][0];
             dir_y = DIRS[(tmp + i) % 4][1];
 
-            new_x = x + a[2] * dir_x;
-            new_y = y + a[2] * dir_y;
+            new_x = x + args[2] * dir_x;
+            new_y = y + args[2] * dir_y;
 
             if (
-                    new_x >= 0 && new_x < a[0] &&
-                    new_y >= 0 && new_y < a[1] &&
-                    uni[new_x][new_y] == false
+                    new_x >= 0 && new_x < args[0] &&
+                    new_y >= 0 && new_y < args[1] &&
+                    uni[new_x][new_y] == 0
                )
                 goto jump;
         }
@@ -110,15 +101,16 @@ main(int argc, char **argv)
         list[index].y = new_y;
         ++index;
 
-        for (i = 1; i <= a[2]; ++i)
-            uni[x + i * dir_x][y + i * dir_y] = true;
+        for (unsigned short i = 1; i <= args[2]; ++i)
+            uni[x + i * dir_x][y + i * dir_y] = 1;
     }
 
     /* cleanup */
-    for (i = 0; i < a[0]; ++i)
+    for (unsigned i = 0; i < args[0]; ++i)
         free(uni[i]);
 
     free(list);
+    free(args);
     free(uni);
 
     return 0;

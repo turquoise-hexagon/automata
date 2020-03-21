@@ -25,7 +25,7 @@ _() {
 
     set -x
 
-    gcc $CFLAGS "$src" -o "$bin"
+    gcc $CFLAGS -I.. ../utils.c "$src" -o "$bin"
 }
 
 # vim: ft=sh

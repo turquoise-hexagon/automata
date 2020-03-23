@@ -22,7 +22,7 @@ main(int argc, char **argv)
     tmp = strtol(argv[1], &ptr, 10);
 
     if (errno != 0 || *ptr != 0 || tmp < 0 || tmp > 255)
-        errx(1, "'%s' isn't a valid rule", argv[1]);
+        errx(EXIT_FAILURE, "'%s' isn't a valid rule", argv[1]);
 
     const unsigned rule = (unsigned)tmp;
 
@@ -32,7 +32,7 @@ main(int argc, char **argv)
     bool **uni = malloc(length * sizeof *uni);
 
     if (uni == NULL)
-        errx(1, "program failed to allocate memory");
+        errx(EXIT_FAILURE, "program failed to allocate memory");
 
     bool flag = 0;
 
@@ -40,12 +40,12 @@ main(int argc, char **argv)
         uni[i] = malloc(2 * sizeof *uni[i]);
 
         if (uni[i] == NULL)
-            errx(1, "program failed to allocate memory");
+            errx(EXIT_FAILURE, "program failed to allocate memory");
 
         switch (argv[2][i]) {
             case '0' : uni[i][flag] = 0; break;
             case '1' : uni[i][flag] = 1; break;
-            default  : errx(1, "'%c' invalid value found in strip", argv[2][i]);
+            default  : errx(EXIT_FAILURE, "'%c' invalid value found in strip", argv[2][i]);
         }
     }
 
@@ -75,5 +75,5 @@ main(int argc, char **argv)
 
     free(uni);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -11,7 +11,7 @@ usage(char *msg, char *name)
 {
     fprintf(stderr, "usage : %s %s\n", basename(name), msg);
 
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 unsigned *
@@ -24,13 +24,13 @@ argstous(int argc, char **argv)
     unsigned *array = malloc((argc - 1) * sizeof *array);
 
     if (array == NULL)
-        errx(1, "program failed to allocate memory");
+        errx(EXIT_FAILURE, "program failed to allocate memory");
 
     for (unsigned i = 0; i < (unsigned)argc - 1; ++i) {
         tmp = strtol(argv[i + 1], &ptr, 10);
 
         if (errno != 0 || *ptr != 0 || tmp < 0)
-            errx(1, "'%s' isn't a valid positive integer", argv[i + 1]);
+            errx(EXIT_FAILURE, "'%s' isn't a valid positive integer", argv[i + 1]);
 
         array[i] = (unsigned)tmp;
     }

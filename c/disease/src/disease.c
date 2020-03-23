@@ -31,13 +31,13 @@ main(int argc, char **argv)
     unsigned short **uni = malloc(args[0] * sizeof *uni);
 
     if (uni == NULL)
-        errx(1, "program failed to allocate memory");
+        errx(EXIT_FAILURE, "program failed to allocate memory");
 
     for (unsigned i = 0; i < args[0]; ++i) {
         uni[i] = calloc(args[1], sizeof *uni[i]);
 
         if (uni[i] == NULL)
-            errx(1, "program failed to allocate memory");
+            errx(EXIT_FAILURE, "program failed to allocate memory");
     }
 
     uni[args[0] / 2][args[1] / 2] = 1;
@@ -90,5 +90,5 @@ main(int argc, char **argv)
     free(args);
     free(uni);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

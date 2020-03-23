@@ -11,14 +11,10 @@
       (vector-set! uni x (make-vector Y))
       (do ((y 0 (add1 y))) ((= y Y))
         (vector-set! (vector-ref uni x) y (make-vector 2 0))))
-    (do ((i 0 (let ((x (pseudo-random-integer X))
-                    (y (pseudo-random-integer Y)))
-                (if (zero? (vector-ref (vector-ref (vector-ref uni x) y) 0))
-                    (begin
-                      (vector-set! (vector-ref (vector-ref uni x) y) 0 1)
-                      (add1 i))
-                    i))))
-      ((= i I)))
+    (do ((i 0 (add1 i))) ((= i I))
+      (vector-set! (vector-ref (vector-ref uni (pseudo-random-integer X))
+                                               (pseudo-random-integer Y))
+                                               0 1))
     "run the game of life"
     (set! flag 0)
     (do ((n 0 (add1 n))) ((= n N))

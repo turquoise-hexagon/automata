@@ -33,12 +33,9 @@ main(int argc, char **argv)
     if (uni == NULL)
         errx(EXIT_FAILURE, "program failed to allocate memory");
 
-    for (unsigned i = 0; i < args[0]; ++i) {
-        uni[i] = calloc(args[1], sizeof *uni[i]);
-
-        if (uni[i] == NULL)
+    for (unsigned i = 0; i < args[0]; ++i)
+        if ((uni[i] = calloc(args[1], sizeof *uni[i])) == NULL)
             errx(EXIT_FAILURE, "program failed to allocate memory");
-    }
 
     uni[args[0] / 2][args[1] / 2] = 1;
 

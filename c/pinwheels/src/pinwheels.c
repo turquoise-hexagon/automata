@@ -34,17 +34,12 @@ main(int argc, char **argv)
         errx(EXIT_FAILURE, "program failed to allocate memory");
 
     for (unsigned i = 0; i < args[0]; ++i) {
-        uni[i] = malloc(args[1] * sizeof *uni[i]);
-
-        if (uni[i] == NULL)
+        if ((uni[i] = malloc(args[1] * sizeof *uni[i])) == NULL)
             errx(EXIT_FAILURE, "program failed to allocate memory");
 
-        for (unsigned j = 0; j < args[1]; ++j) {
-            uni[i][j] = calloc(2, sizeof *uni[i][j]);
-
-            if (uni[i][j] == NULL)
+        for (unsigned j = 0; j < args[1]; ++j)
+            if ((uni[i][j] = calloc(2, sizeof *uni[i][j])) == NULL)
                 errx(EXIT_FAILURE, "program failed to allocate memory");
-        }
     }
 
     bool flag = 0;

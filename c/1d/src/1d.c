@@ -37,9 +37,7 @@ main(int argc, char **argv)
     bool flag = 0;
 
     for (size_t i = 0; i < length; ++i) {
-        uni[i] = malloc(2 * sizeof *uni[i]);
-
-        if (uni[i] == NULL)
+        if ((uni[i] = malloc(2 * sizeof *uni[i])) == NULL)
             errx(EXIT_FAILURE, "program failed to allocate memory");
 
         switch (argv[2][i]) {

@@ -41,9 +41,9 @@ main(int argc, char **argv)
             errx(EXIT_FAILURE, "program failed to allocate memory");
 
         switch (argv[2][i]) {
-            case '0' : uni[i][flag] = 0; break;
-            case '1' : uni[i][flag] = 1; break;
-            default  : errx(EXIT_FAILURE, "'%c' invalid value found in strip", argv[2][i]);
+            case '0': uni[i][flag] = 0; break;
+            case '1': uni[i][flag] = 1; break;
+            default:  errx(EXIT_FAILURE, "'%c' invalid value found in strip", argv[2][i]);
         }
     }
 

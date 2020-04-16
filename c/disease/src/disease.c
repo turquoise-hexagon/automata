@@ -54,7 +54,7 @@ main(int argc, char **argv)
                 puts(COLORS[uni[i][j]]);
 
                 switch (uni[i][j]) {
-                    case 0 :
+                    case 0:
                         if (tmp % 10 == 0)
                             for (unsigned short k = 0; k < 4; ++k) {
                                 x = ((long)i + DIRS[k][0] + args[0]) % args[0];
@@ -65,7 +65,7 @@ main(int argc, char **argv)
                             }
 
                         break;
-                    case 1 :
+                    case 1:
                         if (tmp % 2 == 0)
                             for (unsigned short k = 0; k < 4; ++k) {
                                 x = ((long)i + DIRS[k][0] + args[0]) % args[0];

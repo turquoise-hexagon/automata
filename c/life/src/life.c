@@ -64,9 +64,9 @@ main(int argc, char **argv)
                         }
 
                 switch (cnt) {
-                    case 2  : tmp = uni[i][j][flag]; break;
-                    case 3  : tmp = 1;               break;
-                    default : tmp = 0;
+                    case 2:  tmp = uni[i][j][flag]; break;
+                    case 3:  tmp = 1;               break;
+                    default: tmp = 0;
                 }
 
                 uni[i][j][!flag] = tmp;

@@ -61,7 +61,7 @@ main(int argc, char **argv)
                 puts(COLORS[tmp]);
 
                 switch (tmp) {
-                    case 0 :
+                    case 0:
                         cnt = 0;
 
                         for (short u = -1; u < 2; ++u)
@@ -77,7 +77,7 @@ main(int argc, char **argv)
                         tmp = cnt == 2 ? 2 : 0;
 
                         break;
-                    default : --tmp;
+                    default: --tmp;
                 }
 
                 uni[i][j][!flag] = tmp;

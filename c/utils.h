@@ -9,6 +9,6 @@ void usage(char *, char *);
 /*
  * command line parameters -> array of unsigneds
  */
-unsigned *argstous(int, char **);
+unsigned *argstou(int, char **);
 
 #endif

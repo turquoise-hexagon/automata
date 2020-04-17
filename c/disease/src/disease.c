@@ -25,7 +25,7 @@ main(int argc, char **argv)
     if (argc != 4)
         usage("[height] [width] [iter]", argv[0]);
 
-    unsigned *args = argstous(argc, argv);
+    unsigned *args = argstou(argc, argv);
 
     /* init array */
     unsigned short **uni = malloc(args[0] * sizeof *uni);

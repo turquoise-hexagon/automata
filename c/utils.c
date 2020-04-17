@@ -15,7 +15,7 @@ usage(char *msg, char *name)
 }
 
 unsigned *
-argstous(int argc, char **argv)
+argstou(int argc, char **argv)
 {
     long tmp;
     char *ptr;

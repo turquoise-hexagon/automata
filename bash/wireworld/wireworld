@@ -7,7 +7,9 @@ die() {
     exit 1
 }
 
-((N = $2)) &> /dev/null && ((N > 0)) || die
+((N = $2)) &> /dev/null
+
+{ [[ $N ]] && ((N >= 0)); } || die
 
 { mapfile -t input < "$1"; } 2> /dev/null || die
 

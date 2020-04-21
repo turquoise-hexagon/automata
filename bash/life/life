@@ -2,13 +2,18 @@
 #
 # life - game of life implementation
 
+die() {
+    echo "$1" >&2
+    exit 1
+}
+
 helper() {
     declare -n var="$1"
 
-    ((var = $2)) &> /dev/null && ((var > 0)) || {
-        echo "usage : ${0##*/} [height] [width] [init] [iter]\n" >&2
-        exit 1
-    }
+    ((var = $2)) &> /dev/null
+
+    [[ $var ]]  || die "usage : ${0##*/} [height] [width] [init] [iter]"
+    ((var < 0)) && die "error : '$var' isn't a valid positive integer"
 }
 
 helper X "$1"

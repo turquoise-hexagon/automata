@@ -3,15 +3,18 @@
 # wireworld - wireworld implementation
 
 die() {
-    echo "usage : ${0##*/} [file] [iter]" >&2
+    echo "$1" >&2
     exit 1
 }
 
+usage="usage : ${0##*/} [file] [iter]"
+
 ((N = $2)) &> /dev/null
 
-[[ $N ]] && ((N >= 0)) || die
+[[ $N ]]  || die "$usage"
+((N < 0)) && die "error : '$N' isn't a valid positive integer"
 
-{ mapfile -t input < "$1"; } 2> /dev/null || die
+{ mapfile -t input < "$1"; } 2> /dev/null || die "$usage"
 
 COLORS=(
     '016 032 041'

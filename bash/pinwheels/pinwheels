@@ -2,7 +2,7 @@
 #
 # pinwheel - pinwheel implementation
 
-cd "${0%.*}" && . ../main
+cd "${0%.*}"; . ../main
 
 RULES=(
     '--+---00000+---++'

@@ -2,7 +2,7 @@
 #
 # brain - brian's brain implementation
 
-cd "${0%.*}" && . ../main
+cd "${0%.*}"; . ../main
 
 COLORS=(
     '016 032 041'

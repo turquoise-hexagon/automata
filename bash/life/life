@@ -2,7 +2,7 @@
 #
 # life - game of life implementation
 
-cd "${0%.*}" && . ../main
+cd "${0%.*}"; . ../main
 
 usage="usage : ${0##*/} [height] [width] [init] [iter]"
 

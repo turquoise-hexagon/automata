@@ -2,7 +2,7 @@
 #
 # wireworld - wireworld implementation
 
-cd "${0%.*}" && . ../main
+cd "${0%.*}"; . ../main
 
 usage="usage : ${0##*/} [file] [iter]"
 

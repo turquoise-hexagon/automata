@@ -2,19 +2,13 @@
 #
 # wireworld - wireworld implementation
 
-die() {
-    echo "$1" >&2
-    exit 1
-}
+cd "${0%.*}" && . ../main
 
 usage="usage : ${0##*/} [file] [iter]"
 
-((N = $2)) &> /dev/null
-
-[[ $N ]]  || die "$usage"
-((N < 0)) && die "error : '$N' isn't a valid positive integer"
-
 { mapfile -t input < "$1"; } 2> /dev/null || die "$usage"
+
+helper N "$2"
 
 COLORS=(
     '016 032 041'

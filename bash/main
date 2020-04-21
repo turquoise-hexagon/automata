@@ -1,0 +1,21 @@
+die() {
+    echo "$1" >&2
+    exit 1
+}
+
+helper() {
+    declare -n var=$1
+
+    ((var = $2)) &> /dev/null
+
+    [[ $2 =~ [^0-9+-] ]] &&
+        die "error : '$2' isn't a valid positive integer"
+
+    [[ $var ]] ||
+        die "$usage"
+    
+    (($2 < 0)) &&
+        die "error : '$2' isn't a valid positive integer"
+}
+
+# vim: ft=sh

@@ -2,25 +2,15 @@
 #
 # brain - brian's brain implementation
 
-die() {
-    echo "$1" >&2
-    exit 1
-}
-
-helper() {
-    declare -n var="$1"
-
-    ((var = $2)) &> /dev/null
-
-    [[ $var ]]  || die "usage : ${0##*/} [height] [width] [init] [iter]"
-    ((var < 0)) && die "error : '$var' isn't a valid positive integer"
-}
+cd "${0%.*}" && . ../main
 
 COLORS=(
     '016 032 041'
     '113 170 197'
     '237 238 240'
 )
+
+usage="usage : ${0##*/} [height] [width] [init] [iter]"
 
 helper X "$1"
 helper Y "$2"

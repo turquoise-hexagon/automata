@@ -2,19 +2,9 @@
 #
 # ant - langton's ant implementation
 
-die() {
-    echo "$1" >&2
-    exit 1
-}
+cd "${0%.*}" && . ../main
 
-helper() {
-    declare -n var="$1"
-
-    ((var = $2)) &> /dev/null
-
-    [[ $var ]]  || die "usage : ${0##*/} [height] [width] [iter]"
-    ((var < 0)) && die "error : '$var' isn't a valid positive integer"
-}
+usage="usage : ${0##*/} [height] [width] [iter]"
 
 helper X "$1"
 helper Y "$2"

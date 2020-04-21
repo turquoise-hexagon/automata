@@ -32,7 +32,7 @@ argstou(int argc, char **argv)
         if (errno != 0 || *ptr != 0 || tmp < 0)
             errx(EXIT_FAILURE, "'%s' isn't a valid positive integer", argv[i + 1]);
 
-        array[i] = (unsigned)tmp;
+        array[i] = tmp;
     }
 
     return array;

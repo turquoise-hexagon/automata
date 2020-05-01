@@ -13,7 +13,7 @@ helper() {
 
     [[ $var ]] ||
         die "$usage"
-    
+
     (($2 < 0)) &&
         die "error : '$2' isn't a valid positive integer"
 }

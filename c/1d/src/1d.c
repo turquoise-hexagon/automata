@@ -29,7 +29,7 @@ main(int argc, char **argv)
     const size_t length = strnlen(argv[2], LINE_MAX);
 
     /* init array */
-    bool **uni = malloc(length * sizeof *uni);
+    bool **uni = malloc(length * sizeof(*uni));
 
     if (uni == NULL)
         errx(EXIT_FAILURE, "program failed to allocate memory");
@@ -37,7 +37,7 @@ main(int argc, char **argv)
     bool flag = 0;
 
     for (size_t i = 0; i < length; ++i) {
-        if ((uni[i] = malloc(2 * sizeof *uni[i])) == NULL)
+        if ((uni[i] = malloc(2 * sizeof(*uni[i]))) == NULL)
             errx(EXIT_FAILURE, "program failed to allocate memory");
 
         switch (argv[2][i]) {

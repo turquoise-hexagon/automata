@@ -21,7 +21,7 @@ argstou(int argc, char **argv)
     char *ptr;
     errno = 0;
 
-    unsigned *array = malloc((argc - 1) * sizeof *array);
+    unsigned *array = malloc((argc - 1) * sizeof(*array));
 
     if (array == NULL)
         errx(EXIT_FAILURE, "program failed to allocate memory");

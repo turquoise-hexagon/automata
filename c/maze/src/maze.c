@@ -28,13 +28,13 @@ main(int argc, char **argv)
     unsigned *args = argstou(argc, argv);
 
     /* init array */
-    bool **uni = malloc(args[0] * sizeof *uni);
+    bool **uni = malloc(args[0] * sizeof(*uni));
 
     if (uni == NULL)
         errx(EXIT_FAILURE, "program failed to allocate memory");
 
     for (unsigned i = 0; i < args[0]; ++i)
-        if ((uni[i] = calloc(args[1], sizeof *uni[i])) == NULL)
+        if ((uni[i] = calloc(args[1], sizeof(*uni[i]))) == NULL)
             errx(EXIT_FAILURE, "program failed to allocate memory");
 
     uni[args[0] / 2][args[1] / 2] = 1;
@@ -44,7 +44,7 @@ main(int argc, char **argv)
         args[1] /
         args[2] /
         args[2] *
-        sizeof *list
+        sizeof(*list)
     );
 
     if (list == NULL)

@@ -28,17 +28,17 @@ main(int argc, char **argv)
     unsigned *args = argstou(argc, argv);
 
     /* init array */
-    short ***uni = malloc(args[0] * sizeof *uni);
+    short ***uni = malloc(args[0] * sizeof(*uni));
 
     if (uni == NULL)
         errx(EXIT_FAILURE, "program failed to allocate memory");
 
     for (unsigned i = 0; i < args[0]; ++i) {
-        if ((uni[i] = malloc(args[1] * sizeof *uni[i])) == NULL)
+        if ((uni[i] = malloc(args[1] * sizeof(*uni[i]))) == NULL)
             errx(EXIT_FAILURE, "program failed to allocate memory");
 
         for (unsigned j = 0; j < args[1]; ++j)
-            if ((uni[i][j] = calloc(2, sizeof *uni[i][j])) == NULL)
+            if ((uni[i][j] = calloc(2, sizeof(*uni[i][j]))) == NULL)
                 errx(EXIT_FAILURE, "program failed to allocate memory");
     }
 

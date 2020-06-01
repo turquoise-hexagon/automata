@@ -6,15 +6,9 @@ die() {
 helper() {
     declare -n var=$1
 
-    ((var = $2)) &> /dev/null
+    [[ $2 ]] || die "$usage"
 
-    [[ $2 =~ [^0-9+-] ]] &&
-        die "error : '$2' isn't a valid positive integer"
-
-    [[ $var ]] ||
-        die "$usage"
-
-    (($2 < 0)) &&
+    { printf -v var '%d' "$2" &> /dev/null || ((var < 0)); }
         die "error : '$2' isn't a valid positive integer"
 }
 

@@ -1,10 +1,16 @@
+automata
+========
+    chicken scheme implementations
+
 usage
 -----
     $ cd $automata
+    $ make
     $ ./run
 
 depends on
 ----------
     * bash
     * chicken
+    * make
     * mpv

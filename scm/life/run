@@ -1,11 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# check for mpv
-type mpv > /dev/null 2>&1 || {
+type mpv &> /dev/null || {
     echo 'error : install mpv first' >&2
     exit 1
 }
 
-./make.sh
+make
 
-./life 150 150 5500 500 | mpv - -fs -scale=nearest
+bin/life | mpv - -fs -scale=nearest

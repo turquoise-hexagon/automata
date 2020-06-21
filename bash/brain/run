@@ -1,10 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# check for mpv
-type mpv > /dev/null 2>&1 || {
+type mpv &> /dev/null || {
     echo 'error : install mpv first' >&2
     exit 1
 }
 
-./brain 15 15 55 500 |
-    mpv - -fs -scale=nearest
+"./${PWD##*/}" | mpv - -fs -scale=nearest

@@ -1,40 +1,84 @@
 #!/usr/bin/env bash
 #
-# ant - langton's ant implementation
+# ant - langton's ant
 
-cd "${0%.*}"; . ../main
+usage() {
+    while IFS= read -r line; do
+        printf '%s\n' "$line"
+    done << EOF
+usage : ${0##*/} [-whi <number>]
 
-usage="usage : ${0##*/} [height] [width] [iter]"
+options :
+    -w <number>    set width  to <number> (default : 15)
+    -h <number>    set height to <number> (default : 15)
+    -i <number>    iterate <number> times (default : 500)
+EOF
+} >&2
 
-helper X "$1"
-helper Y "$2"
-helper N "$3"
+convert_to_number() {
+    declare -n var=$1
+
+    { printf -v var '%d' "$2" &> /dev/null || ((var < 0)); } || {
+        echo "error : '$2' isn't a valid positive integer" >&2
+        exit 1
+    }
+}
+
+ant() {
+    declare -A uni
+
+    ((
+        ant_x = height / 2,
+        ant_y =  width / 2,
+        dir = 0
+    ))
+
+    for ((n = 0; n < iter; ++n)) {
+        printf 'P1\n%s %s\n' "$width" "$height"
+
+        for ((i = 0; i < height; ++i)) {
+            for ((j = 0; j < width; ++j)) {
+                printf '%s' $((uni[$i $j]))
+            }
+        }
+
+        ((dir = (dir + ((uni[$ant_x $ant_y] ^= 1) == 0 ? 1 : -1) + 4) % 4))
+
+        case $dir in
+            0) ((ant_x = (--ant_x + height) % height));;
+            1) ((ant_y = (--ant_y +  width) %  width));;
+            2) ((ant_x = (++ant_x + height) % height));;
+            3) ((ant_y = (++ant_y +  width) %  width));;
+        esac
+    }
+}
 
 ((
-    ANT_X = X / 2,
-    ANT_Y = Y / 2,
-    DIR = 0
+    width  = 15,
+    height = 15,
+    iter   = 500
 ))
 
-declare -A uni
+while (($#)); do
+    getopts ":w:h:i:" arg
 
-for ((n = 0; n < N; ++n)) {
-    out="P1\n$Y $X\n"
-
-    for ((i = 0; i < X; ++i)) {
-        for ((j = 0; j < Y; ++j)) {
-            out+=$((uni[$i $j]))
-        }
-    }
-
-    ((DIR = (DIR + ((uni[$ANT_X $ANT_Y] ^=1 ) == 0 ? 1 : -1) + 4) % 4))
-
-    case $DIR in
-        0) ((ANT_X = (--ANT_X + X) % X));;
-        1) ((ANT_Y = (++ANT_Y + Y) % Y));;
-        2) ((ANT_X = (++ANT_X + X) % X));;
-        3) ((ANT_Y = (--ANT_Y + Y) % Y))
+    case $arg in
+        w)
+            convert_to_number width  "$2"
+            shift
+            ;;
+        h)
+            convert_to_number height "$2"
+            shift
+            ;;
+        i)
+            convert_to_number iter   "$2"
+            shift
+            ;;
+        *) usage
     esac
 
-    printf '%b\n' "$out"
-}
+    shift
+done
+
+ant

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+type mpv &> /dev/null || {
+    echo 'error : install mpv first' >&2
+    exit 1
+}
+
+make
+
+# generate random strip
+for _ in {1..500}; {
+    str+=$((RANDOM % 2))
+}
+
+bin/elementary $((RANDOM % 256)) "$str" | mpv - -fs -scale=nearest

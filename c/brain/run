@@ -1,24 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-_()
-    if ! type "$1" > /dev/null 2>&1; then
-        echo "error : install $1 first" >&2
-        exit 1
-    fi
+type mpv &> /dev/null || {
+    echo 'error : install mpv first' >&2
+    exit 1
+}
 
-_ mpv
-_ wattr
+make
 
-./make.sh
-
-# run based on screen resolution
-wattr hw "$(lsw -r)" | {
-    read -r h w
-
-    ./brain            \
-        $((h / 2))     \
-        $((w / 2))     \
-        $((h * w / 8)) \
-        500
-} |
-    mpv - -fs -scale=nearest
+"bin/${PWD##*/}" | mpv - -fs -scale=nearest

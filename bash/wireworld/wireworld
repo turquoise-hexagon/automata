@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 #
-# wireworld - wireworld implementation
-
-cd "${0%.*}"; . ../main
-
-usage="usage : ${0##*/} [file] [iter]"
-
-{ mapfile -t input < "$1"; } 2> /dev/null || die "$usage"
-
-helper N "$2"
+# wireworld - wireworld
 
 COLORS=(
     '016 032 041'
@@ -17,56 +9,105 @@ COLORS=(
     '237 238 240'
 )
 
-declare -A uni
+usage() {
+    while IFS= read -r line; do
+        printf '%s\n' "$line"
+    done << EOF
+usage : ${0##*/} [-i <number>] [file]
 
-((
-    X = ${#input[@]},
-    Y = ${#input[0]}
-))
+options :
+    -i <number>    iterate <number> times (default : 500)
+EOF
+} >&2
 
-((t = 0))
+convert_to_number() {
+    declare -n var=$1
 
-for ((i = 0; i < X; ++i)) {
-    for ((j = 0; j < Y; ++j)) {
-        ((uni[$i $j $t] = ${input[i]:j:1}))
+    { printf -v var '%d' "$2" &> /dev/null || ((var < 0)); } || {
+        echo "error : '$2' isn't a valid positive integer" >&2
+        exit 1
     }
 }
 
-for ((n = 0; n < N; ++n)) {
-    out="P3\n$Y $X\n255\n"
+wireworld() {
+    declare -A uni
 
-    for ((i = 0; i < X; ++i)) {
-        for ((j = 0; j < Y; ++j)) {
-            out+="${COLORS[uni[$i $j $t]]}\n"
+    { mapfile -t input < "$file"; } 2> /dev/null ||
+        usage
 
-            case $((uni[$i $j $t])) in
-                0) ((tmp = 0));;
-                1) ((tmp = 2));;
-                2) ((tmp = 3));;
-                3)
-                    ((cnt = 0))
+    ((
+        height = ${#input[@]},
+        width  = ${#input[0]}
+    ))
 
-                    for u in -1 0 1; {
-                        for v in -1 0 1; {
-                            ((u != 0 || v != 0)) && {
-                                ((
-                                    x = (i + u + X) % X,
-                                    y = (j + v + Y) % Y
-                                ))
+    ((flag = 0))
 
-                                ((uni[$x $y $t] == 1 && ++cnt))
-                            }
-                        }
-                }
-
-                ((tmp = (cnt == 1 || cnt == 2) ? 1 : 3))
-            esac
-
-            ((uni[$i $j $((!t))] = tmp))
+    for ((i = 0; i < height; ++i)) {
+        for ((j = 0; j < width; ++j)) {
+            ((uni[$i $j $flag] = ${input[i]:j:1}))
         }
     }
 
-    ((t ^= 1))
+    for ((n = 0; n < iter; ++n)) {
+        printf 'P3\n%s %s\n255\n' "$width" "$height"
 
-    printf '%b\n' "$out"
+        for ((i = 0; i < height; ++i)) {
+            for ((j = 0; j < width; ++j)) {
+                printf '%s\n' "${COLORS[uni[$i $j $flag]]}"
+
+                case $((uni[$i $j $flag])) in
+                    0) ((tmp = 0));;
+                    1) ((tmp = 2));;
+                    2) ((tmp = 3));;
+                    3)
+                        ((cnt = 0))
+
+                        for ((k = -1; k <= 1; ++k)) {
+                            for ((l = -1; l <= 1; ++l)) {
+                                ((k != 0 || l != 0)) && {
+                                    ((
+                                        x = (i + k + height) % height,
+                                        y = (j + l +  width) %  width
+                                    ))
+
+                                    ((uni[$x $y $flag] == 1)) &&
+                                        ((++cnt))
+                                }
+                            }
+                        }
+
+                    ((tmp = (cnt == 1 || cnt == 2) ? 1 : 3))
+                esac
+
+                ((uni[$i $j $((!flag))] = tmp))
+            }
+        }
+
+        ((flag ^= 1))
+    }
 }
+
+((iter = 500))
+
+file=
+
+while (($#)); do
+    case $1 in
+        -i)
+            [[ $2 ]] \
+                && convert_to_number iter "$2" \
+                || usage
+
+            shift
+            ;;
+        --) break;;
+        -*) usage;;
+         *) file=$1
+     esac
+
+     shift
+done
+
+[[ $file ]] || usage
+
+wireworld

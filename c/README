@@ -1,11 +1,16 @@
+automata
+========
+    C implementations
+
 usage
 -----
     $ cd $automata
+    $ make
     $ ./run
 
 depends on
 ----------
     * bash
     * gcc
+    * make
     * mpv
-    * wmutils-core

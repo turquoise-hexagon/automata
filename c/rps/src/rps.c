@@ -10,11 +10,23 @@
 /*
  * constants
  */
+static const unsigned short RULES[3][3] = {
+    {0, 1, 0},
+    {1, 1, 2},
+    {0, 2, 2}
+};
+
 static const short DIRS[4][2] = {
     {-1,  0},
     { 0, -1},
     { 1,  0},
     { 0,  1}
+};
+
+static const char *COLORS[3] = {
+    "016 032 041",
+    "113 170 197",
+    "201 100 126"
 };
 
 /*
@@ -70,37 +82,52 @@ wrap(unsigned coord, long offset, unsigned bound)
  * main function
  */
 static void
-ant(unsigned width, unsigned height, unsigned iter)
+rps(unsigned width, unsigned height, unsigned iter)
 {
     /* init array */
-    bool **uni;
+    unsigned short ***uni;
 
     uni = allocate(height * sizeof(*uni));
 
-    for (unsigned i = 0; i < height; ++i)
+    for (unsigned i = 0; i < height; ++i) {
         uni[i] = allocate(width * sizeof(*uni[i]));
 
-    /* run langton's ant */
-    unsigned short dir = 0;
-    unsigned x = height / 2;
-    unsigned y =  width / 2;
+        for (unsigned j = 0; j < width; ++j)
+            uni[i][j] = allocate(2 * sizeof(*uni[i][j]));
+    }
+
+    bool flag = 0;
+
+    for (unsigned i = 0; i < height; ++i)
+        for (unsigned j = 0; j < width; ++j)
+            uni[rand() % height][rand() % width][flag] = rand() % 3;
+
+    /* run rock paper scissor */
+    unsigned short tmp;
 
     for (unsigned n = 0; n < iter; ++n) {
-        printf("P1\n%u %u\n", width, height);
+        printf("P3\n%u %u\n255\n", width, height);
 
         for (unsigned i = 0; i < height; ++i)
-            for (unsigned j = 0; j < width; ++j)
-                putchar(uni[i][j] + '0');
+            for (unsigned j = 0; j < width; ++j) {
+                puts(COLORS[uni[i][j][flag]]);
 
-        dir = wrap(dir, ((uni[x][y] ^= 1) == 0 ? 1 : -1), 4);
+                tmp = rand() % 4;            
 
-        x = wrap(x, DIRS[dir][0], height);
-        y = wrap(y, DIRS[dir][1],  width);
+                uni[i][j][!flag] = RULES[uni[i][j][flag]]
+                    [uni[wrap(i, DIRS[tmp][0], height)][wrap(j, DIRS[tmp][1],  width)][flag]];
+            }
+
+        flag ^= 1;
     }
 
     /* cleanup */
-    for (unsigned i = 0; i < height; ++i)
+    for (unsigned i = 0; i < height; ++i) {
+        for (unsigned j = 0; j < width; ++j)
+            free(uni[i][j]);
+
         free(uni[i]);
+    }
 
     free(uni);
 }
@@ -127,7 +154,7 @@ main(int argc, char **argv)
 
     srand(time(NULL));
 
-    ant(width, height, iter);
+    rps(width, height, iter);
 
     return 0;
 }

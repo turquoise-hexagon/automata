@@ -1,62 +1,98 @@
 #!/usr/bin/env bash
 #
-# life - game of life implementation
+# life - game of life
 
-cd "${0%.*}"; . ../main
+usage() {
+    while IFS= read -r line; do
+        printf '%s\n' "$line"
+    done << EOF
+usage : ${0##*/} [-whi <number>]
 
-usage="usage : ${0##*/} [height] [width] [init] [iter]"
+options :
+    -w <number>    set width  to <number> (default : 15)
+    -h <number>    set height to <number> (default : 15)
+    -i <number>    iterate <number> times (default : 500)
+EOF
+} >&2
 
-helper X "$1"
-helper Y "$2"
-helper I "$3"
-helper N "$4"
+convert_to_number() {
+    declare -n var=$1
 
-declare -A uni
-
-((t = 0))
-
-for ((i = 0; i < I; ++i)) {
-    ((
-        x = RANDOM % X,
-        y = RANDOM % Y
-    ))
-
-    ((uni[$x $y $t] = 1))
+    { printf -v var '%d' "$2" &> /dev/null || ((var < 0)); } || {
+        echo "error : '$2' isn't a valid positive integer" >&2
+        exit 1
+    }
 }
 
-for ((n = 0; n < N; ++n)) {
-    out="P1\n$X $Y\n"
+life() {
+    declare -A uni
 
-    for ((i = 0; i < X; ++i)) {
-        for ((j = 0; j < Y; ++j)) {
-            out+=$((uni[$i $j $t]))
+    ((flag = 0))
 
-            ((cnt = 0))
-
-            for u in -1 0 1; {
-                for v in -1 0 1; {
-                    ((u != 0 || v != 0)) && {
-                        ((
-                            x = (i + u + X) % X,
-                            y = (j + v + Y) % Y
-                        ))
-
-                        ((uni[$x $y $t] == 1 && ++cnt))
-                    }
-                }
-            }
-
-            case $cnt in
-                2) ((tmp = uni[$i $j $t]));;
-                3) ((tmp = 1));;
-                *) ((tmp = 0));;
-            esac
-
-            ((uni[$i $j $((!t))] = tmp))
-        }
+    for ((i = 0; i < height * width / 4; ++i)) {
+        ((uni[$((RANDOM % height)) $((RANDOM % width)) $flag] = 1))
     }
 
-    printf '%b\n' "$out"
+    for ((n = 0; n < iter; ++n)) {
+        printf 'P1\n%s %s\n' "$width" "$height"
 
-    ((t ^= 1))
+        for ((i = 0; i < height; ++i)) {
+            for ((j = 0; j < width; ++j)) {
+                printf '%s' $((uni[$i $j $flag]))
+
+                ((cnt = 0))
+
+                for ((k = -1; k <= 1; ++k)) {
+                    for ((l = -1; l <= 1; ++l)) {
+                        ((k != 0 || l != 0)) && {
+                            ((
+                                x = (i + k + height) % height,
+                                y = (j + l +  width) %  width
+                            ))
+
+                            ((cnt += uni[$x $y $flag]))
+                        }
+                    }
+                }
+
+                case $cnt in
+                    2) ((uni[$i $j $((!flag))] = uni[$i $j $flag]));;
+                    3) ((uni[$i $j $((!flag))] = 1));;
+                    *) ((uni[$i $j $((!flag))] = 0))
+                esac
+            }
+        }
+
+        ((flag ^= 1))
+    }
 }
+
+((
+    width  = 15,
+    height = 15,
+    iter   = 500
+))
+
+while (($#)); do
+    getopts ":w:h:i:" arg
+
+    case $arg in
+        w)
+            convert_to_number width  "$2"
+            shift
+            ;;
+        h)
+            convert_to_number height "$2"
+            shift
+            ;;
+        i)
+            convert_to_number iter   "$2"
+            shift
+            ;;
+        *) usage
+    esac
+
+    shift
+done
+
+life

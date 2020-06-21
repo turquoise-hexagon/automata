@@ -5,4 +5,4 @@ type mpv &> /dev/null || {
     exit 1
 }
 
-"./${PWD##*/}" input | mpv - -fs -scale=nearest
+./wireworld input | mpv - -fs -scale=nearest

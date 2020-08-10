@@ -26,7 +26,9 @@ get_rule(const char *str)
     char *ptr;
     long number;
 
-    if ((number = strtol(str, &ptr, 10)) < 0 || errno != 0 || *ptr != 0)
+    number = strtol(str, &ptr, 10);
+
+    if (number > 255 || number < 0 || errno != 0 || *ptr != 0)
         errx(1, "'%s' isn't a valid rule (int between 0 and 255)", str);
 
     return number;

@@ -15,7 +15,7 @@ usage : ~a [-whi <number>]
 
 options :
     -w    set width  to <number> (default : 150)
-    -h    set height to <number> (default : 150) 
+    -h    set height to <number> (default : 150)
     -i    iterate <number> times (default : 500)"
     (pathname-file (program-name)))))
 

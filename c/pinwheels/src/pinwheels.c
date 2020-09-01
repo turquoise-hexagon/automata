@@ -50,7 +50,7 @@ convert_to_number(const char *str)
 
     if ((number = strtol(str, &ptr, 10)) < 0 || errno != 0 || *ptr != 0)
         errx(1, "'%s' isn't a valid positive integer", str);
-    
+
     return number;
 }
 
@@ -84,7 +84,7 @@ pinwheels(unsigned width, unsigned height, unsigned iter)
 
     for (unsigned i = 0; i < height; ++i) {
         uni[i] = allocate(width * sizeof(*uni[i]));
-        
+
         for (unsigned j = 0; j < width; ++j)
             uni[i][j] = allocate(2 * sizeof(*uni[i][j]));
     }

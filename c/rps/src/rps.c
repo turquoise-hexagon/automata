@@ -57,7 +57,7 @@ convert_to_number(const char *str)
 
     if ((number = strtol(str, &ptr, 10)) < 0 || errno != 0 || *ptr != 0)
         errx(1, "'%s' isn't a valid positive integer", str);
-    
+
     return number;
 }
 
@@ -112,7 +112,7 @@ rps(unsigned width, unsigned height, unsigned iter)
             for (unsigned j = 0; j < width; ++j) {
                 puts(COLORS[uni[i][j][flag]]);
 
-                tmp = rand() % 4;            
+                tmp = rand() % 4;
 
                 uni[i][j][!flag] = RULES[uni[i][j][flag]]
                     [uni[wrap(i, DIRS[tmp][0], height)][wrap(j, DIRS[tmp][1],  width)][flag]];

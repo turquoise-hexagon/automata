@@ -22,7 +22,7 @@ static unsigned short
 get_rule(const char *str)
 {
     errno = 0;
-    
+
     char *ptr;
     long number;
 

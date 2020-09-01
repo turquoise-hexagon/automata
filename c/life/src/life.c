@@ -35,7 +35,7 @@ convert_to_number(const char *str)
 
     if ((number = strtol(str, &ptr, 10)) < 0 || errno != 0 || *ptr != 0)
         errx(1, "'%s' isn't a valid positive integer", str);
-    
+
     return number;
 }
 

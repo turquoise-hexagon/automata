@@ -66,7 +66,7 @@ allocate(size_t size)
 {
     void *ptr;
 
-    if ((ptr = calloc(size, 1)) == NULL)
+    if ((ptr = calloc(1, size)) == NULL)
         errx(1, "failed to allocate memory");
 
     return ptr;
